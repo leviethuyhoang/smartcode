@@ -1,6 +1,6 @@
-import React from "react";
-import { Fragment } from "react";
-import "./App.css";
+import React, { Fragment } from "react";
+
+// import in project
 import Routes from "./routes";
 
 function App() {
