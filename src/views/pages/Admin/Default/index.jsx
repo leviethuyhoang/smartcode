@@ -1,11 +1,10 @@
 import { Fragment } from "react";
 
-
-const MainRoutes = (props) => {
+const Default = (props) => {
     return (
         <Fragment>
-            
+            <h1>Defaul Page</h1>
         </Fragment>
     )
 }
-export default MainRoutes;
+export default Default;

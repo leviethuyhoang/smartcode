@@ -1,10 +1,15 @@
-import { Switch } from "react-router";
-import MainRoutes from "./MainRoutes";
+import { Fragment } from "react";
+import {Switch } from "react-router";
+import AdminRoutes from "./AdminRoutes";
+import AuthenticationRoutes from "./AuthenticateRoutes";
 
 const Routes = () => {
     return (
         <Switch>
-            <MainRoutes/>
+            <Fragment>
+                <AdminRoutes/>
+                <AuthenticationRoutes/>
+            </Fragment>
         </Switch>
     )
 }
