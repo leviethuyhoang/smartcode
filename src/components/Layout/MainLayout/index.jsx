@@ -1,18 +1,17 @@
 import { Fragment } from "react";
+import Container from "../Container";
+import Content from "../Content";
 import Header from "./Header";
-import SideNav from "./SideNav";
 
 const MainLayout = (props) => {
     return (
       <Fragment>
         <Header/>
-        <div className="wrapper">
-          <div className="wrapper-box">
-            <SideNav/>         
-          {props.children} 
-              
-          </div>
-        </div>
+          <Container>   
+            <Content>
+              {props.children} 
+            </Content>
+          </Container>
       </Fragment>
     )
 }
