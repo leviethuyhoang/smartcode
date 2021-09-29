@@ -17,17 +17,17 @@ const SideNav = (props) => {
             <MenuGroup
               icon = {IconSideNav.DASHBOARD}
               title = "Dash Board"
-              url = "/dif"
+              url = "/admin"
             >
               <MenuItem
                 icon = {IconSideNav.CHILD_ITEM}
                 title = "Item 2"
-                url = "/dif1"
+                url = "/assign/"
               />
               <MenuItem
                 icon = {IconSideNav.CHILD_ITEM}
                 title = "Item 3"
-                url = "/dif2"
+                url = "/admin/asign/1"
               />
             </MenuGroup>
             <MenuItem
