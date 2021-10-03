@@ -1,11 +1,32 @@
-import RegisterForm from "components/Auth/Register/RegisterForm";
 import { Fragment } from "react";
+import { useDispatch } from "react-redux";
+import { authActions } from "app/slice/authSlice"; 
+import { useHistory } from "react-router";
 
+import RegisterForm from "components/Auth/Register/RegisterForm";
+import authApi from "api/authApi";
 
 const Register = (props) => {
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    const handleSubmit = (value) => {
-        console.log("value : ",value)
+    const handleSubmit = async (value ,{setSubmitting, setFieldError}) => {
+        const params = {
+            email : value.userName,
+            password : value.password,
+            returnSecureToken : true
+        }
+
+        authApi.register(params)
+        .then((res) => {
+            dispatch(authActions.register(res.idToken));
+            history.replace("/admin");
+        })
+        .catch(error => {
+            setFieldError('server', error.message);
+            setSubmitting(false)
+        })
+
     }
 
     return (
@@ -14,10 +35,10 @@ const Register = (props) => {
                 <div className="block xl:grid grid-cols-2 gap-4">
                 {/* BEGIN: Register Info */}
                 <div className="hidden xl:flex flex-col min-h-screen">
-                    <a href className="-intro-x flex items-center pt-5">
+                    <div className="-intro-x flex items-center pt-5">
                     <img alt="Icewall Tailwind HTML Admin Template" className="w-6" src="dist/images/logo.svg" />
                     <span className="text-white text-lg ml-3"> Ice<span className="font-medium">wall</span> </span>
-                    </a>
+                    </div>
                     <div className="my-auto">
                     <img alt="Icewall Tailwind HTML Admin Template" className="-intro-x w-1/2 -mt-16" src="dist/images/illustration.svg" />
                     <div className="-intro-x text-white font-medium text-4xl leading-tight mt-10">
