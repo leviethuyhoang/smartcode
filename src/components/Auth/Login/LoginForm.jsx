@@ -1,5 +1,5 @@
 import Button from "components/UI/Button";
-import { Link , useHistory} from "react-router-dom";
+import { Link } from "react-router-dom";
 import  {FastField, Form, Formik} from "formik";
 import InputField from "components/UI/Feild/InputField";
 import * as Yup from "yup";
@@ -8,19 +8,14 @@ import { Loading } from "views/icons/Loading";
 
 const LoginForm = (props) => {
 
-    const history = useHistory();
-
-    const handleRegisterClick = () => {
-        history.push("/register")
-    }
-
     const initialValues = {
-        username : "",
-        password : ""
+        userName : "",
+        password : "",
+        server : ""
     }
     const validationSchema = Yup.object().shape({
-        username : Yup.string().min(6,"Phải nhiều hơn 6 ký tự").required("Không được để trống"),
-        password : Yup.string().min(8,"Ít nhất 8 ký tự").required("Không được để trống")
+        userName : Yup.string().required("Không được để trống"),
+        password : Yup.string().required("Không được để trống")
     })
     return (
         <Formik
@@ -29,7 +24,7 @@ const LoginForm = (props) => {
             onSubmit = {props.onSubmit}
         >
         {formikProps => {
-            const {isSubmitting} =formikProps;
+            const {isSubmitting,errors} = formikProps;
             return (
             
             <div className="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
@@ -39,8 +34,9 @@ const LoginForm = (props) => {
                 </h2>
                 <Form>
                     <div className="intro-x mt-8">
+                        
                         <FastField
-                            name = "username"
+                            name = "userName"
                             component = {InputField}
 
                             classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block"
@@ -55,6 +51,7 @@ const LoginForm = (props) => {
                             placeholder = "Mật Khẩu"
                             type = "password"
                         />
+                        {errors.server && <div className="pristine-error text-theme-24 mt-2">{errors.server}</div>}
                     </div>
                     <div className="intro-x flex text-gray-700 dark:text-gray-600 text-xs sm:text-sm mt-4">
                     <div className="flex items-center mr-auto">
@@ -62,19 +59,14 @@ const LoginForm = (props) => {
                     </div>
                     <Link to = "/forgot" >Quên mật khẩu ?</Link> 
                     </div>
-                    <div className="intro-x mt-5 xl:mt-8 text-center xl:text-left">
+                    <div className="intro-x mt-5 xl:mt-8 text-center">
                         <Button
                             classes = "btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top"
                             type = "submit"
                         >
                             {isSubmitting ? <Loading width = "6" height = "6"/> : "Đăng Nhập"}
                         </Button>
-                        <Button
-                            classes = "btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top"
-                            onClick = {handleRegisterClick}
-                        >
-                            Đăng Ký
-                        </Button>
+                        
                     </div>
                 </Form>
             </div>
