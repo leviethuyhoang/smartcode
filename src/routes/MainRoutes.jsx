@@ -3,7 +3,6 @@ import { Fragment } from "react";
 const MainRoutes = (props) => {
     return (
         <Fragment>
-            
         </Fragment>
     )
 }

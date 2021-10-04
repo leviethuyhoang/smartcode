@@ -8,23 +8,25 @@ import quyeryString from "query-string";
 const axiosClient = axios.create({
   baseURL : process.env.REACT_APP_API_URL,
   headers : {
-    'content-type' : 'application/json',
+    'Content-type' : 'application/json',
   },
   paramsSerializer : params => quyeryString.stringify(params)
 })
 
-axios.interceptors.request.use(function (config) {
+axiosClient.interceptors.request.use(async (config) => {
+  console.log("config",config)
   return config;
 },error => {
   return Promise.reject(error);
 });
 
-axios.interceptors.response.use(function (response) {
+axiosClient.interceptors.response.use((response) => {
   if(response && response.data){
     return response.data;
   }
+  return response;
 },error => {
-  return Promise.reject(error);
+  return Promise.reject(error.response.data.error);
 });
 
 export default axiosClient;

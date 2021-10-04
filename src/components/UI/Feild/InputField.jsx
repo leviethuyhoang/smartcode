@@ -1,11 +1,10 @@
 import React from "react";
 
-const InputField =  React.forwardRef(props => {
+const InputField =  props => {
     const {
         field,form,
-        classes,label,type,placeholder,ref
+        classes,label,type,placeholder
     } = props;
-    console.log("Form",form);
     const {name} = field;
     const {errors, touched} = form;
     const showError = errors[name] && touched[name];
@@ -16,8 +15,6 @@ const InputField =  React.forwardRef(props => {
             <input 
                 id={name}
                 {...field}
-
-                ref ={ref}
                 type={type?type:"text"}
                 name={name} 
                 className={`${classes?classes:"form-control"} ${showError && "border-theme-24"}`} 
@@ -26,5 +23,5 @@ const InputField =  React.forwardRef(props => {
             {showError && <div className="pristine-error text-theme-24 mt-2">{errors[name]}</div>}
         </div>
     )
-})
+}
 export default InputField;
