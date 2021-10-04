@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import IconHeader from "views/icons/iconHeader";
 
 const Header = (props) => {
     return (
@@ -8,7 +7,7 @@ const Header = (props) => {
         <div className="h-full flex items-center">
           {/* BEGIN: Logo */}
           <a href className="-intro-x hidden md:flex">
-            {IconHeader.LOGO}
+            <img alt="Icewall Tailwind HTML Admin Template" className="w-6" src="dist/images/logo.svg" />
             <span className="text-white text-lg ml-3"> Ice<span className="font-medium">wall</span> </span>
           </a>
           {/* END: Logo */}
