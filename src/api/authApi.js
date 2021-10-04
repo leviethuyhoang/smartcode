@@ -10,7 +10,7 @@ const authApi =  {
         return axiosClient.post("",params,{baseURL : url});
     },
     changePassword : (params) => {
-        
+        //
     }
 };
 
