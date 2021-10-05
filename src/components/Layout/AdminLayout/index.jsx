@@ -11,7 +11,7 @@ const AdminLayout = (props) => {
         <Container>
           <SideNav/>    
           <Content>
-            {props.children} 
+            {props.children}
           </Content>   
         </Container>
       </Fragment>
