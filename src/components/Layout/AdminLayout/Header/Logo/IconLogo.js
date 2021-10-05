@@ -6,11 +6,7 @@ const IconLogo = () => {
       <img
         alt="Icewall Tailwind HTML Admin Template"
         className="w-6"
-<<<<<<< HEAD
-        src="dist/images/logo.svg"
-=======
         src="/dist/images/logo.svg"
->>>>>>> destruct-folder
       />
     </Fragment>
   );
