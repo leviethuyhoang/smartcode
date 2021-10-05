@@ -1,6 +1,5 @@
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import IconSideNav from "views/icons/iconSideNav";
-import MenuGroup from "./MenuGroup";
 import MenuItem from "./MenuItem";
 
 const SideNav = (props) => {
@@ -9,6 +8,7 @@ const SideNav = (props) => {
       {/* BEGIN: Side Menu */}
       <nav className="side-nav">
         <ul>
+<<<<<<< HEAD
           <MenuGroup
             icon = {IconSideNav.DASHBOARD}
             title = "Dash Board"
@@ -43,10 +43,22 @@ const SideNav = (props) => {
           </MenuGroup>
 
 
+=======
+          <MenuItem
+            icon = {IconSideNav.CHILD_ITEM}
+            title = "Quản Lý Tài Khoản"
+            url = "/user"
+          />
+          <MenuItem
+            icon = {IconSideNav.CHILD_ITEM}
+            title = "Quản Lý Bài Tập"
+            url = "/assigment"
+          />
+>>>>>>> destruct-folder
         </ul>
       </nav>
       {/* END: Side Menu */}
       </Fragment>
     )
 }
-export default SideNav;
+export default React.memo(SideNav);

@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 
-const Default = (props) => {
+
+const AllUsers = (props) => {
     return (
         <Fragment>
-            <h1>Defaul Page</h1>
+            <h1>ALL User</h1>
         </Fragment>
     )
 }
-export default Default;
+export default AllUsers;

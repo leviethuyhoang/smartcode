@@ -1,19 +1,25 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { Redirect, Route, Switch } from "react-router";
-import AdminLayout from "../components/Layout/AdminLayout";
-import Default from "../views/pages/Default";
+import { Redirect, Route, Switch, useRouteMatch } from "react-router";
+
+import AdminLayout from "components/Layout/AdminLayout";
+import UserRoutes from "./UserRoutes";
+
+
 
 const AdminRoutes = (props) => {
 
     const auth = useSelector(state => state.auth);
+    const match =  useRouteMatch();
     
     return (
         <Fragment>
             {(auth.isLoggedIn && auth.isAdmin ) && 
                 <AdminLayout>
                     <Switch>
-                        <Route exact path = "/admin" component = {Default}/>
+                        <Route path = {`${match.url}/user`}>
+                            <UserRoutes/>
+                        </Route>
                     </Switch>
                 </AdminLayout>
             }

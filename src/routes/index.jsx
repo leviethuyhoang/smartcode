@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router";
-
 import AdminRoutes from "./AdminRoutes";
+
 import AuthenticationRoutes from "./AuthenticateRoutes";
 
 const Routes = () => {
