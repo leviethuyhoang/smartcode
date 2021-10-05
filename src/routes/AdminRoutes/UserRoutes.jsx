@@ -7,6 +7,7 @@ import AddUser from "views/pages/Admin/User/AddUser";
 
 const UserRoutes = (props) => {
     const match = useRouteMatch();
+    
     return (
         <Fragment>
             <Switch>
