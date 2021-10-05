@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 
-const Home = (props) => {
+
+const AddUser = (props) => {
     return (
         <Fragment>
-            <h1>Home</h1>
+            <h1>Add User</h1>
         </Fragment>
     )
 }
-export default Home;
+export default AddUser;

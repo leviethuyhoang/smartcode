@@ -6,7 +6,7 @@ const IconLogo = () => {
       <img
         alt="Icewall Tailwind HTML Admin Template"
         className="w-6"
-        src="dist/images/logo.svg"
+        src="/dist/images/logo.svg"
       />
     </Fragment>
   );

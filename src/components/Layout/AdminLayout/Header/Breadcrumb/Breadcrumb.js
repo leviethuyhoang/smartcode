@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
+
 const Breadcrumb = () => {
   return (
     <Fragment>
       <div className="-intro-x breadcrumb mr-auto">
-        {' '}
-        <a href>Application</a>{' '}
+        <div>Application</div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width={24}
@@ -19,9 +19,9 @@ const Breadcrumb = () => {
         >
           <polyline points="9 18 15 12 9 6" />
         </svg>  
-        <a href className="breadcrumb--active">
+        <div className="breadcrumb--active">
           Dashboard
-        </a>
+        </div>
       </div>
     </Fragment>
   );
