@@ -12,6 +12,6 @@ const exampleSlice = createSlice({
     }
 });
 
-const {reducer,action} = exampleSlice;
+const {action,reducer} = exampleSlice;
 export const exampleActions = action;
 export default reducer;
