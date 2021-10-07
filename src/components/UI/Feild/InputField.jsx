@@ -10,14 +10,14 @@ const InputField =  props => {
     const showError = errors[name] && touched[name];
     
     return (
-        <div className="input-form">
+        <div className="input-form mt-3">
             {label && <label htmlFor={name} className="form-label"> {label}</label>}
             <input 
                 id={name}
                 {...field}
                 type={type?type:"text"}
                 name={name} 
-                className={`${classes?classes:"form-control"} ${showError && "border-theme-24"}`} 
+                className={`form-control ${classes?classes:null} ${showError && "border-theme-24"}`} 
                 placeholder={placeholder}
             />
             {showError && <div className="pristine-error text-theme-24 mt-2">{errors[name]}</div>}

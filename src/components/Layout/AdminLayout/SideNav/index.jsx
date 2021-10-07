@@ -16,7 +16,7 @@ const SideNav = (props) => {
           <MenuItem
             icon = {IconSideNav.CHILD_ITEM}
             title = "Quản Lý Bài Tập"
-            url = "/assigment"
+            url = "/assignment"
           />
         </ul>
       </nav>

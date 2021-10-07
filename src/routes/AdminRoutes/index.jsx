@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
 
 import AdminLayout from "components/Layout/AdminLayout";
-import UserRoutes from "./UserRoutes";
+import AssignmentRoutes from "./AssignmentRoutes";
 
 
 
@@ -17,8 +17,8 @@ const AdminRoutes = (props) => {
             {(auth.isLoggedIn && auth.isAdmin ) && 
                 <AdminLayout>
                     <Switch>
-                        <Route path = {`${match.url}/user`}>
-                            <UserRoutes/>
+                        <Route path = {`${match.url}/assignment`}>
+                            <AssignmentRoutes/>
                         </Route>
                     </Switch>
                 </AdminLayout>

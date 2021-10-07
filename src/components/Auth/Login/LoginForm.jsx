@@ -1,4 +1,4 @@
-import Button from "components/UI/Button";
+import Button from "components/UI/Button/Button";
 import { Link } from "react-router-dom";
 import  {FastField, Form, Formik} from "formik";
 import InputField from "components/UI/Feild/InputField";

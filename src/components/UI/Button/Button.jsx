@@ -6,7 +6,7 @@ const Button = (props) => {
     return (
         <Fragment>
             <button 
-                className={classes?classes:"btn btn-primary"}
+                className={`btn ${classes?classes:"btn-primary"}`}
                 onClick = {onClick}
                 type = {type}
             >

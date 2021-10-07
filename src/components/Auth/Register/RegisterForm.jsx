@@ -1,4 +1,4 @@
-import Button from "components/UI/Button";
+import Button from "components/UI/Button/Button";
 import InputFeild from "components/UI/Feild/InputField";
 import { FastField, Form, Formik } from "formik";
 import { Fragment } from "react";
