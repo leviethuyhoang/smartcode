@@ -16,6 +16,10 @@ const SubmittionForm = (props) => {
 
     const listLanguage = [
         {
+            id : 0,
+            title : 'Python'
+        },
+        {
             id : 1,
             title : 'C++'
         },
