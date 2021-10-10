@@ -4,6 +4,7 @@ import { Redirect, Route, Switch, useRouteMatch } from "react-router";
 
 import AdminLayout from "components/Layout/AdminLayout";
 import AssignmentRoutes from "./AssignmentRoutes";
+import UserRoutes from "./UserRoutes";
 
 
 
@@ -19,6 +20,9 @@ const AdminRoutes = (props) => {
                     <Switch>
                         <Route path = {`${match.url}/assignment`}>
                             <AssignmentRoutes/>
+                        </Route>
+                        <Route path = {`${match.url}/user`}>
+                            <UserRoutes/>
                         </Route>
                     </Switch>
                 </AdminLayout>
