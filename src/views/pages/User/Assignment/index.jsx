@@ -1,9 +1,11 @@
 import { Fragment } from "react";
 
-const MainRoutes = (props) => {
+
+const Assignment = () => {
     return (
         <Fragment>
+            <h1>All Assignment</h1>
         </Fragment>
     )
 }
-export default MainRoutes;
+export default Assignment;

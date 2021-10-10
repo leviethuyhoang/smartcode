@@ -1,0 +1,16 @@
+.top-menu{
+    padding: 20px !important;
+    margin: 0px !important;
+    &--active{
+        background-color: transparent !important;
+        border: none !important;
+        border-bottom: 3px solid white !important;
+        border-radius:0px !important;
+    }
+    :hover{
+        background-color: transparent !important;
+    }
+    .title {
+        margin: 0 !important;
+    }
+}

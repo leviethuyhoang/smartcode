@@ -2,9 +2,6 @@ import axios from "axios";
 import quyeryString from "query-string";
 
 
-
-
-
 const axiosClient = axios.create({
   baseURL : process.env.REACT_APP_API_URL,
   headers : {
@@ -26,7 +23,7 @@ axiosClient.interceptors.response.use((response) => {
   }
   return response;
 },error => {
-  return Promise.reject(error.response.data.error);
+  return Promise.reject(error);
 });
 
 export default axiosClient;
