@@ -21,8 +21,8 @@ const AllSubmittion = (props) => {
                 try{
                     const response = await submitionApi.getSubmittion(i)
                     const data = {
-                        id : response.data.id,
-                        result : response.data.result.result
+                        id : response.id,
+                        result : response.result.result
                     }
                     dataList.push(data)
                 } catch(errors) {

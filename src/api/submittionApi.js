@@ -2,7 +2,8 @@ import axiosClient from "./axiosClient";
 
 const submitionApi = {
     getProblem : () => {
-        return axiosClient.get('http://3.133.115.242/api/v1/problem')
+        const url = '/problem'
+        return axiosClient.get(url)
     },
     submit : (params) => {
         const url = "/submission"
