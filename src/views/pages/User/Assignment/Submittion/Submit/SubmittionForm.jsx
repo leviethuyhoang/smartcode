@@ -59,8 +59,7 @@ const SubmittionForm = (props) => {
         const getProblem = () => {
             submitionApi.getProblem()
             .then((res)=>{
-                console.log(res.data)
-                setName(res.data)
+                setName(res)
             })
             .catch((errors)=> {
                 console.log(errors)
