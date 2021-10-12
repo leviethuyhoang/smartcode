@@ -3,7 +3,7 @@ import InputField from "components/UI/Feild/InputField";
 import SelectField from "components/UI/Feild/SelectField";
 import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
-import { FastField, Form, Formik } from "formik";
+import { FastField, Field, Form, Formik } from "formik";
 
 
 const AddAssignmentForm = (props) => {
@@ -12,7 +12,9 @@ const AddAssignmentForm = (props) => {
     const initialValues = {
         name : "",
         category : '',
-        content : ""
+        content : "",
+        input : "",
+        output : ""
     }
 
     return (
@@ -29,18 +31,18 @@ const AddAssignmentForm = (props) => {
                         <FastField
                             name = "name"
                             component = {InputField}
-                            label = "Tên Bài Tập"
+                            label = "TÊN BÀI TẬP"
                             placeholder = "Nhập tên bài tập ..."
                         />
                         
                     </Cell>
                     <Cell width = "4">
-                        <FastField
+                        <Field
                             name = "category"
                             component = {SelectField}
 
-                            label = "Danh Mục"
-                            placeholder = "Chọn danh mục ..."
+                            label = "DẠNG BÀI"
+                            placeholder = "Chọn dạng bài ..."
                         />
                     </Cell>
                     <Cell>
@@ -48,8 +50,25 @@ const AddAssignmentForm = (props) => {
                             name="content"
                             component={TextField}
                             
-                            label = "Nội dung bài tập"
-                            placeholder = "Nội dung bài tập"
+                            label = "NỘI DUNG"
+                            placeholder = "Nhập nội dung ..."
+                        />
+                    </Cell>
+                    <Cell width = "6">
+                        <FastField
+                            name = "input"
+                            component = {TextField}
+
+                            label = "INPUT"
+                        />
+                        
+                    </Cell>
+                    <Cell width = "6">
+                        <FastField
+                            name = "output"
+                            component = {TextField}
+
+                            label = "OUTPUT"
                         />
                     </Cell>
                     <Cell>
@@ -57,8 +76,8 @@ const AddAssignmentForm = (props) => {
                             name="resolve"
                             component={TextField}
                             
-                            label = "Bài Giải"
-                            placeholder = "Nội dung bài giải"
+                            label = "HƯỚNG DẪN"
+                            placeholder = "..."
                         />
                     </Cell>
                 </Grid>

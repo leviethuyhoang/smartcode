@@ -1,7 +1,7 @@
 import MainLayout from "components/Layout/MainLayout";
 import { Fragment } from "react";
 import { Route, Switch } from "react-router";
-import Home from "views/pages/User/Home";
+import Home from "pages/User/Home";
 import SubmittionRoutes from "./SubmitionRoutes";
 import AssignmentRoutes from "./AssignmentRoutes";
 

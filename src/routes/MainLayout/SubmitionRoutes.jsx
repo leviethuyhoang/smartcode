@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import AllSubmittion from "views/pages/User/Assignment/Submittion";
-import Submit from "views/pages/User/Assignment/Submittion/Submit";
+import AllSubmittion from "pages/User/Assignment/Submittion";
+import Submit from "pages/User/Assignment/Submittion/Submit";
 
 
 const SubmittionRoutes = (props) => {

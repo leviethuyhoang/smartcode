@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
 
-import AllAssignments from "views/pages/Admin/Assignments";
-import AddAssignment from "views/pages/Admin/Assignments/AddAssignment";
-import EditAssignment from "views/pages/Admin/Assignments/EditAssignment";
+import AllAssignments from "pages/Admin/Assignments";
+import AddAssignment from "pages/Admin/Assignments/AddAssignment";
+import EditAssignment from "pages/Admin/Assignments/EditAssignment";
 
 
 const AssignmentRoutes = (props) => {

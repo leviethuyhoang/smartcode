@@ -1,9 +1,11 @@
+
 const { Fragment } = require("react")
 
-const Logout = ()=>
-{
-    return(<Fragment>
-        <div className="p-2 border-t border-theme-12 dark:border-dark-3">
+const Logout = () => {
+
+  return (
+    <Fragment>
+        <div  className="p-2 border-t border-theme-12 dark:border-dark-3">
           <div
             className="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"
           >
@@ -25,7 +27,8 @@ const Logout = ()=>
             Logout
           </div>
         </div>
-    </Fragment> )
+    </Fragment>
+  )
 }
 
 export default Logout;

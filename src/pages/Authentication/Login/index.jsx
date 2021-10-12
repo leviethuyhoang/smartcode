@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 
 import authApi from "api/authApi";
-import LoginForm from "components/Auth/Login/LoginForm";
+import LoginForm from "pages/Authentication/Login/LoginForm";
 import { authActions } from "app/slice/authSlice";
 
 const Login = (props) => {
@@ -38,7 +38,7 @@ const Login = (props) => {
                 <div className="hidden xl:flex flex-col min-h-screen">
                 <div  className="-intro-x flex items-center pt-5">
                     <img alt="Icewall Tailwind HTML Admin Template" className="w-6" src="dist/images/logo.svg" />
-                    <span className="text-white text-lg ml-3"> Ice<span className="font-medium">wall</span> </span>
+                    <span className="text-white text-lg ml-3"> Smart<span className="font-medium">Code</span> </span>
                 </div>
                 <div className="my-auto">
                     <img alt="Icewall Tailwind HTML Admin Template" className="-intro-x w-1/2 -mt-16" src="dist/images/illustration.svg" />

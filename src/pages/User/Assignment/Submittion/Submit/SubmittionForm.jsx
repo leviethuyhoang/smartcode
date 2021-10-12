@@ -7,7 +7,7 @@ import Grid from "components/UI/Grid";
 import submitionApi from "api/submittionApi";
 import { FastField, Field, Form, Formik } from "formik";
 import { Fragment, useEffect, useState } from "react";
-import { Loading } from "views/icons/Loading";
+import { Loading } from "assets/icons/Loading";
 
 
 const SubmittionForm = (props) => {

@@ -11,7 +11,7 @@ const InputField =  props => {
     
     return (
         <div className="input-form mt-3">
-            {label && <label htmlFor={name} className="form-label"> {label}</label>}
+            {label && <label htmlFor={name} className="form-label"><b> {label} </b></label>}
             <input 
                 id={name}
                 {...field}

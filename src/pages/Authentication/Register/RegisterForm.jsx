@@ -3,7 +3,7 @@ import InputFeild from "components/UI/Feild/InputField";
 import { FastField, Form, Formik } from "formik";
 import { Fragment } from "react";
 import * as Yup from "yup";
-import {Loading} from "views/icons/Loading";
+import {Loading} from "assets/icons/Loading";
 import { Link } from "react-router-dom";
 
 
