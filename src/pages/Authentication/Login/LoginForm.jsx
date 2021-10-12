@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import  {FastField, Form, Formik} from "formik";
 import InputField from "components/UI/Feild/InputField";
 import * as Yup from "yup";
-import { Loading } from "views/icons/Loading";
+import { Loading } from "assets/icons/Loading";
 
 
 const LoginForm = (props) => {

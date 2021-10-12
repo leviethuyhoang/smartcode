@@ -44,11 +44,11 @@ const AllSubmittion = (props) => {
             <Grid mt = "5">
                 <Cell >
                     <Card>
-                    <table class="table mt-5">
+                    <table className="table mt-5">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-700">
-                                <th class="whitespace-nowrap">ID</th>
-                                <th class="whitespace-nowrap">Kết Quả</th>
+                            <tr className="bg-gray-200 text-gray-700">
+                                <th className="whitespace-nowrap">ID</th>
+                                <th className="whitespace-nowrap">Kết Quả</th>
                             </tr>
                         </thead>
                         <tbody>

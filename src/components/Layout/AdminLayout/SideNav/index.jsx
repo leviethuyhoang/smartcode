@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import IconSideNav from "views/icons/iconSideNav";
+import IconSideNav from "assets/icons/iconSideNav";
 import MenuItem from "./MenuItem";
 
 const SideNav = (props) => {

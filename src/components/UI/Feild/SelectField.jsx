@@ -22,7 +22,7 @@ const SelectField = (props) => {
     }
     return (
             <div className=" mt-3">
-            {label && <label htmlFor={name} className="form-label"> {label}</label>}
+            {label && <label htmlFor={name} className="form-label"><b> {label} </b></label>}
             <select 
                 id={name}
                 {...field}

@@ -2,8 +2,8 @@ import AuthenticationLayout from "components/Layout/AuthenticationLayout";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router";
-import Login from "views/pages/Authentication/Login";
-import Register from "views/pages/Authentication/Register";
+import Login from "pages/Authentication/Login";
+import Register from "pages/Authentication/Register";
 
 
 const AuthenticationRoutes = (props) => {

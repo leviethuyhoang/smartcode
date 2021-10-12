@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import AllUsers from "views/pages/Admin/User";
+import AllUsers from "pages/Admin/User";
 
 
 const UserRoutes = (props) => {

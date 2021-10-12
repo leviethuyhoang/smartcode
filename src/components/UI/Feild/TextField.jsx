@@ -10,7 +10,7 @@ const TextField = (props) => {
     const showError = errors[name] && touched[name];
     return (
         <div className="input-form mt-3">
-            {label && <label htmlFor={name} className="form-label"> {label}</label>}
+            {label && <label htmlFor={name} className="form-label"><b> {label}</b></label>}
             <textarea 
                 id={name}
                 {...field}

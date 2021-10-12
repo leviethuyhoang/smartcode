@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import Assignment from "views/pages/User/Assignment";
+import Assignment from "pages/User/Assignment";
 
 
 const AssignmentRoutes = (props) => {
