@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Container from "../Container";
 import Content from "../Content";
-import Header from "./Header";
+import Header from "../Header";
 
 const MainLayout = (props) => {
     return (
