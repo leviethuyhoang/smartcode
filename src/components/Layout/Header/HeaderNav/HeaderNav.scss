@@ -1,0 +1,10 @@
+.header_nav {
+    padding: 10px;
+    &__list {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        list-style: none;
+    }
+    
+}

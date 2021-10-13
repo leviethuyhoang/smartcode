@@ -1,15 +1,10 @@
 import { Fragment } from 'react';
-// import Breadcrumb from './Breadcrumb/Breadcrumb.js';
 import Search from './Search/Search.js';
-import IconNotifications from './Notifications/IconNotifications.js';
-import NotificationsWrap from './Notifications/NotificationsWrap.js';
-import ListNotificationsWrap from './Notifications/ListNotificationsWrap.js';
-import ListNotifications from './Notifications/ListNotifications.js';
-import HeaderNav from 'components/Layout/AdminLayout/Header/HeaderNav/index.jsx';
-import Logo from 'components/Layout/Logo/index.jsx';
-import Authenticate from './Authenticate/index.jsx';
-import AccountMenu from '../AccountMenu/index.jsx';
+import Authenticate from './Authenticate';
+import AccountMenu from './AccountMenu';
 import { useSelector } from 'react-redux';
+import Logo from './Logo';
+import HeaderNav from './HeaderNav/index.jsx';
 const Header = (props) => {
   const auth = useSelector(state => state.auth);
   return (
@@ -19,15 +14,10 @@ const Header = (props) => {
           <Logo/>
           <HeaderNav/>
           {!auth.isLoggedIn && <Authenticate/>}
+          
           {auth.isLoggedIn && 
           <Fragment>
             <Search />
-            <NotificationsWrap>
-              <IconNotifications />
-              <ListNotificationsWrap>
-                <ListNotifications />
-              </ListNotificationsWrap>
-            </NotificationsWrap>
             <AccountMenu/>
           </Fragment>
           }
