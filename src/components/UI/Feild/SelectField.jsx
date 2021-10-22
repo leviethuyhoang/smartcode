@@ -31,7 +31,7 @@ const SelectField = (props) => {
                 className={`form-select w-full ${classes?classes:""} ${showError ? "border-theme-24" : ''}`} 
                 placeholder={placeholder}
             >
-                <option value= "" hidden>Chọn bài tập ...</option>
+                <option value= "" hidden>{placeholder}</option>
                 {props.options && props.options.map((item,key)=> (
                     <option key = {key} value = {item.id} >{item.title}</option>
                 ))}
