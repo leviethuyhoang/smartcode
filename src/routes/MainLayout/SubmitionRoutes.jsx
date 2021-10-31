@@ -5,9 +5,7 @@ import Submit from "pages/User/Assignment/Submittion/Submit";
 
 
 const SubmittionRoutes = (props) => {
-
     const match = useRouteMatch();
-
     return (
         <Fragment>
             <Switch>

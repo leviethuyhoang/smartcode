@@ -15,6 +15,7 @@ const AssignmentRoutes = (props) => {
                 <Route exact path = {`${match.url}/`} component = {AllAssignments}/>
                 <Route exact path = {`${match.url}/add`} component = {AddAssignment}/>
                 <Route exact path = {`${match.url}/edit/:id`} component = {EditAssignment}/>
+                
             </Switch>
         </Fragment>
     )

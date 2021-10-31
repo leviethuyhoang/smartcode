@@ -12,7 +12,7 @@ const MainRoutes = (props) => {
             <Switch>
                 <MainLayout>
                     <Route exact path = "/">
-                        <Home/>
+                    <AssignmentRoutes/>
                     </Route>
                     <Route path = {`/assignment`}>
                         <AssignmentRoutes/>
