@@ -8,12 +8,13 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const Assignment = (props) => {
-    const problem = useSelector(state=>state.problem.problem);
+    const problem = useSelector(state=>state.problem.problems);
 
     const [problemDetail, setProblemDetail]=useState(false)
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage, setPostPerPage] = useState(6);
+    const [postsPerPage] = useState(6);
+
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFristPost = indexOfLastPost - postsPerPage;
@@ -27,13 +28,11 @@ const Assignment = (props) => {
     {
         setCurrentPage(pageNumber)
     }
-    const ShowProblemHandler = ()=>
+    const ShowProblemHandler = (show)=>
     {
-      setProblemDetail(true);
+      setProblemDetail(show);
     }
-
-
-
+  
 
   const box = currentPosts.map((problem) => (
     <BoxProblem
@@ -42,8 +41,7 @@ const Assignment = (props) => {
       title={problem.title}
       content={problem.content}
       author={problem.author}
-      onClick={ShowProblemHandler}
-      
+      getShowProblemDetail={ShowProblemHandler}
     />
   ));
   return (

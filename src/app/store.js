@@ -6,7 +6,7 @@ import problemSlice from "./slice/problem-slice";
 const rootReducer =  {
     example : exampleReducer,
     auth : authReducer,
-    problem : problemSlice,
+    problem : problemSlice
 }
 
 const store = configureStore({
