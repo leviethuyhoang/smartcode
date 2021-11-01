@@ -1,9 +1,14 @@
 import { Fragment } from 'react';
 import WrapProblem from './WrapProblem';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import ProblemAction from '../../../app/slice/problem-slice';
 
 const BoxProblem = (props) => {
-  const {id, content, author, title , onClick} = props;
+  const { content, author, title , setShowProblemDetail,onClick} = props;
+  const dispatch = useDispatch();
+  const showProblem = ()=>
+  {
+  }
   return (
     <Fragment>
       <WrapProblem>

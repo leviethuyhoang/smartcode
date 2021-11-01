@@ -6,7 +6,7 @@ const Pagination = ({ totalPost, postsPerPage , paginate }) => {
 
   for (let i = 1; i <= Math.ceil(totalPost / postsPerPage); i++) {
     pageNumber.push(i);
-    console.log(pageNumber);
+   
   }
   return (
     <Fragment>
