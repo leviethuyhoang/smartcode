@@ -17,7 +17,8 @@ const AllSubmittion = (props) => {
         const getData = async () => {
             submitionApi.getMany()
             .then(res => {
-                console.log("res Submition : ", res.submissions)
+                console.log("res Submition : ", res)
+
             })
             .catch(error => {
                 console.log("ERROR : ",error)
