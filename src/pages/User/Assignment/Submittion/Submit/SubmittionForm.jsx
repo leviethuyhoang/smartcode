@@ -2,41 +2,27 @@ import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import SelectField from "components/UI/Feild/SelectField";
-import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
-import submitionApi from "api/submittionApi";
-import { FastField, Field, Form, Formik } from "formik";
+import problemApi from "api/problemApi";
+import {  FastField, Field, Form, Formik } from "formik";
 import { Fragment, useEffect, useState } from "react";
 import { Loading } from "assets/icons/Loading";
+import submitionApi from "api/submittionApi";
+import configApi from "api/configApi";
+import InputFile from "components/UI/InputFile";
+import CodeEditor from "components/UI/CodeEditor";
 
 
 const SubmittionForm = (props) => {
 
-    const [name,setName] = useState();
-
-    const listLanguage = [
-        {
-            id : 0,
-            title : 'Python'
-        },
-        {
-            id : 1,
-            title : 'C++'
-        },
-        {
-            id : 2,
-            title : 'Java'
-        },
-        {
-            id : 3,
-            title : 'Javascript'
-        }
-    ]
+    const [problems,setProblem] = useState();
+    const [languages,setLanguage] = useState();
 
     const initialValues = {
         id : '',
         language : 0,
-        souce_code : "",
+        source_code : "// code here\n",
+        files : ""
     }
     const handleSubmit = (value,{setSubmitting}) => {
         const params = {
@@ -57,17 +43,39 @@ const SubmittionForm = (props) => {
 
     useEffect(() => {
         const getProblem = () => {
-            submitionApi.getProblem()
+            problemApi.getProblem()
             .then((res)=>{
-                setName(res)
+                return res.results
+            })
+            .then(res => {
+                const listProblem = res.map(item => { return { title: item.title, value: item.id}});
+                console.log("listProblem :",listProblem)
+                setProblem(listProblem);
+            })
+            .catch((errors)=> {
+                console.log(errors)
+            })
+        }
+        const getConfig = () => {
+            configApi.getConfig()
+            .then((res)=>{
+                console.log("res",res)
+                return res.languages
+            })
+            .then(res => {
+                const listLanguage = res.map(item => { return { title: item.name, value: item.id}});
+                console.log("listConfig :",listLanguage)
+                setLanguage(listLanguage);
             })
             .catch((errors)=> {
                 console.log(errors)
             })
         }
         getProblem();
+        getConfig();
 
-    },[setName])
+    },[])
+
 
     return (
         <Fragment>
@@ -84,33 +92,38 @@ const SubmittionForm = (props) => {
                     return (
                         <Form>
                             <Grid>
-                                <Cell width ="4">
+                                <Cell width ="6">
                                     <Field
                                         name = "id"
                                         component = {SelectField}
 
                                         label = "Tên Bài Tập"
-                                        options = {name}
+                                        options = {problems}
                                         placeholder = "Chọn Bài Tập"
                                     />
                                 </Cell>
-                                <Cell width = "4">
+                                <Cell width = "6">
                                     <Field  
                                         name = "language"
                                         component = {SelectField}
 
                                         label = "Ngôn Ngữ"
-                                        options = {listLanguage}
+                                        options = {languages}
                                         placeholder = "Chọn Ngôn Ngữ"
                                     />
                                 </Cell>
-                                <Cell>
+                                <Cell >
                                     <FastField
                                         name = "source_code"
-                                        component = {TextField}
+                                        component = {CodeEditor}
+                                    />
+                                </Cell>
+                                <Cell>
+                                    <Field
+                                        name = "files"
+                                        component = {InputFile}
 
-                                        label = "Mã Nguồn"
-                                        placeholder = "Nhập mã nguồn"
+                                        multiple = {true}
                                     />
                                 </Cell>
                                 <Cell width = "3">
@@ -122,6 +135,7 @@ const SubmittionForm = (props) => {
                         </Form>
                     )}}
                     </Formik>
+                    
                 </Card>
                 </Cell>
             </Grid>

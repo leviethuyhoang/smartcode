@@ -4,18 +4,16 @@ const Switch = (props) => {
     
     const {
         field,
-        lable,
+        label,
     } = props;
-
-    const { name } = field;
 
     return (
         <Fragment>
             <div className="mt-3 flex flex-col items-center ">
-                {lable && <label>{lable}</label>}
+                {label && <label>{label}</label>}
                 <div className="mt-2">
                 <div className="form-check">
-                    <input  {...field} name = {name} id="checkbox-switch-7" className="form-check-switch" type="checkbox" />
+                    <input  {...field} id="checkbox-switch-7" className="form-check-switch" type="checkbox" checked = {field.value}/>
                 </div>
                 </div>
             </div>

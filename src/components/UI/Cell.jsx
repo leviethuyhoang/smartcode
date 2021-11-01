@@ -2,10 +2,10 @@
 
 const Cell = (props) => {
 
-    const {width,classes} = props;
+    const {width,md,sm,classes} = props;
 
     return (
-        <div className = {`col-span-12 ${width?`lg:col-span-${width}`:''} ${classes}`}>
+        <div className = {`col-span-12 ${width?`lg:col-span-${width}`:''} ${md?`md:col-span-${md}`:''} ${sm?`sm:col-span-${sm}`:''} ${width?`lg:col-span-${width}`:''} ${classes?classes:''}`}>
             {props.children}
         </div>
     )

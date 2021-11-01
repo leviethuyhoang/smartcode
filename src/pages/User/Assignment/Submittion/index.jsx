@@ -15,23 +15,13 @@ const AllSubmittion = (props) => {
 
     useEffect(()=> {
         const getData = async () => {
-            const dataList = [];
-            let i = 1;
-            while(i < 50){
-                try{
-                    const response = await submitionApi.getSubmittion(i)
-                    const data = {
-                        id : response.id,
-                        result : response.result.result
-                    }
-                    dataList.push(data)
-                } catch(errors) {
-                    console.log(errors)
-                    setListData(dataList)
-                    break;
-                }    
-                i++; 
-            }
+            submitionApi.getMany()
+            .then(res => {
+                console.log("res Submition : ", res.submissions)
+            })
+            .catch(error => {
+                console.log("ERROR : ",error)
+            })
         }
         getData();
     },[])

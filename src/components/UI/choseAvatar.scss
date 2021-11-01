@@ -1,0 +1,13 @@
+.avatar-box{
+
+    text-align: center;
+
+    & input{
+        display: none;
+    }
+    & img{
+        height: 150px;
+        width: 150px;
+        margin: auto;
+    }
+}

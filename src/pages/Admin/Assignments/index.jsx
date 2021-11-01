@@ -9,6 +9,7 @@ import Cell from 'components/UI/Cell';
 import Search from 'components/UI/Feild/Search';
 import Table from 'components/UI/Table/Table';
 import AssignmentItem from './components/AssignmentItem';
+import Card from 'components/UI/Card';
 
 const listHeadTable = [
     {
@@ -90,7 +91,6 @@ const AllAssignments = (props) => {
     
     const filterSearch = useCallback((keySearch) => {
         setAssignments(DUMMY_DATA.filter(items => items.user.includes(keySearch)))
-        console.log("Filter")
     },[])
 
     return (
@@ -110,23 +110,24 @@ const AllAssignments = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Table
-                        listHead = {listHeadTable}
-                    >
-                        {assignments.map((item,key) => 
-                            <AssignmentItem
-                                key = {key}
-                                id = {item.id}
-                                name = {item.name}
-                                user = {item.user}
-                                testcase_quantity = {item.testcase_quantity}
-                                category = {item.category}
-                                status = {item.status}
-                                content = {item.content}
-                                actions = {item.actions}
-                            />
-                        )}
-                    </Table>
+                    <Card>
+                        <Table
+                            listHead = {listHeadTable}
+                        >
+                            {assignments.map((item,key) => 
+                                <AssignmentItem
+                                    key = {key}
+                                    id = {item.id}
+                                    name = {item.name}
+                                    user = {item.user}
+                                    testcase_quantity = {item.testcase_quantity}
+                                    category = {item.category}
+                                    status = {item.status}
+                                    content = {item.content}
+                                />
+                            )}
+                        </Table>
+                    </Card>
                 </Cell>
             </Grid>
         </Fragment>

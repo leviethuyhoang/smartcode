@@ -15,6 +15,7 @@
     "formik": "^2.2.9",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
+    "react-ace-builds": "^7.3.6",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.14.7",
     "react-redux": "^7.2.5",
