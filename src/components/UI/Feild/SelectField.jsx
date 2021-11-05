@@ -17,6 +17,9 @@ const SelectField = (props) => {
                 value : selectedValue
             }
         }
+        if(props.handleChange){
+            props.handleChange(selectedValue);
+        }
 
         field.onChange(changeEvent);
     }
@@ -33,7 +36,7 @@ const SelectField = (props) => {
             >
                 <option value= "" hidden>{placeholder}</option>
                 {props.options && props.options.map((item,key)=> (
-                    <option key = {key} value = {item.id} >{item.title}</option>
+                    <option key = {key} value = {item.value} >{item.label}</option>
                 ))}
 
             </select>

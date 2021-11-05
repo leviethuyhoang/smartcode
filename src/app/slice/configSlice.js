@@ -2,14 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const configSlice = createSlice({
     name : "configSlice",
-    initialState :{
-        fetched : false,
+    initialState : {
         data : []
     },
     reducers : {
         getConfig : (state,payload) => {
-            state.data = {...payload}
-            state.fetched = true
+            state.data = [...payload.payload]
         }
     }      
 });

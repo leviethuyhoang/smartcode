@@ -2,7 +2,7 @@
 
 const Card = (props) => {
     return (
-        <div className = {`intro-y box p-${props.p ? props.p : '5'}`}>
+        <div className = {`box p-${props.p ? props.p : '5'} ${props.classes ? props.classes : ""}`}>
             {props.children}
         </div>
     )

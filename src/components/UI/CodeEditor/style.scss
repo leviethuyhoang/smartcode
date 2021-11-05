@@ -1,12 +1,31 @@
-#ace-editor{
-    width: 100% !important; 
-}
-
-.editor-bar{
+.editor-bar-box{
 
     display: flex;
     flex-flow: row nowrap;
 
-    background-color: grey;
+    border-bottom: 1px solid rgb(167, 167, 167);
 
-}
+    & label{
+        padding: 5px;
+    }
+    & .editor-bar{
+        width: 100%;
+        margin: 0;
+
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+    }
+    & .item {
+        border-right: 1px solid grey;
+        border-left: 1px solid grey;
+        border-top: 1px solid grey;
+    }
+    
+    & select:focus{
+        outline: none;
+    }
+}  
+
+
+

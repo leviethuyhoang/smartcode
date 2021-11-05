@@ -15,29 +15,44 @@ const InputFile = (props) => {
 
     const handleChange = (e) => {
         try{
+            let index = 0;
+            //get max id
+            if(field.value){
+                field.value.map(item => {
+                    index = item.id;
+                    return 0;
+                })
+            }
             //get all file
             const files = e.target.files;
             // convert to array and map id
-            const filesArr = Array.from(files).map((file,index) => {return {id : index, file}});
+            const filesArr = Array.from(files).map((file) => {
+                return {id : ++index, file}
+            });
 
             if(files){
                 //crerate link image , id
                 const fileArray = filesArr.map(( fileinfor )=> {
                     const file = fileinfor.file;
                     const isImage = file.type.includes("image")
+                    console.log("size",file.size);
+                    if(file.size > 25600){
+                        // eslint-disable-next-line no-throw-literal
+                        throw "File không được quá 25KB ";
+                    }
                     return {id : fileinfor.id, size :file.size, name : file.name,src : isImage ? URL.createObjectURL(file) : null}})
                 // map image and data
                 if(multiple){
                     setImages(prev => prev.concat(fileArray));
                     form.setFieldValue(name,[...field.value,...filesArr])
                 } else {
-                    setImages(prev => fileArray);
+                    setImages(fileArray);
                     form.setFieldValue(name,[...filesArr])
                 }
                 filesArr.map(file => URL.revokeObjectURL(file));
             }
-        } catch {
-            alert("error")
+        } catch (error) {
+            alert(error)
         }
     }
 
@@ -57,7 +72,7 @@ const InputFile = (props) => {
                 <div key = {key} className = "wrap-image">
                     {image.src ? <img className = "img-file" src={image.src}  alt="" /> : IconFile.IMAGE}
                     <p className = "name">{image.name}</p>
-                    <p className = "size">{(image.size/(1024*1024)).toFixed(2)} MB</p>
+                    <p className = "size">{(image.size/(1024)).toFixed(2)} KB</p>
                     <p onClick = {handleRemove.bind(null,image.id)} className = "close">{IconFile.REMOVE_FILE}</p>
                 </div>
             )
