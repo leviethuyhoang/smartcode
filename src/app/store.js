@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import exampleReducer  from "./slice/exampleSlice";
 import authReducer from "./slice/authSlice";
+import configReducer from "./slice/configSlice";
+import problemReducer from "./slice/problemSlice";
+import submitionReducer from "./slice/submittionSlice";
 
 const rootReducer =  {
-    example : exampleReducer,
-    auth : authReducer
+    auth : authReducer,
+    config : configReducer,
+    problem : problemReducer,
+    submittion : submitionReducer,
 }
 
 const store = configureStore({

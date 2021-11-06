@@ -12,21 +12,44 @@ const AssignmentItem = (props) => {
     return (
         <Fragment>
             <tr className = "intro-x zoom-in">
-                <td className = "w-40">
+
+                <td className = "w-4">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap">{props.name}</p>
+                        <p className = "whitespace-nowrap text-center">{props.id}</p>
                     </div>
                 </td>
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap">{props.category}</p>
+                        <p className = "whitespace-nowrap text-center">{props.name}</p>
                     </div>
                 </td>
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap tns-ovh ??">{props.content}</p>
+                        <p className = "whitespace-nowrap text-center">{props.user}</p>
+                    </div>
+                </td>
+
+                <td className = "w-40">
+                    <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
+                        <p className = "whitespace-nowrap text-center">{props.testcase_quantity}</p>
+                    </div>
+                </td>
+
+                <td className = "w-40">
+                    <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
+                        <p className = "whitespace-nowrap text-center">{props.category}</p>
+                    </div>
+                </td>
+
+                <td className = "w-40">
+                    <div className="text-gray-600 text-xs text-center items-center whitespace-nowrap mt-0.5">
+                        {props.status ? <p className="text-center text-theme-10">
+                             Đã Đăng
+                        </p> : <p className="text-center text-theme-24">
+                             Chưa Đăng
+                        </p>}
                     </div>
                 </td>
 

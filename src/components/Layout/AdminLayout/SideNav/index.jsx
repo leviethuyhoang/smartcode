@@ -9,14 +9,24 @@ const SideNav = (props) => {
       <nav className="side-nav">
         <ul>
           <MenuItem
-            icon = {IconSideNav.CHILD_ITEM}
-            title = "Quản Lý Tài Khoản"
+            icon = {IconSideNav.ACCOUNT}
+            title = "Tài Khoản"
             url = "/user"
           />
           <MenuItem
-            icon = {IconSideNav.CHILD_ITEM}
-            title = "Quản Lý Bài Tập"
+            icon = {IconSideNav.ASSIGNMENT}
+            title = "Bài Tập"
             url = "/assignment"
+          />
+          <MenuItem
+            icon = {IconSideNav.CHILD_ITEM}
+            title = "Kỳ Thi"
+            url = "/contest"
+          />
+          <MenuItem
+            icon = {IconSideNav.POST}
+            title = "Bài Viết"
+            url = "/post"
           />
         </ul>
       </nav>

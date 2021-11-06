@@ -9,7 +9,7 @@ const Table = (props) => {
             <thead>
                 <tr>
                     {listHead.map((item,key) => 
-                        <th key = {key}  className = {item.classes}>{item.title}</th>
+                        <th key = {key}  className = {`text-center ${item.classes}`}>{item.title}</th>
                     )}
                 </tr>
             </thead>

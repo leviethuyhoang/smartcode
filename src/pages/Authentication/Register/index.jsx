@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 
 import RegisterForm from "pages/Authentication/Register/RegisterForm";
 import authApi from "api/authApi";
+import { Link } from "react-router-dom";
 
 const Register = (props) => {
     const history = useHistory();
@@ -35,10 +36,10 @@ const Register = (props) => {
                 <div className="block xl:grid grid-cols-2 gap-4">
                 {/* BEGIN: Register Info */}
                 <div className="hidden xl:flex flex-col min-h-screen">
-                    <div className="-intro-x flex items-center pt-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" className="w-6" src="dist/images/logo.svg" />
-                    <span className="text-white text-lg ml-3"> Smart<span className="font-medium">Code</span> </span>
-                    </div>
+                    <Link to = "/" className="-intro-x flex items-center pt-5">
+                        <img alt="Icewall Tailwind HTML Admin Template" className="w-6" src="dist/images/logo.svg" />
+                        <span className="text-white text-lg ml-3"> Smart<span className="font-medium">Code</span> </span>
+                    </Link>
                     <div className="my-auto">
                     <img alt="Icewall Tailwind HTML Admin Template" className="-intro-x w-1/2 -mt-16" src="dist/images/illustration.svg" />
                     <div className="-intro-x text-white font-medium text-4xl leading-tight mt-10">

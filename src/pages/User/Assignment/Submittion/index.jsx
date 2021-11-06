@@ -1,40 +1,37 @@
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { submittionActions } from "app/slice/submittionSlice";
+import { Fragment, useCallback, useEffect } from "react";
+
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
-import { Fragment, useEffect, useState } from "react";
 import SubmmittionItem from "./SubmittionItem";
 import submitionApi from "api/submittionApi";
+import Table from "components/UI/Table/Table";
+import useHttp from "hooks/useHttp";
 
-
+let initial = false;
 
 const AllSubmittion = (props) => {
 
-    const [listData,setListData] = useState([]);
+    const {sendRequest} = useHttp();
+    const submittion = useSelector(state => state.submittion);
+    const dispatch = useDispatch();
 
+    const configData = useCallback((res) => {
+       dispatch(submittionActions.getAll(res));
+    },[dispatch])
 
     useEffect(()=> {
-        const getData = async () => {
-            const dataList = [];
-            let i = 1;
-            while(i < 50){
-                try{
-                    const response = await submitionApi.getSubmittion(i)
-                    const data = {
-                        id : response.id,
-                        result : response.result.result
-                    }
-                    dataList.push(data)
-                } catch(errors) {
-                    console.log(errors)
-                    setListData(dataList)
-                    break;
-                }    
-                i++; 
-            }
+        if(!initial){
+            sendRequest(submitionApi.getMany,configData)
+            initial = true
+        } else {
+            return ;
         }
-        getData();
-    },[])
+    },[configData, sendRequest])
 
     return (
         <Fragment>
@@ -44,19 +41,37 @@ const AllSubmittion = (props) => {
             <Grid mt = "5">
                 <Cell >
                     <Card>
-                    <table className="table mt-5">
-                        <thead>
-                            <tr className="bg-gray-200 text-gray-700">
-                                <th className="whitespace-nowrap">ID</th>
-                                <th className="whitespace-nowrap">Kết Quả</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {listData.map((item,key) => 
-                                <SubmmittionItem key = {key} id = {item.id} result = {item.result}/>
-                            )}
-                        </tbody>
-                    </table>
+                    <Table
+                        listHead = {[
+                            {
+                                title : "Coder"
+                            },
+                            {
+                                title : "Thời Gian"
+                            },
+                            {
+                                title : "Bài Tập"
+                            },
+                            {
+                                title : "Ngôn Ngữ"
+                            },
+                            {
+                                title : "Kết Quả"
+                            },
+                        ]}
+                    >
+                        {submittion.data.map((item,key) => {
+                            return  <SubmmittionItem
+                                key = {key}
+                                id = {item.id}
+                                name = {item.name}
+                                assignment = {item.assignment}
+                                language = {item.language}
+                                time = {item.time}
+                                result = {item.result}
+                            />
+                        })}
+                    </Table>
                     </Card>
                 </Cell>
             </Grid>
