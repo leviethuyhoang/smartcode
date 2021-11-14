@@ -5,15 +5,23 @@ const useHttp = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
-    const sendRequest = useCallback(async (request,dataConfig) => {
+    const sendRequest = useCallback(async (request,dataConfig,params) => {
         setIsLoading(true);
-        request()
+        request(params && null)
         .then((res)=>{
-            dataConfig(res);
+            if(params !== undefined){  
+                console.log("post",params)
+                dataConfig(params);
+            } else {
+                console.log("get")
+                dataConfig(res);
+            }
             setIsLoading(false);
         })
         .catch((errors)=> {
             setError(errors);
+            setIsLoading(false);
+            console.log("EROR",errors)
         })
     },[])
 

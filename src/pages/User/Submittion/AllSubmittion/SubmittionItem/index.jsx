@@ -2,7 +2,7 @@ import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Card from "components/UI/Card";
 import Modal from "components/UI/Modal/Modal";
 import { Fragment, useState } from "react";
-import SubmittionForm from "../SubmittionForm";
+import SubmittionForm from "../../SubmittionForm";
 
 const SubmmittionItem = (props) => {
 

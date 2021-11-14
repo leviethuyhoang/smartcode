@@ -19,6 +19,11 @@ const SideNav = (props) => {
             url = "/assignment"
           />
           <MenuItem
+            icon = {IconSideNav.LESSON}
+            title = "Nhóm Bài"
+            url = "/lesson"
+          />
+          <MenuItem
             icon = {IconSideNav.CHILD_ITEM}
             title = "Kỳ Thi"
             url = "/contest"
@@ -27,6 +32,11 @@ const SideNav = (props) => {
             icon = {IconSideNav.POST}
             title = "Bài Viết"
             url = "/post"
+          />
+          <MenuItem
+            icon = {IconSideNav.SETTING}
+            title = "Cài Đặt"
+            url = "/setting"
           />
         </ul>
       </nav>
