@@ -21,7 +21,7 @@ import { problemActions } from "app/slice/problemSlice";
 
 let initial = false;
 
-const SubmittionForm = (props) => {
+const SubmitForm = (props) => {
 
     const {config : languages,problem} = useSelector(state => state)
     const dispatch = useDispatch();
@@ -62,7 +62,7 @@ const SubmittionForm = (props) => {
         
         if(!initial){
             const fetchData = async () => {
-                await sendRequest(problemApi.getProblem,configProblem)
+                await sendRequest(problemApi.getMany,configProblem)
                 await sendRequest(configApi.getConfig,configLanguage)
             }
             fetchData();
@@ -87,7 +87,6 @@ const SubmittionForm = (props) => {
                     <Formik
                         initialValues = {initialValues}
                         onSubmit = {handleSubmit}
-                        
                     >
                     {propsFormik => {
                         const {isSubmitting} = propsFormik;
@@ -145,4 +144,4 @@ const SubmittionForm = (props) => {
         </Fragment>
     )
 }
-export default SubmittionForm;
+export default SubmitForm;

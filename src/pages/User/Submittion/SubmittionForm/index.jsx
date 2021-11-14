@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 import Cell from "components/UI/Cell";
 import CodeEditor from "components/UI/CodeEditor";
@@ -8,9 +8,21 @@ import "./SubmittionForm.scss"
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 
 const SubmittionForm = (props) => {
+
+    const {id} = props;
+
+    useEffect(() => {
+
+    },[])
+
     return (
         <Fragment>
             <Grid mt = "5">
+                <Cell>
+                    <div className = "infor">
+                        <div>{id}</div>
+                    </div>
+                </Cell>
                 <Cell>
                     <CodeEditor
                         type = "read"

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 
@@ -90,9 +90,9 @@ const AllContest = (props) => {
         setFilterList(DUMMY_DATA);
     },[])
 
-    const filterSearch = (keySearch) => {
-        setFilterList(allContest.filter(contest => contest.name.includes(keySearch)))
-    }
+    const filterSearch = useCallback((keySearch) => {
+        setFilterList(allContest.filter(contest => contest.name.match(keySearch)))
+    },[allContest])
 
     return (
         <Fragment>

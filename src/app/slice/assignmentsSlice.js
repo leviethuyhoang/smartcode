@@ -1,16 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    fetched : false,
-    data : []
+    data : null
 }
 
 const assignmentSlice = createSlice({
     name : "assignmentSlice",
     initialState :initialState,
     reducers : {
-        getAll: (state,action) => {
-            state.data = action.payload;
+        getMany: (state,data) => {
+            state.data = data.payload;
+        },
+        updateOne : (state, data) => {
+
+        },
+        createOne : (state, data) => {
+
+        },
+        deleteOne : (state, data) => {
+
         }
     }
 });

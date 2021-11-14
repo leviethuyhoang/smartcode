@@ -2,7 +2,7 @@ import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
-import SubmittionForm from "./SubmittionForm";
+import SubmitForm from "./SubmitForm";
 
 import { Fragment, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
@@ -31,7 +31,7 @@ const Submit = (props) => {
                             <p>{problem.description}</p>
                         </Card>
                         
-                    <SubmittionForm
+                    <SubmitForm
                             handleChangeProblem = {handleChangeProblem}
                     />
                     </SplitView>
