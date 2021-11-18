@@ -7,7 +7,18 @@ const postSlice = createSlice({
     },
     reducers : {
         getMany : (state,data) => {
-            state.data = [...data.payload]
+            state.data = data.payload
+        },
+        createOne : (state, data) => {
+            if(state.data === null){
+                state.data = [...data.payload]
+            } else {
+                state.data.push(data.payload);
+            }
+        },
+        updateOne : (state, data) => {
+            const id = state.data.findIndex(post => post.id === data.payload.id)
+            state.data[id] = {...state.data[id],...data.payload}
         }
     }      
 });

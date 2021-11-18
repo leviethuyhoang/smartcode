@@ -10,7 +10,7 @@ const ReactSelect = (props) => {
     const {name ,value} = field;
     const {errors, touched} = form;
     const showError = errors[name] && touched[name];
-
+    
     const getValues = () => {
         if (options) {
             return isMulti
@@ -44,7 +44,7 @@ const ReactSelect = (props) => {
                 options={options}
                 placeholder = {placeholder}
                 isMulti = {isMulti}
-                className={`w-full ${classes?classes:""} ${showError ? "border-theme-24" : ''}`}
+                className={`w-full ${classes?classes:""} border-theme-24`}
             />
             {showError && <div className="pristine-error text-theme-24 mt-2">{errors[name]}</div>}
         </div>

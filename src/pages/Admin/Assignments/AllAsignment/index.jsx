@@ -24,7 +24,7 @@ const AllAssignments = (props) => {
     const problems = useSelector(state => state.problem);
     const dispatch = useDispatch();
     const { sendRequest } = useHttp();
-    const [data, setData] = useState();
+    const [data, setData] = useState(problems.data);
 
     const configData = useCallback((res) => {
         const result = Object.values(res)

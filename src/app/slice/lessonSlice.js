@@ -7,15 +7,22 @@ const lessSlice = createSlice({
     },
     reducers : {
         getMany : (state,data) => {
-            state.data = [...data.payload]
+            state.data = data.payload
         },
-        addLesson : (state, data) => {
-            if(state.data){
-                state.data.push(data.payload)
+        createOne : (state, data) => {
+            if(state.data === null) {
+                const result = [data.payload]
+                state.data = result;
             } else {
-                state.data = [...data.payload]
+                const result = [...state.data,data.payload]
+                state.data = result;
             }
+        },
+        updateOne : (state, data) => {
+            const id = state.data.findIndex(lesson => lesson.id === data.payload.id)
+            state.data[id] = {...state.data[id],...data.payload};
         }
+        
     }      
 });
 

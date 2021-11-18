@@ -18,11 +18,6 @@ const PostItem = (props) => {
                 </td>
                 <td className = "w-4">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{props.category}</p>
-                    </div>
-                </td>
-                <td className = "w-4">
-                    <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
                         <p className = "whitespace-nowrap text-center">{props.date_time}</p>
                     </div>
                 </td>
@@ -32,8 +27,12 @@ const PostItem = (props) => {
                     </div>
                 </td>
                 <td className = "w-4">
-                    <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{props.status}</p>
+                    <div className="text-gray-600 text-xs text-center items-center whitespace-nowrap mt-0.5">
+                        {props.published ? <p className="text-center text-theme-10">
+                             Đã Đăng
+                        </p> : <p className="text-center text-theme-24">
+                             Chưa Đăng
+                        </p>}
                     </div>
                 </td>
                 <td className = "table-report__action w-40">
