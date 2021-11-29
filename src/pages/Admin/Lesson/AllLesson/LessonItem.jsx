@@ -9,12 +9,12 @@ const LessonItem = (props) => {
 
     return (
         <tr className = "zoom-in intro-x">
-            <td className = "w-40">
+            <td className = "w-10">
                 <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                    <p className = "whitespace-nowrap text-center">{props.id}</p>
+                    <p className = "whitespace-nowrap text-center">{props.index}</p>
                 </div>
             </td>
-            <td className = "w-40">
+            <td className = "w-full">
                 <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
                     <p className = "whitespace-nowrap text-center">{props.name}</p>
                 </div>

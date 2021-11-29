@@ -10,7 +10,7 @@ const problemSlice = createSlice({
             state.data = [...data.payload]
         },
         createOne : (state, data) => {
-            state.data = [...state.data,{...data.payload}];
+            state.data = [...state.data,data.payload];
         },
         updateOne : (state, data) => {
             const index = state.data.findIndex(item => item.id === data.payload.id)

@@ -6,92 +6,91 @@ import Cell from "components/UI/Cell";
 import InputField from "components/UI/Feild/InputField";
 import ReactSelect from "components/UI/Feild/ReactSelect";
 import Grid from "components/UI/Grid";
-import { FastField, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import useHttp from "hooks/useHttp";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { CreateMenu } from "util/Funtion/CreateMenu";
-import * as Yup from "yup"
 
 
-
-const AddLessonForm = (props) => {
+const EditLessonForm = (props) => {
 
     const history = useHistory();
+    const params = useParams();
+    const [lessonOptions, setLessonOptions] = useState([{
+        value : 0,
+        label : "Không"
+    }]);
+    const [data, setData] = useState({
+        name : "",
+        parent_id : 0,
+        id : -1,
+    });
+    const {sendRequest} = useHttp();
 
-    const lessons = useSelector(state => state.lesson)
+    const lessons = useSelector(state => state.lesson);
     const dispatch = useDispatch();
-
-    const { sendRequest } = useHttp();
-
-    const [ lessonOptions, setLessonOptions ] = useState([])
-    console.log("options",lessonOptions)
-
+    
     const configLesson = useCallback((res) => {
         const result = Object.values( res);
-        if(result[0] !== null){
-            dispatch(lessActions.getMany(result))
-        }
+        dispatch(lessActions.getMany(result))
     },[dispatch])
 
     const fetchLesson = useCallback(() => {
         sendRequest(lessonApi.getMany,configLesson)
     },[configLesson, sendRequest])
 
-    useEffect(()=> {
+    useEffect(() => {
+
+        const getData = () => {
+            const id = params.id;
+            const result = lessons.data.find(item => +item.id === +id);
+            setData(result) ;
+        }
 
         if(lessons.data === null) {
             fetchLesson();
         } else {
-            const menu = CreateMenu(lessons.data)
-            setLessonOptions(prev => prev.concat(menu.map(item => {
+            getData();
+            const lessonOptions = CreateMenu(lessons.data);
+
+            setLessonOptions(prev => prev.concat(lessonOptions.map(item => {
                 return {
                     value : item.id,
                     label : item.name
                 }
             })))
         }
-    },[fetchLesson, lessons, lessons.data, sendRequest])
+
+    },[fetchLesson, lessons.data, params.id])
+
+    const initialValues = data;
 
     const handleCancel = (e) => {
         e.preventDefault();
         history.goBack();
     }
-
-    const storeData =  useCallback((res) => {
-        const result = res;
-        dispatch(lessActions.createOne(result));
-    },[dispatch])
-
     const handleSubmit = (values) => {
-        sendRequest(lessonApi.createOne,storeData,values)
+        console.log("submitting", values);
+        dispatch(lessActions.updateOne(values));
     }
-
-    const validationSchema = Yup.object().shape({
-        name : Yup.string().required("Không được để trống")
-    })
 
     return (
         <Fragment>
             <Card>
                 <Formik
-                    initialValues = {{
-                        id : new Date().getTime(),
-                        name : "",
-                        parent_id : 0,
-                    }}
-                    validationSchema = {validationSchema}
-                    onSubmit = {handleSubmit}
+                    initialValues = {initialValues}
                     enableReinitialize = {true}
+                    onSubmit = {handleSubmit}
                 >
                 { formikProps => {
                 return (
                     <Form>
                         <Grid>
                             <Cell>
-                                <FastField 
+                                <Field
                                     name = "name"
                                     component = {InputField}
 
@@ -128,4 +127,4 @@ const AddLessonForm = (props) => {
         </Fragment>
     )
 }
-export default AddLessonForm;
+export default EditLessonForm;

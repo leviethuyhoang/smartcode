@@ -7,7 +7,8 @@ const useHttp = () => {
     const [error, setError] = useState();
     const sendRequest = useCallback(async (request,dataConfig,params) => {
         setIsLoading(true);
-        request(params && null)
+    
+        request(params ? params : null)
         .then((res)=>{
             if(params !== undefined){  
                 console.log("post",params)

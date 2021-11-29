@@ -5,7 +5,7 @@ const lessonApi = {
         const url = "https://testting-data-default-rtdb.firebaseio.com/lesson.json"
         return axiosClient.get(url);
     },
-    addLesson : (params) => {
+    createOne : (params) => {
         const url = "https://testting-data-default-rtdb.firebaseio.com/lesson.json";
         return axiosClient.post("",params,{baseURL : url});
     },

@@ -16,6 +16,7 @@ import { FastField, Field, FieldArray, Form, Formik } from "formik";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
+import * as Yup from "yup";
 
 const EditAssignmentForm = (props) => {
 
@@ -35,14 +36,14 @@ const EditAssignmentForm = (props) => {
         memory_limit : "128",
         types : [],
         published : false,
-        testcase : [],
+        testcases : [],
         testcase_file : "",
         hint : "",
     })
 
     // get lesson options
     const configLesson = useCallback((res) => {
-        dispatch(lessActions.getMany(Object.values(res['-Mo4UqWubDW-uJMOvxaF'])))
+        dispatch(lessActions.getMany(Object.values(res)))
     },[dispatch]) 
 
     const fetchLesson = useCallback(() => {
@@ -99,11 +100,28 @@ const EditAssignmentForm = (props) => {
 
     const initialValues = data;
 
+    const validationSchema = Yup.object().shape({
+        name : Yup.string().required("Bắt buộc"),
+        testcases : Yup.array()
+        .of(
+            Yup.object().shape({
+                input : Yup.string().required("Bắt buộc"),
+                output : Yup.string().required("Bắt buộc"),
+            })
+        )
+        ,
+        types : Yup.array().min(1,'Phải thuộc ít nhất 1 dạng bài'),
+        // types : Yup.object().required(1,'Phải thuộc ít nhất 1 dạng bài'),
+        description : Yup.string().required("Bắt buộc"),
+        input_description : Yup.string().required("Bắt buộc"),
+        output_description : Yup.string().required("Bắt buộc"),
+    })
     return (
         <Fragment>
         <Card>
         <Formik
             initialValues = {initialValues}
+            validationSchema = {validationSchema}
             enableReinitialize = {true}
             onSubmit = {handleSubmit}
         >
@@ -190,28 +208,28 @@ const EditAssignmentForm = (props) => {
                     </Cell>
                     <Cell width= "9" >
                     <FieldArray
-                        name="testcase"
+                        name="testcases"
                         render = { arrayHelpers => (
                             <Fragment>
                                 <label className="form-label mx-auto"><b> TESTCASE</b></label><br />
                                 <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
-                                {values.testcase && values.testcase.length > 0 ? (
+                                {values.testcases && values.testcases.length > 0 ? (
                                     <Fragment>
-                                        {values.testcase.map((tc, index) => (
+                                        {values.testcases.map((tc, index) => (
                                             <Grid key = {index} >
                                                 <br />
                                                 <Cell width = "4">
-                                                    <Field name={`testcase.${index}.input`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1"/>
+                                                    <Field name={`testcases.${index}.input`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1"/>
                                                 </Cell>
                                                 <Cell width = "4">
-                                                    <Field name={`testcase.${index}.output`} component = {TextField} label = {index === 0 ? "Output" : null} rows = "1"/>
+                                                    <Field name={`testcases.${index}.output`} component = {TextField} label = {index === 0 ? "Output" : null} rows = "1"/>
                                                 </Cell>
                                                 <Cell width = "2">
                                                     <div className = "flex flex-row mr-auto">
                                                         <Button classes = {`btn-outline-danger w-16 mr-2 mt-${index === 0 ? '10' : '3'}`} onClick={() => arrayHelpers.remove(index)}>
                                                             Xóa
                                                         </Button>
-                                                        <Button classes = {`btn-outline-primary w-16 mr-2 mt-${index === 0 ? '10' : '3'}`} onClick={() => arrayHelpers.insert(index,'')}>
+                                                        <Button classes = {`btn-outline-primary w-16 mr-2 mt-${index === 0 ? '10' : '3'}`} onClick={() => arrayHelpers.insert(index+1,'')}>
                                                             Thêm
                                                         </Button>
                                                     </div>

@@ -22,7 +22,7 @@ const AddLesson = (props) => {
                 <Cell>
                     <Wrap>
                         <Link to = {urlBackWard} className = "btn btn-primary ml-auto">
-                            Tất cả kỳ thi
+                            Tất cả nhóm bài
                         </Link>
                     </Wrap>
                 </Cell>

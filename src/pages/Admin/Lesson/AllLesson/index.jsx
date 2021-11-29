@@ -22,27 +22,31 @@ const AllLesson = (props) => {
     const lessons = useSelector(state => state.lesson)
     const dispatch = useDispatch();
 
-    const { sendRequest : fetchLesson} = useHttp();
+    const { sendRequest } = useHttp();
     
-    const [data,setData] = useState(lessons.data); 
+    const [data, setData] = useState(lessons.data); 
 
     const configData = useCallback((res) => {
-        console.log("res",res['-Mo4UqWubDW-uJMOvxaF'])
-        dispatch(lessActions.getMany(res['-Mo4UqWubDW-uJMOvxaF']))
-        setData(res['-Mo4UqWubDW-uJMOvxaF'])
+        const result = Object.values( res);
+        dispatch(lessActions.getMany(result))
     },[dispatch])
+
+    const fetchLesson = useCallback(() => {
+        sendRequest(lessonApi.getMany,configData)
+    },[configData, sendRequest])
 
     useEffect(()=> {
         if(lessons.data === null){
-            console.log("fetch")
-            fetchLesson(lessonApi.getMany,configData)
-        } else {
-            console.log("HELLO",lessons)
+            fetchLesson();
         }
-    },[configData, fetchLesson, lessons, lessons.data])
+    },[fetchLesson, lessons.data])
 
     const filterSearch = useCallback((keySearch)=> {
-        setData(lessons.data.filter(item => item.name.match(keySearch) ))
+        const result = lessons.data;
+        console.log("réult",result)
+        if(result !== null){
+            setData(result.filter(item => item.name.match(keySearch)))
+        }
     },[lessons.data])
 
     return (
@@ -66,7 +70,7 @@ const AllLesson = (props) => {
                     <Table
                         listHead = {[
                             {
-                                title : "ID"
+                                title : "#"
                             },
                             {
                                 title : "Tên"
@@ -76,11 +80,11 @@ const AllLesson = (props) => {
                             },
                         ]}
                     >
-                        {data && data.map((item,key) => {
-                            console.log("item asd",item)
+                        {data && data.map((item,index) => {
                             return <LessonItem
-                                key = {key}
+                                key = {index}
                                 id = {item.id}
+                                index = {index}
                                 name = {item.name}
                             />
                         })}
@@ -88,6 +92,8 @@ const AllLesson = (props) => {
                     </Card>
                 </Cell>
             </Grid>
+            
+
         </Fragment>
     )
 }

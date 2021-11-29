@@ -17,6 +17,7 @@ import useHttp from "hooks/useHttp";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import * as Yup from "yup";
 
 const AddAssignmentForm = (props) => {
 
@@ -42,7 +43,7 @@ const AddAssignmentForm = (props) => {
     },[fetchProblem, problems.data])
 
     const configLesson = useCallback((res) => {
-        dispatch(lessActions.getMany(Object.values(res['-Mo4UqWubDW-uJMOvxaF'])))
+        dispatch(lessActions.getMany(Object.values(res)))
     },[dispatch]) 
 
     const fetchLesson = useCallback(() => {
@@ -85,14 +86,26 @@ const AddAssignmentForm = (props) => {
         input_description : "",
         output_description : "",
         published : false,
-        testcases : [
-            {input : "",output : ""},
-            {input : "",output : ""},
-            {input : "",output : ""},
-        ],
+        testcases : [],
         testcases_file : "",
         hint : "",
     }
+    const validationSchema = Yup.object().shape({
+        name : Yup.string().required("Bắt buộc"),
+        testcases : Yup.array()
+        .of(
+            Yup.object().shape({
+                input : Yup.string().required("Bắt buộc"),
+                output : Yup.string().required("Bắt buộc"),
+            })
+        )
+        ,
+        types : Yup.array().min(1,'Phải thuộc ít nhất 1 dạng bài'),
+        // types : Yup.object().required(1,'Phải thuộc ít nhất 1 dạng bài'),
+        description : Yup.string().required("Bắt buộc"),
+        input_description : Yup.string().required("Bắt buộc"),
+        output_description : Yup.string().required("Bắt buộc"),
+    })
 
     return (
         <Fragment>
@@ -100,6 +113,7 @@ const AddAssignmentForm = (props) => {
         <Formik
             initialValues = {initialValues}
             onSubmit = {handleSubmit}
+            validationSchema = {validationSchema}
         >
         {formikProps => {
             const {values} = formikProps;
@@ -112,7 +126,7 @@ const AddAssignmentForm = (props) => {
                     <FastField
                         name = "name"
                         component = {InputField}
-                        label = "TÊN BÀI TẬP"
+                        label = "TÊN BÀI TẬP *"
                         placeholder = "Nhập tên bài tập ..."
                     />
                     
@@ -123,7 +137,7 @@ const AddAssignmentForm = (props) => {
                         component = {ReactSelect}
 
                         options = {lessonOptions}
-                        label = "DẠNG BÀI"
+                        label = "DẠNG BÀI *"
                         isMulti = {true}
                         placeholder = "Chọn dạng bài ..."
                     />
@@ -160,7 +174,7 @@ const AddAssignmentForm = (props) => {
                         name="description"
                         component={TextField}
                         
-                        label = "NỘI DUNG"
+                        label = "NỘI DUNG *"
                         placeholder = "Nhập nội dung ..."
                     />
                 </Cell>
@@ -187,15 +201,16 @@ const AddAssignmentForm = (props) => {
                     name="testcases"
                     render = { arrayHelpers => (
                         <Fragment>
-                            <label className="form-label mx-auto"><b> TESTCASE</b></label><br />
+                            <label className="form-label mx-auto"><b> TESTCASE *</b></label><br/>
                             <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
+                            {}
                             {values.testcases && values.testcases.length > 0 ? (
                                 <Fragment>
-                                    {values.testcases.map((friend, index) => (
-                                        <Grid key = {index} >
+                                    {values.testcases.map((friend, index) => {
+                                        return <Grid key = {index} >
                                             <br />
                                             <Cell width = "4">
-                                                <Field name={`testcases.${index}.input`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1"/>
+                                                <Field name={`testcases.${index}.input`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1" />
                                             </Cell>
                                             <Cell width = "4">
                                                 <Field name={`testcases.${index}.output`} component = {TextField} label = {index === 0 ? "Output" : null} rows = "1"/>
@@ -210,8 +225,9 @@ const AddAssignmentForm = (props) => {
                                                     </Button>
                                                 </div>
                                             </Cell>
-                                        </Grid>
-                                    ))}
+                                        </Grid>}
+                                        
+                                    )}
                                     
                                 </Fragment>
                                 ) : null}

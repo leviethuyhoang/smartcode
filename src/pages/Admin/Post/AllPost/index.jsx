@@ -14,57 +14,37 @@ import postApi from "api/postApi";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { postActions } from "app/slice/postSlice";
-
-const listHead = [
-    {
-        title : "Tiêu Đề"
-    },
-    {
-        title : "Chuyên Mục"
-    },
-    {
-        title : "Thời Gian"
-    },
-    {
-        title : "Người Đăng"
-    },
-    {
-        title : "Tình Trạng"
-    },
-    {
-        title : "Thao Tác"
-    },
-]
-
-
+import useHttp from "hooks/useHttp";
 
 const AllPost = (props) => {
 
     const match = useRouteMatch();
+    const {sendRequest } = useHttp();
     const posts = useSelector(state => state.post);
     const dispatch = useDispatch();
 
     const [data, setData] = useState(posts.data);    
 
-    const fetchData =  useCallback(() => postApi.getMany()
-        .then(res => {
-            dispatch(postActions.getMany(res['-Mo44wb8hM3NLihnNlKW']))
-        })
-        .catch(error => {
-            console.log("error",error)
-    }),[dispatch])
+    const configData = useCallback((res) => {
+        const result = Object.values(res);
+        if(result[0] !== null){
+            dispatch(postActions.getMany(Object.values(res)))
+        }
+    },[dispatch])
+
+    const fetchData = useCallback(() => {
+        sendRequest(postApi.getMany,configData)
+    },[configData, sendRequest])
 
     useEffect(() => {
-        
-        if(posts.data){
-            
-        } else {
+        if(posts.data === null){
             fetchData();
         }
-    },[fetchData, posts])
+    },[fetchData, posts.data])
 
     const filterSearch = useCallback((keySearch) => {
-        if(posts.data){
+        console.log("filter",posts.data)
+        if(posts.data !== null){
             setData(posts.data.filter(item => item.title.match(keySearch)));
         }
     },[posts.data])
@@ -89,7 +69,23 @@ const AllPost = (props) => {
                 <Cell>
                     <Card>
                         <Table
-                            listHead = {listHead}
+                            listHead = {[
+                                {
+                                    title : "Tiêu Đề"
+                                },
+                                {
+                                    title : "Thời Gian"
+                                },
+                                {
+                                    title : "Người Đăng"
+                                },
+                                {
+                                    title : "Tình Trạng"
+                                },
+                                {
+                                    title : "Thao Tác"
+                                },
+                            ]}
                         >
                             {data && data.map((item, key) => {
                                 return (
@@ -98,6 +94,7 @@ const AllPost = (props) => {
                                         id = {item.id}
                                         title = {item.title}
                                         user = {item.user}
+                                        published = {item.published}
                                         category = {item.category}
                                         date_time = {item.date_time}
                                         status = {item.status}

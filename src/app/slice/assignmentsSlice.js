@@ -23,6 +23,6 @@ const assignmentSlice = createSlice({
     }
 });
 
-const {action,reducer} = assignmentSlice;
-export const assignmentActions = action;
+const {actions,reducer} = assignmentSlice;
+export const assignmentActions = actions;
 export default reducer;
