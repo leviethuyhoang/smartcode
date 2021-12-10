@@ -6,6 +6,7 @@ import submitionReducer from "./slice/submittionSlice";
 import postReducer from "./slice/postSlice";
 import lessonReducer from "./slice/lessonSlice";
 import accountReducer from "./slice/accountSlice";
+import contestReducer from "./slice/contestSlice";
 
 const rootReducer =  {
     auth : authReducer,
@@ -14,7 +15,8 @@ const rootReducer =  {
     submittion : submitionReducer,
     post : postReducer,
     lesson : lessonReducer,
-    account : accountReducer 
+    account : accountReducer,
+    contest : contestReducer,
 }
 
 const store = configureStore({

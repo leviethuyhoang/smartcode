@@ -42,7 +42,8 @@ const AllLesson = (props) => {
     },[configData, fetchLesson, lessons, lessons.data])
 
     const filterSearch = useCallback((keySearch)=> {
-        setData(lessons.data.filter(item => item.name.match(keySearch) ))
+        if(lessons.data !== null)
+        setData(lessons.data.filter(item => item.name.match(keySearch)))
     },[lessons.data])
 
     return (
