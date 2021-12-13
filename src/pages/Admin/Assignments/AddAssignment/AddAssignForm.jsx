@@ -29,7 +29,9 @@ const AddAssignmentForm = (props) => {
 
     const configProblem = useCallback((res) => {
         const result = Object.values(res)
-        dispatch(problemActions.getMany(result));
+        if(result[0] !== null ){
+            dispatch(problemActions.getMany(result));
+        }
     },[dispatch])
 
     const fetchProblem = useCallback(() => {
@@ -43,7 +45,10 @@ const AddAssignmentForm = (props) => {
     },[fetchProblem, problems.data])
 
     const configLesson = useCallback((res) => {
-        dispatch(lessActions.getMany(Object.values(res)))
+        const result = Object.values(res)
+        if(result[0] !== null ){
+            dispatch(lessActions.getMany(Object.values(res)))
+        }
     },[dispatch]) 
 
     const fetchLesson = useCallback(() => {
@@ -68,7 +73,8 @@ const AddAssignmentForm = (props) => {
     },[dispatch])
 
     const handleSubmit = useCallback((values) => {
-        sendRequest(problemApi.createOne,configData,values)
+        console.log("values",values)
+        sendRequest(problemApi.createOne,configData,{...values , id : new Date().getTime()})
     },[configData, sendRequest])
 
     const handleCancel = (e) => {
@@ -76,7 +82,7 @@ const AddAssignmentForm = (props) => {
         history.goBack();
     }
     const initialValues = {
-        id : new Date().getTime(),
+        id : "",
         name : "",
         user : "Admin",
         types : [],

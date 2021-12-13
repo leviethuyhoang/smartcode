@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { postActions } from "app/slice/postSlice";
 import useHttp from "hooks/useHttp";
+import Loading1 from "components/UI/Loading/Loading1";
 
 const AllPost = (props) => {
 
@@ -67,7 +68,8 @@ const AllPost = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card>
+                    <Card classes = "min-h-screen">
+                    {data ? 
                         <Table
                             listHead = {[
                                 {
@@ -87,7 +89,7 @@ const AllPost = (props) => {
                                 },
                             ]}
                         >
-                            {data && data.map((item, key) => {
+                            {data.map((item, key) => {
                                 return (
                                     <PostItem
                                         key = {key}
@@ -103,6 +105,11 @@ const AllPost = (props) => {
                             })}
                             
                         </Table>
+                    :
+                        <div className = "flex justify-center">
+                            <Loading1/>
+                        </div>
+                    }
                     </Card>
                 </Cell>
             </Grid>

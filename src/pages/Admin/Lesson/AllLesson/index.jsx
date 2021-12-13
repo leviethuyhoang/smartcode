@@ -5,6 +5,7 @@ import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Search from "components/UI/Feild/Search";
 import Grid from "components/UI/Grid";
+import Loading1 from "components/UI/Loading/Loading1";
 import Table from "components/UI/Table/Table";
 import Wrap from "components/UI/Wrap";
 import useHttp from "hooks/useHttp";
@@ -66,29 +67,35 @@ const AllLesson = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card>
-                    <Table
-                        listHead = {[
-                            {
-                                title : "#"
-                            },
-                            {
-                                title : "Tên"
-                            },
-                            {
-                                title : "Thao Tác"
-                            },
-                        ]}
-                    >
-                        {data && data.map((item,index) => {
-                            return <LessonItem
-                                key = {index}
-                                id = {item.id}
-                                index = {index}
-                                name = {item.name}
-                            />
-                        })}
-                    </Table>
+                    <Card classes = "min-h-screen">
+                    {data ?
+                        <Table
+                            listHead = {[
+                                {
+                                    title : "#"
+                                },
+                                {
+                                    title : "Tên"
+                                },
+                                {
+                                    title : "Thao Tác"
+                                },
+                            ]}
+                        >
+                            { data.map((item,index) => {
+                                return <LessonItem
+                                    key = {index}
+                                    id = {item.id}
+                                    index = {index}
+                                    name = {item.name}
+                                />
+                            })}
+                        </Table>
+                    :
+                        <div className = "flex justify-center">
+                            <Loading1/>
+                        </div>
+                    }
                     </Card>
                 </Cell>
             </Grid>

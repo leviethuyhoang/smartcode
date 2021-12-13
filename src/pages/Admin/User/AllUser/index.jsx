@@ -5,6 +5,7 @@ import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Search from "components/UI/Feild/Search";
 import Grid from "components/UI/Grid";
+import Loading1 from "components/UI/Loading/Loading1";
 import Table from "components/UI/Table/Table";
 import Wrap from "components/UI/Wrap";
 import useHttp from "hooks/useHttp";
@@ -129,12 +130,13 @@ const AllUsers = (props) => {
                         />
                     </Wrap>
                 </Cell>
-                <Cell>
-                    <Card>
+                <Cell >
+                    <Card classes = "min-h-screen">
+                    {data ?
                         <Table
                             listHead = {listHead}
                         >
-                            {data && data.map((item,key)=> {
+                             {data.map((item,key)=> {
                                 return (
                                     <UserItem
                                         key = {key}
@@ -149,6 +151,11 @@ const AllUsers = (props) => {
                                 )
                             })}
                         </Table>
+                        :
+                        <div className = "flex justify-center h-full items-center">
+                            <Loading1/>
+                        </div>
+                        }
                     </Card>
                 </Cell>
                 

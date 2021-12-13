@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import useHttp from 'hooks/useHttp';
 import problemApi from 'api/problemApi';
 import { problemActions } from 'app/slice/problemSlice';
+import Loading1 from 'components/UI/Loading/Loading1';
 
 
 const AllAssignments = (props) => {
@@ -28,7 +29,9 @@ const AllAssignments = (props) => {
 
     const configData = useCallback((res) => {
         const result = Object.values(res)
-        dispatch(problemActions.getMany(result));
+        if(result[0] !== null){
+            dispatch(problemActions.getMany(result));
+        }
     },[dispatch])
 
     const fetchProblem = useCallback(() => {
@@ -65,7 +68,8 @@ const AllAssignments = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card>
+                    <Card classes = "min-h-screen">
+                    {data ?
                         <Table
                             listHead = {[
                                 {
@@ -85,7 +89,7 @@ const AllAssignments = (props) => {
                                 },
                             ]}
                         >
-                            {data && data.map((item,key) => {
+                            { data.map((item,key) => {
                             return <AssignmentItem
                                     key = {key}
                                     id = {item.id}
@@ -96,6 +100,11 @@ const AllAssignments = (props) => {
                                 />
                             })}
                         </Table>
+                        :
+                        <div className = "flex justify-center">
+                            <Loading1/>
+                        </div>
+                        }
                     </Card>
                 </Cell>
             </Grid>

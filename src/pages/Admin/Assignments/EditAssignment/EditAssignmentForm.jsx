@@ -43,7 +43,10 @@ const EditAssignmentForm = (props) => {
 
     // get lesson options
     const configLesson = useCallback((res) => {
-        dispatch(lessActions.getMany(Object.values(res)))
+        const result = Object.values(res)
+        if(result[0] !== null ){
+            dispatch(lessActions.getMany(Object.values(res)))
+        }
     },[dispatch]) 
 
     const fetchLesson = useCallback(() => {
@@ -54,7 +57,9 @@ const EditAssignmentForm = (props) => {
     // get all problem
     const configData = useCallback((res) => {
         const result = Object.values(res)
-        dispatch(problemActions.getMany(result));
+        if(result[0] !== null ){
+            dispatch(problemActions.getMany(result));
+        }
     },[dispatch])
 
     const fetchProblem = useCallback(() => {

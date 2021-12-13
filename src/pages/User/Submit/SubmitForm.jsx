@@ -1,11 +1,10 @@
 import {  FastField, Field, Form, Formik } from "formik";
-import { Fragment, useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { Loading } from "assets/icons/Loading";
 
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
-import SelectField from "components/UI/Feild/SelectField";
 import Grid from "components/UI/Grid";
 import problemApi from "api/problemApi";
 import submitionApi from "api/submittionApi";
@@ -18,12 +17,13 @@ import { configActions } from "app/slice/configSlice";
 import { useDispatch  } from "react-redux";
 import { useSelector } from "react-redux";
 import { problemActions } from "app/slice/problemSlice";
-
-let initial = false;
+import ReactSelect from "components/UI/Feild/ReactSelect";
 
 const SubmitForm = (props) => {
 
-    const {config : languages,problem} = useSelector(state => state)
+    const {config : languages} = useSelector(state => state)
+    const listProblem = useSelector(state => state.problem)
+    const [problemOption, setProblemOption] = useState([])
     const dispatch = useDispatch();
 
     const {sendRequest} = useHttp();
@@ -47,33 +47,36 @@ const SubmitForm = (props) => {
     }
 
     const configProblem = useCallback((res) => {
-        const data = res["-Mna5ZmOGbn67nH2pAjJ"];
-        dispatch(problemActions.getMany(data.map(item => {
-            return {value : item.id,label : item.name,description : item.description}
-        })));
+        const result = Object.values(res);
+        dispatch(problemActions.getMany(result));
     },[dispatch])
 
     const configLanguage = useCallback((res) => {
-        const data = res["-Mn_j1WEg484MQpELS0z"];
+        const data = Object.values(res['-Mn_j1WEg484MQpELS0z']);
         dispatch(configActions.getConfig(data))
     },[dispatch])
 
-    useEffect(() => {
-        
-        if(!initial){
-            const fetchData = async () => {
-                await sendRequest(problemApi.getMany,configProblem)
-                await sendRequest(configApi.getConfig,configLanguage)
-            }
-            fetchData();
-            initial = true
-        } else {
-            return
-        }
+    const fetchData = useCallback(() => {
+        sendRequest(problemApi.getMany,configProblem)
+        sendRequest(configApi.getConfig,configLanguage)
     },[configLanguage, configProblem, sendRequest])
 
+    useEffect(() => {
+
+        if(listProblem.data === null){
+            fetchData();
+        } else {
+            setProblemOption(listProblem.data.map(item => {
+                return {
+                    value : item.id,
+                    label : item.name
+                }
+            }))
+        }
+    },[fetchData, listProblem.data])
+
     const initialValues = {
-        id : '',
+        id : null,
         language : 0,
         source_code : "// code here\n",
         files : ""
@@ -87,6 +90,7 @@ const SubmitForm = (props) => {
                     <Formik
                         initialValues = {initialValues}
                         onSubmit = {handleSubmit}
+                        enableReinitialize
                     >
                     {propsFormik => {
                         const {isSubmitting} = propsFormik;
@@ -96,10 +100,10 @@ const SubmitForm = (props) => {
                                 <Cell width ="6">
                                     <Field
                                         name = "id"
-                                        component = {SelectField}
+                                        component = {ReactSelect}
 
                                         label = "Tên Bài Tập"
-                                        options = {problem.data}
+                                        options = {problemOption}
                                         placeholder = "Chọn Bài Tập"
                                         handleChange = {props.handleChangeProblem}
                                     />
@@ -107,7 +111,7 @@ const SubmitForm = (props) => {
                                 <Cell width = "6">
                                     <Field  
                                         name = "language"
-                                        component = {SelectField}
+                                        component = {ReactSelect}
 
                                         label = "Ngôn Ngữ"
                                         options = {languages.data}

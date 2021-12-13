@@ -7,9 +7,9 @@ const Table = (props) => {
     return (
         <table className = "table table-report -mt-2">
             <thead>
-                <tr>
+                <tr className = "bg-theme-17 text-white toastify-rounded">
                     {listHead.map((item,key) => 
-                        <th key = {key}  className = {`text-center ${item.classes}`}>{item.title}</th>
+                        <th key = {key}  className = {`text-center ${item.classes ? item.classes : ''}`}>{item.title}</th>
                     )}
                 </tr>
             </thead>

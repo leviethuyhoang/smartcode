@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { submittionActions } from "app/slice/submittionSlice";
-import { Fragment, useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Card from "components/UI/Card";
@@ -11,27 +11,125 @@ import SubmmittionItem from "./SubmittionItem";
 import submitionApi from "api/submittionApi";
 import Table from "components/UI/Table/Table";
 import useHttp from "hooks/useHttp";
+import Wrap from "components/UI/Wrap";
+import Search from "components/UI/Feild/Search";
+import Loading1 from "components/UI/Loading/Loading1";
 
-let initial = false;
+// const listsubmittion = [
+//     {
+//         id : 0,
+//         userId : "",
+//         user : "Hoang",
+//         time : "02/06/2000",
+//         problemId : 0,
+//         problem : "Tính Chu Vi Hình Vuông",
+//         sourceCode : 'cout << "Hello World"',
+//         language : "C++",
+//         timeRun : "500",
+//         memory : "20",
+//         result : "Hoàn Thành",
+//         submittions : [
+//             {
+//                 input : "2",
+//                 output : "8",
+//                 answer : "8",
+//                 result : true
+//             },
+//             {
+//                 input : "4",
+//                 output : "16",
+//                 answer : "17",
+//                 result : false
+//             },
+//             {
+//                 input : "10",
+//                 output : "40",
+//                 answer : "40",
+//                 result : true
+//             },
+//             {
+//                 input : "0.2",
+//                 output : "0.8",
+//                 answer : "0",
+//                 result : false
+//             },
+//         ]
+
+//     },
+//     {
+//         id : 1,
+//         userId : "",
+//         user : "Hoang 1",
+//         time : "01/05/2000",
+//         sourceCode : 'cout << "Hello World"',
+//         problemId : 0,
+//         problem : "Tính Chu Vi Hình Chữ Nhật",
+//         language : "C++",
+//         timeRun : "500",
+//         memory : "20",
+//         result : "Hoàn Thành",
+//         submittions : [
+//             {
+//                 input : "2,4",
+//                 output : "12",
+//                 answer : "12",
+//                 result : true
+//             },
+//             {
+//                 input : "4,4",
+//                 output : "16",
+//                 answer : "17",
+//                 result : false
+//             },
+//             {
+//                 input : "10,10",
+//                 output : "40",
+//                 answer : "40",
+//                 result : true
+//             },
+//             {
+//                 input : "0.2,0.5",
+//                 output : "1.4",
+//                 answer : "1",
+//                 result : false
+//             },
+//         ]
+
+//     }
+// ]
 
 const AllSubmittion = (props) => {
 
     const {sendRequest} = useHttp();
+    
+    
     const submittion = useSelector(state => state.submittion);
     const dispatch = useDispatch();
+    
+    const [listSubmittion, setListSubmittion] = useState(null)
 
     const configData = useCallback((res) => {
-       dispatch(submittionActions.getAll(res));
+       dispatch(submittionActions.getAll(Object.values(res)));
     },[dispatch])
 
-    useEffect(()=> {
-        if(!initial){
-            sendRequest(submitionApi.getMany,configData)
-            initial = true
-        } else {
-            return ;
-        }
+    const fetchData = useCallback(() => {
+        sendRequest(submitionApi.getMany,configData)
     },[configData, sendRequest])
+    
+    useEffect(()=> {
+        if(submittion.data === null){
+            fetchData();
+        } else {
+            setListSubmittion(submittion.data)
+        }
+    },[configData, fetchData, sendRequest, submittion.data])
+
+    const filterSearch = useCallback((keySearch) => {
+        const allSubmitton = submittion.data;
+        if(allSubmitton){
+            setListSubmittion(allSubmitton.filter(item => item.user.match(keySearch)))
+        }
+    },[submittion.data])
 
     return (
         <Fragment>
@@ -39,8 +137,18 @@ const AllSubmittion = (props) => {
                 Bảng Kết Quả
             </HeaderPage>
             <Grid mt = "5">
+                <Cell>
+                    <Wrap>
+                        <Search
+                            classes = "ml-auto"
+                            filterSearch = {filterSearch}
+                        />
+                    </Wrap>
+                </Cell>
                 <Cell >
-                    <Card>
+                    <Card >
+                    
+                    {listSubmittion ?
                     <Table
                         listHead = {[
                             {
@@ -58,20 +166,25 @@ const AllSubmittion = (props) => {
                             {
                                 title : "Kết Quả"
                             },
+                            {
+                                title : "Xem"
+                            },
                         ]}
                     >
-                        {submittion.data.map((item,key) => {
+                         {listSubmittion.map((item,key) => {
                             return  <SubmmittionItem
                                 key = {key}
                                 id = {item.id}
-                                name = {item.name}
-                                assignment = {item.assignment}
-                                language = {item.language}
-                                time = {item.time}
-                                result = {item.result}
+                                {...item}
                             />
                         })}
                     </Table>
+                    :
+                    <div className = "flex justify-center">
+                        <Loading1/>
+                    </div>
+                    }
+                    
                     </Card>
                 </Cell>
             </Grid>
