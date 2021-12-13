@@ -9,12 +9,12 @@
                     description: string,
                     sampleTestCase: [
                         {
-                            input: string,
-                            output: string,
+                            stdin: string,
+                            stdout: string,
                         },
                         {
-                            input: string,
-                            output: string,
+                            stdin: string,
+                            stdout: string,
                         }
                     ]
                     timeLimit: float,
@@ -32,18 +32,18 @@
             description: string,
             sampleTestCase: [
                 {
-                    input: string,
-                    output: string,
+                    stdin: string,
+                    stdout: string,
                 },
                 {
-                    input: string,
-                    output: string,
+                    stdin: string,
+                    stdout: string,
                 }
             ],
             testCase: [
                 {
-                    input,
-                    output
+                    stdin,
+                    stdout
                 }
             ]
         }
@@ -66,24 +66,21 @@
             ]
         }
 
-/api/v1/submit
-    - POST : '{host}/api/v1/submit'
+/api/v1/submission
+    - POST : '{host}/api/v1/submission'
         header: {
             token
         }
         payload: {
             problemId: problemId,
             sourceCode: text,
-            languague: {
-                id: id,
-                name: C++,
-            }, 
+            languagueId,
         }
         
         
         result: {
             statusCode: 200, 
-            submisssionId: id,
+            id: id,
         }
 
 
@@ -109,7 +106,7 @@
                     error: text
                 }
             ],
-            languages:{
+            language:{
                 id: id,
                 name: c++,
             },
