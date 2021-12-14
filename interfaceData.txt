@@ -1,0 +1,141 @@
+/api/v1/problem
+    - GET : '{host}/api/v1/problem?limit=10&offset=0' 
+        {
+            total: int;
+            result: [
+                {
+                    id: id
+                    title: string
+                    description: string,
+                    sampleTestCase: [
+                        {
+                            stdin: string,
+                            stdout: string,
+                        },
+                        {
+                            stdin: string,
+                            stdout: string,
+                        }
+                    ]
+                    timeLimit: float,
+                    user: { // createdBy
+                        id: id,
+                        name: name,
+                    }
+                }
+            ]
+        }
+    - POST: '{host}/api/v1/problem'
+        {
+            title: string,
+            timeLimit: float,
+            description: string,
+            sampleTestCase: [
+                {
+                    stdin: string,
+                    stdout: string,
+                },
+                {
+                    stdin: string,
+                    stdout: string,
+                }
+            ],
+            testCase: [
+                {
+                    stdin,
+                    stdout
+                }
+            ]
+        }
+        //return id,
+    - PUT: '{host}/api/v1/problem/123123123'
+        {
+            same post
+        }
+    - DELETE '{host}/api/v1/problem/1231231232'
+
+/api/v1/config
+    - GET : '{host}/api/v1/config'
+        {
+            ...
+            languages: [
+                {
+                    id: id,
+                    name: C++,
+                }
+            ]
+        }
+
+/api/v1/submission
+    - POST : '{host}/api/v1/submission'
+        header: {
+            token
+        }
+        payload: {
+            problemId: problemId,
+            sourceCode: text,
+            languagueId,
+        }
+        
+        
+        result: {
+            statusCode: 200, 
+            id: id,
+        }
+
+
+/api/v1/submission/{id}
+    - GET : '{host}/api/v1/submission/123456'
+        {
+            id: id,
+            problem:{
+                id: id,
+                name: text,
+            }
+            createdAt: time,
+            user:{
+                id: id,
+                username: text,
+            },
+            sourceCode: text,
+            results:[
+                {
+                    input,
+                    output
+                    status: ['Accept', 'Wrong', 'Pending'],
+                    error: text
+                }
+            ],
+            language:{
+                id: id,
+                name: c++,
+            },
+            score: float,
+            totalScore: float,
+        }
+
+/api/v1/submission
+    - GET: '{host}/api/v1/submission?limit=10&offet'
+        {
+            total: int,
+            results:[
+                {
+                    id: id,
+                    user: {
+                        id,
+                        name
+                    },
+                    createdAt: time,
+                    problem: {
+                        id,
+                        name,
+                    },
+                    language:{
+                        id,
+                        name,
+                    },
+                    score: int,
+                    scoreTotal: int,
+                }
+            ]
+        }

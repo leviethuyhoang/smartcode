@@ -14,8 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import LessonItem from "./LessonItem";
-
-
 const AllLesson = (props) => {
 
     const match = useRouteMatch();
@@ -44,7 +42,7 @@ const AllLesson = (props) => {
 
     const filterSearch = useCallback((keySearch)=> {
         const result = lessons.data;
-        console.log("réult",result)
+        
         if(result !== null){
             setData(result.filter(item => item.name.match(keySearch)))
         }

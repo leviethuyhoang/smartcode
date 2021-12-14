@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const problemSlice = createSlice({
     name : 'problemSlice',
     initialState : {
-        data : null
+        data : null,
+        showDetail : []
     },
     reducers : {
         getMany : (state,data) => {
@@ -18,7 +19,11 @@ const problemSlice = createSlice({
         },
         deleteOne : (state, data) => {
             state.data = state.data.filter(item => item.id !== data.payload);
-        }   
+        },
+        showDetail : ( state,data) =>
+        {   
+            state.showDetail = state.data.find(state=>state.id === data.payload);
+        } 
     }
 })
 

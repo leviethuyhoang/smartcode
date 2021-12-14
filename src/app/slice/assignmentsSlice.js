@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    data : null
+    data : null,
 }
 
 const assignmentSlice = createSlice({
@@ -19,7 +19,8 @@ const assignmentSlice = createSlice({
         },
         deleteOne : (state, data) => {
 
-        }
+        },
+       
     }
 });
 
