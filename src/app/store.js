@@ -1,12 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
-import exampleReducer  from "./slice/exampleSlice";
 import authReducer from "./slice/authSlice";
-import problemSlice from "./slice/problem-slice";
+import configReducer from "./slice/configSlice";
+import problemReducer from "./slice/problemSlice";
+import submitionReducer from "./slice/submittionSlice";
+import postReducer from "./slice/postSlice";
+import lessonReducer from "./slice/lessonSlice";
+import accountReducer from "./slice/accountSlice";
+import contestReducer from "./slice/contestSlice";
 
 const rootReducer =  {
-    example : exampleReducer,
     auth : authReducer,
-    problem : problemSlice
+    config : configReducer,
+    problem : problemReducer,
+    submittion : submitionReducer,
+    post : postReducer,
+    lesson : lessonReducer,
+    account : accountReducer,
+    contest : contestReducer,
 }
 
 const store = configureStore({

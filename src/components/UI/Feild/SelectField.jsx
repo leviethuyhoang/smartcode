@@ -1,4 +1,5 @@
 
+
 const SelectField = (props) => {
 
     const {
@@ -17,6 +18,9 @@ const SelectField = (props) => {
                 value : selectedValue
             }
         }
+        if(props.handleChange){
+            props.handleChange(selectedValue);
+        }
 
         field.onChange(changeEvent);
     }
@@ -31,9 +35,9 @@ const SelectField = (props) => {
                 className={`form-select w-full ${classes?classes:""} ${showError ? "border-theme-24" : ''}`} 
                 placeholder={placeholder}
             >
-                <option value= "" hidden>Chọn bài tập ...</option>
+                <option value= "" hidden>{placeholder}</option>
                 {props.options && props.options.map((item,key)=> (
-                    <option key = {key} value = {item.id} >{item.title}</option>
+                    <option key = {key} value = {item.value} >{item.label}</option>
                 ))}
 
             </select>

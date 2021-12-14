@@ -1,14 +1,49 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState, useCallback} from 'react';
 import BoxProblem from 'components/UI/Problem/BoxProblem';
-import { useState } from 'react';
 import WrapPagination from 'components/UI/Problem/WrapPagination';
 import Pagination from 'components/UI/Problem/pagination';
 import  ProblemDetail from 'components/UI/Problem/Problemdetial/Problemdetial';
 import { useSelector, useDispatch } from 'react-redux';
+import problemApi from 'api/problemApi';
+import { object } from 'yup';
+import { problemActions } from 'app/slice/problemSlice';
 
 
 const Assignment = (props) => {
-    const problem = useSelector(state=>state.problem.problems);
+    const [allProblem, setAllProblem]  = useState([]);
+    const [data, setData] = useState(false);
+    const dispatch = useDispatch();
+    const show = useSelector(state => state.problem.data);
+
+    const fetchData = useCallback(() => {
+      problemApi.getMany()
+      .then((res) => {
+        const result = Object.values(res);
+        console.log('result',result);
+        if(result[0] === null)
+        {
+          setData(false);
+          return;
+        }       
+        dispatch(problemActions.getMany(result))
+      })
+      .catch(error => {
+        console.log("error",error)
+      })
+  },[dispatch])
+
+
+    useEffect(()=>
+    {
+      if(show === null){
+        fetchData();
+      } else {
+        setAllProblem(show);
+        setData(true);
+      }
+    },[fetchData, show]);
+
+    console.log('data',allProblem);
 
     const [problemDetail, setProblemDetail]=useState(false)
 
@@ -18,7 +53,7 @@ const Assignment = (props) => {
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFristPost = indexOfLastPost - postsPerPage;
-    const currentPosts = problem.slice(indexOfFristPost,indexOfLastPost);
+    const currentPosts = allProblem.slice(indexOfFristPost,indexOfLastPost);
 
     const HideProblemHandler = () => {
       setProblemDetail(false);
@@ -28,9 +63,9 @@ const Assignment = (props) => {
     {
         setCurrentPage(pageNumber)
     }
-    const ShowProblemHandler = (show)=>
+    const ShowProblemHandler = ()=>
     {
-      setProblemDetail(show);
+      setProblemDetail(true);
     }
   
 
@@ -38,24 +73,26 @@ const Assignment = (props) => {
     <BoxProblem
       key={problem.id}
       id={problem.id}
-      title={problem.title}
-      content={problem.content}
+      title={problem.name}
+      content={problem.description}
       author={problem.author}
       getShowProblemDetail={ShowProblemHandler}
     />
   ));
   return (
     <Fragment>
-    {problemDetail&&<ProblemDetail onClose={HideProblemHandler} />}
+    {!data&&<p>no data</p>}
+    {data&&problemDetail&&<ProblemDetail onClose={HideProblemHandler} />}
       <div className="content">
         <div className="grid grid-cols-12 gap-6 mt-5">
           {box}
         </div>
       </div>
       <WrapPagination>
-        <Pagination totalPost={problem.length} postsPerPage={postsPerPage}  paginate={paginate}/>
+        <Pagination totalPost={allProblem.length} postsPerPage={postsPerPage}  paginate={paginate}/>
         </WrapPagination>
     </Fragment>
   );
 };
+
 export default Assignment;

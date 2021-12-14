@@ -1,3 +1,4 @@
+import { ErrorMessage } from "formik";
 
 
 const TextField = (props) => {
@@ -20,8 +21,7 @@ const TextField = (props) => {
                 className={`form-control ${classes?classes:""} ${showError ? "border-theme-24" : ''}`} 
                 placeholder={placeholder}
             />
-            
-            {showError && <div className="pristine-error text-theme-24 mt-2">{errors[name]}</div>}
+            <p  className = "text-theme-24 mt-2 pristine-error"><ErrorMessage name= {name} /></p>
         </div>
     )
 }

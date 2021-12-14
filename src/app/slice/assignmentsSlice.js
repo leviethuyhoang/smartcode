@@ -1,23 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-
-    id : "",
-    category : null,
-    content : "",
-    resolve : ""
+    data : null,
 }
 
-const exampleSlice = createSlice({
-    name : "exampleSlice",
+const assignmentSlice = createSlice({
+    name : "assignmentSlice",
     initialState :initialState,
     reducers : {
-        getAll: (state,action) => {
-            state = action.payload;
-        }
+        getMany: (state,data) => {
+            state.data = data.payload;
+        },
+        updateOne : (state, data) => {
+
+        },
+        createOne : (state, data) => {
+
+        },
+        deleteOne : (state, data) => {
+
+        },
+       
     }
 });
 
-const {action,reducer} = exampleSlice;
-export const exampleActions = action;
+const {actions,reducer} = assignmentSlice;
+export const assignmentActions = actions;
 export default reducer;
