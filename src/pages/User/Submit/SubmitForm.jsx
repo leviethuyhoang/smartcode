@@ -1,82 +1,94 @@
 import {  FastField, Field, Form, Formik } from "formik";
-import { Fragment, useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { Loading } from "assets/icons/Loading";
 
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
-import SelectField from "components/UI/Feild/SelectField";
 import Grid from "components/UI/Grid";
 import problemApi from "api/problemApi";
 import submitionApi from "api/submittionApi";
-import configApi from "api/configApi";
-import InputFile from "components/UI/InputFile";
 import CodeEditor from "components/UI/CodeEditor";
-import useHttp from "hooks/useHttp";
-
-import { configActions } from "app/slice/configSlice";
 import { useDispatch  } from "react-redux";
 import { useSelector } from "react-redux";
 import { problemActions } from "app/slice/problemSlice";
-
-let initial = false;
+import ReactSelect from "components/UI/Feild/ReactSelect";
+import configApi from "api/configApi";
+import { configActions } from "app/slice/configSlice";
 
 const SubmitForm = (props) => {
 
-    const {config : languages,problem} = useSelector(state => state)
+    const {config} = useSelector(state => state)
+    const listProblem = useSelector(state => state.problem)
+    const [problemOption, setProblemOption] = useState([])
+    const [languageOptions, setLanguageOptions] = useState([])
     const dispatch = useDispatch();
 
-    const {sendRequest} = useHttp();
-
-    
-    const handleSubmit = (value,{setSubmitting}) => {
-        const params = {
-            language_id : "70",
-            source_code : value.source_code
-        }
-        console.log(params);
-        submitionApi.submit(params)
-        .then((res)=> {
-            alert("Nộp Bài Thành Công !");
-            setSubmitting(false);
+    const fetchConfig = useCallback(() => {
+        configApi.getMany()
+        .then(res => {
+            dispatch(configActions.getMany(res))
         })
-        .catch((error) => {
-            alert("Đã Xãy Ra Lỗi !")
-            setSubmitting(false);
+        .catch( errors => {
+            console.log("My ERROR", errors)
         })
-    }
-
-    const configProblem = useCallback((res) => {
-        const data = res["-Mna5ZmOGbn67nH2pAjJ"];
-        dispatch(problemActions.getMany(data.map(item => {
-            return {value : item.id,label : item.name,description : item.description}
-        })));
     },[dispatch])
 
-    const configLanguage = useCallback((res) => {
-        const data = res["-Mn_j1WEg484MQpELS0z"];
-        dispatch(configActions.getConfig(data))
+    const configData = useCallback((res) => {
+        dispatch(problemActions.getMany(res));
     },[dispatch])
+
+    const fetchProblem = useCallback(() => {
+        problemApi.getMany()
+        .then( res => {
+            configData(res.results)
+        })
+        .catch(error => {
+            console.log("ERROR",error)
+        })
+    },[configData]);
+
 
     useEffect(() => {
-        
-        if(!initial){
-            const fetchData = async () => {
-                await sendRequest(problemApi.getMany,configProblem)
-                await sendRequest(configApi.getConfig,configLanguage)
-            }
-            fetchData();
-            initial = true
+        if(config.data === null) {
+            fetchConfig();
         } else {
-            return
+            setLanguageOptions(config.data.languages.map(languageItem => {
+                return {value : languageItem.id, label : languageItem.name}
+            }))
         }
-    },[configLanguage, configProblem, sendRequest])
+        if(listProblem.data === null){
+            fetchProblem();
+        } else {
+            setProblemOption(listProblem.data.map(item => {
+                return {
+                    value : item.id,
+                    label : item.title
+                }
+            }))
+        }
+    },[config, fetchConfig, fetchProblem, listProblem.data])
 
     const initialValues = {
-        id : '',
-        language : 0,
-        source_code : "// code here\n",
-        files : ""
+        problemId : null,
+        languageId : 0,
+        sourceCode : "// code here\n",
+    }
+
+    const handleSubmit = (values,{setSubmitting}) => {
+        console.log("submitting",values)
+
+        submitionApi.submit({...values,problemId : `${values.problemId}`})
+        .then(res => {
+            console.log("Thanh Cong",res)
+        })
+        .catch(error =>{
+            console.log("error",error)
+        })
+        .finally( () => {
+            setSubmitting(false)
+        }
+        )
     }
 
     return (
@@ -87,6 +99,7 @@ const SubmitForm = (props) => {
                     <Formik
                         initialValues = {initialValues}
                         onSubmit = {handleSubmit}
+                        enableReinitialize
                     >
                     {propsFormik => {
                         const {isSubmitting} = propsFormik;
@@ -95,39 +108,39 @@ const SubmitForm = (props) => {
                             <Grid>
                                 <Cell width ="6">
                                     <Field
-                                        name = "id"
-                                        component = {SelectField}
+                                        name = "problemId"
+                                        component = {ReactSelect}
 
                                         label = "Tên Bài Tập"
-                                        options = {problem.data}
+                                        options = {problemOption}
                                         placeholder = "Chọn Bài Tập"
                                         handleChange = {props.handleChangeProblem}
                                     />
                                 </Cell>
                                 <Cell width = "6">
                                     <Field  
-                                        name = "language"
-                                        component = {SelectField}
+                                        name = "languageId"
+                                        component = {ReactSelect}
 
                                         label = "Ngôn Ngữ"
-                                        options = {languages.data}
+                                        options = {languageOptions}
                                         placeholder = "Chọn Ngôn Ngữ"
                                     />
                                 </Cell>
                                 <Cell >
                                     <FastField
-                                        name = "source_code"
+                                        name = "sourceCode"
                                         component = {CodeEditor}
                                     />
                                 </Cell>
-                                <Cell>
+                                {/* <Cell>
                                     <Field
-                                        name = "files"
+                                        name = ""
                                         component = {InputFile}
 
                                         multiple = {true}
                                     />
-                                </Cell>
+                                </Cell> */}
                                 <Cell width = "3">
                                     <Button classes = "btn-primary w-full" type = "submit">
                                             {isSubmitting ? <Loading w = "72" h = "72"/>:"Nộp Bài"}

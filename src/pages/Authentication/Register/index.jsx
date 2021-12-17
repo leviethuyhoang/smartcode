@@ -13,14 +13,13 @@ const Register = (props) => {
 
     const handleSubmit = async (value ,{setSubmitting, setFieldError}) => {
         const params = {
-            email : value.userName,
+            email : value.email,
             password : value.password,
-            returnSecureToken : true
         }
-
+        console.log("params register",params)
         authApi.register(params)
         .then((res) => {
-            dispatch(authActions.register(res.idToken));
+            dispatch(authActions.register(res));
             history.replace("/admin");
         })
         .catch(error => {

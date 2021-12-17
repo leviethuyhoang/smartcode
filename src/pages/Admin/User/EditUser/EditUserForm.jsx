@@ -53,7 +53,6 @@ const EditUserForm = (props) => {
         setTimeout(() => {
             setSubmitting(false);
         },2000)
-        console.log("submit", value)
         dispatch(accountActions.updateOne(value))
     }
 
@@ -70,13 +69,13 @@ const EditUserForm = (props) => {
                         <Card>
                             <Form>
                             <Grid>
-                                <Cell width = "4">
+                                <Cell width = {4}>
                                     <Field
                                         name = "avatar"
                                         component = {ChoseAvatar}
                                     />
                                 </Cell>
-                                <Cell width = "4" classes = "flex flex-row items-center justify-start mt-3">
+                                <Cell width = {4} classes = "flex flex-row items-center justify-start mt-3">
                                     <div className = "flex flex-col justify-start h-auto">
                                         <div className="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg">{values.real_name}</div>    
                                         <div className="text-gray-600">{values.name}</div>

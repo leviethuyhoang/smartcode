@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router";
 import AdminRoutes from "./AdminRoutes";
 
 import AuthenticationRoutes from "./AuthenticateRoutes";
-import MainRoutes from "./MainLayout";
+import MainRoutes from "./MainRoutes";
 
 const Routes = () => {
     return (

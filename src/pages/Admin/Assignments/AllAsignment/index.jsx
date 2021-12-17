@@ -12,9 +12,9 @@ import AssignmentItem from './AssignmentItem';
 import Card from 'components/UI/Card';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import useHttp from 'hooks/useHttp';
 import problemApi from 'api/problemApi';
 import { problemActions } from 'app/slice/problemSlice';
+import Loading1 from 'components/UI/Loading/Loading1';
 
 
 const AllAssignments = (props) => {
@@ -23,17 +23,21 @@ const AllAssignments = (props) => {
 
     const problems = useSelector(state => state.problem);
     const dispatch = useDispatch();
-    const { sendRequest } = useHttp();
     const [data, setData] = useState(problems.data);
 
     const configData = useCallback((res) => {
-        const result = Object.values(res)
-        dispatch(problemActions.getMany(result));
+        dispatch(problemActions.getMany(res));
     },[dispatch])
 
     const fetchProblem = useCallback(() => {
-        sendRequest(problemApi.getMany,configData);
-    },[configData, sendRequest]);
+        problemApi.getMany()
+        .then( res => {
+            configData(res.results)
+        })
+        .catch(error => {
+            console.log("ERROR",error)
+        })
+    },[configData]);
 
     useEffect(()=>{
         if(problems.data === null){
@@ -44,7 +48,7 @@ const AllAssignments = (props) => {
     const filterSearch = useCallback((keySearch) => {
         const getProblems = problems.data;
         if(getProblems){
-            setData(getProblems.filter(items => items.user.match(keySearch)))
+            setData(getProblems.filter(items => items.title.match(keySearch)))
         }
     },[problems.data])
 
@@ -65,37 +69,39 @@ const AllAssignments = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card>
+                    <Card classes = "min-h-screen">
+                    {data ?
                         <Table
                             listHead = {[
                                 {
                                     title : "Tên",
                                 },
                                 {
-                                    title : "Người Đăng",
+                                    title : "Người Tạo",
                                 },
                                 {
-                                    title : "Testcase",
+                                    title : "Test Case",
                                 },
                                 {
-                                    title : "Tình Trạng",
+                                    title : "Ngày Tạo",
                                 },
                                 {
                                     title : "Thao Tác",
                                 },
                             ]}
                         >
-                            {data && data.map((item,key) => {
+                            { data.map((item,key) => {
                             return <AssignmentItem
                                     key = {key}
-                                    id = {item.id}
-                                    name = {item.name}
-                                    user = {item.user}
-                                    testcase_quantity = {item.testcase_quantity}
-                                    published = {item.published}
+                                    {...item}
                                 />
                             })}
                         </Table>
+                        :
+                        <div className = "flex justify-center">
+                            <Loading1/>
+                        </div>
+                        }
                     </Card>
                 </Cell>
             </Grid>

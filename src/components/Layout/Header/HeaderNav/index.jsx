@@ -7,9 +7,9 @@ const HeaderNav = (props) => {
         <Fragment>
             <nav className="top-nav mx-auto">
                 <ul>
-                    <Item title = "Trang Chủ" url = "/"/>
                     <Item title = "Bài Tập" url = "/assignment"/>
-                    <Item title = "Làm Bài" url = "/submittion/submit"/>
+                    <Item title = "Kỳ Thi" url = "/contest"/>
+                    <Item title = "Làm Bài" url = "/submit"/>
                     <Item title = "Bảng Kết Quả" url = "/submittion"/>
                 </ul>
             </nav>

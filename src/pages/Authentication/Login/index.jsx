@@ -16,18 +16,19 @@ const Login = (props) => {
     const handleSubmit = (value,{setSubmitting,setFieldError}) => {
 
             const params = {
-                email : value.userName,
+                email : value.email,
                 password : value.password,
-                returnSecureToken : true
+                // returnSecureToken : true
             }
-
+            console.log("params",params)
             authApi.login(params)
             .then((res) => {
-                dispatch(authActions.login(res.idToken));
+                dispatch(authActions.login(res));
                 history.replace("/admin");
             })
             .catch(error => {
                 setFieldError('server',error.message);
+                console.log("ERROR",error)
                 setSubmitting(false);
             })
     }

@@ -1,15 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialValues =  {
-    data : []
-};
-
 const submittionSlice = createSlice({
     name : "submittionSlice",
-    initialState : initialValues,
+    initialState : {
+        data : null
+    },
     reducers : {
-        getAll : (state,data) => {
-            state.data = [data.payload];
+        getMany : (state,data) => {
+            state.data = data.payload;
         }
     }
 });

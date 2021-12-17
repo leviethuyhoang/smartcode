@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const configApi = {
-    getConfig : () => {
-        const url = "https://testting-data-default-rtdb.firebaseio.com/config.json"
+    getMany : () => {
+        const url = "/admin/app/config"
         return axiosClient.get(url);
     }
 }
