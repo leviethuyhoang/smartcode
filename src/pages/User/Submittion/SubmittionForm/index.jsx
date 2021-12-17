@@ -1,15 +1,13 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Cell from "components/UI/Cell";
 import CodeEditor from "components/UI/CodeEditor";
 import Grid from "components/UI/Grid";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
-import { Loading } from "assets/icons/Loading";
-import { submittionActions } from "app/slice/submittionSlice";
-import useHttp from "hooks/useHttp";
-import submitionApi from "api/submittionApi";
+import submittionApi from "api/submittionApi";
+import Loading1 from "components/UI/Loading/Loading1"
 
 import "./SubmittionForm.css"
 
@@ -18,27 +16,37 @@ const SubmittionForm = (props) => {
     const params = useParams();
     const {id} = props;
 
-    const dispatch = useDispatch();
-    const {sendRequest} = useHttp();
     const allsubmittion = useSelector(state => state.submittion);
     const [submittion, setSubmittion] = useState(null);
 
-    const configData = useCallback((res) => {
-        dispatch(submittionActions.getAll(Object.values(res)));
-     },[dispatch])
- 
-     const fetchData = useCallback(() => {
-         sendRequest(submitionApi.getMany,configData)
-     },[configData, sendRequest])
+    const [isPendding, setIsPendding] = useState(false);
 
     useEffect(() => {
-        if(allsubmittion.data !== null){
-                const idSubmittion = id || params.id
-                setSubmittion(allsubmittion.data.find(item => +item.id === +idSubmittion))
-        } else {
-            fetchData();
+        if(submittion == null){
+            const idSubmittion = id || params.id
+            setSubmittion(allsubmittion.data.find(item => +item.id === +idSubmittion))
+        } 
+    },[allsubmittion, id, params.id, submittion])
+
+    useEffect(() => {
+        let timer ;
+        if(isPendding){
+            timer = setInterval(() => {
+                submittionApi.getOne(id)
+                .then( res => {
+                    setIsPendding(false)
+                    setSubmittion(res.results);
+                })
+                .catch( errors => {
+                    console.log("ERROR", errors)
+                })
+            },10000)
         }
-    },[allsubmittion, fetchData, id, params.id])
+
+        return (
+            clearInterval(timer)
+        )
+    },[id, isPendding])
 
     return (
         <Fragment>
@@ -48,12 +56,12 @@ const SubmittionForm = (props) => {
                     <Cell>
                         <div className = "flex flex-row flex-end infor">
                             <span><b>ID : </b>{id}</span>
-                            <span><b>Người Code :</b> {submittion.user}</span>
-                            <span><b>Ngày Nộp : </b>{submittion.time}</span>
-                            <span><b>Tên Bài Tập :</b> {submittion.problem}</span>
-                            <span><b>Ngôn Ngữ :</b> {submittion.language}</span>
-                            <span><b>Thời Gian Chạy :</b> {submittion.timeRun}ms</span>
-                            <span><b>Bộ Nhớ : </b>{submittion.memory}kb</span>
+                            <span><b>Người Code :</b> {submittion.user.username}</span>
+                            <span><b>Ngày Nộp : </b>{new Date().getTime()}</span>
+                            <span><b>Tên Bài Tập :</b> {submittion.problem.title}</span>
+                            <span><b>Ngôn Ngữ :</b> {"C++"}</span>
+                            <span><b>Thời Gian Chạy :</b> {"1"}ms</span>
+                            <span><b>Bộ Nhớ : </b>{"1"}kb</span>
                         </div>
                     </Cell>
                     <Cell>
@@ -68,30 +76,40 @@ const SubmittionForm = (props) => {
                         </HeaderPage>
                         <div className = "flex flex-col w-full">
 
-                        {submittion.submittions.map((item,index) =>  {
-                            return <div key = {index} className = {`btn ${item.result ? "btn-success-soft" : "btn-danger-soft"} w-full mr-1 mb-2 block`}>
+                        {submittion.results.length > 0 ? submittion.results.map((item,index) =>  {
+                            if(item.status.description === "Pendding"){
+                                setIsPendding(true)
+                            }
+                            return <div key = {index} className = {`btn ${item.status.description === "Wrong Answer" ? "btn-danger-soft" : "btn-success-soft" } w-full mr-1 mb-2 block`}>
                                     <Grid>
-                                        {index+1}
-                                        <Cell width = {3}> 
-                                            <div style = {{whiteSpace : "pre" , textAlign : "left"}}> <b>Input :</b> {item.input} </div>
+                                        <Cell width = {2}>
+                                            {index+1}
                                         </Cell>
-                                        <Cell width = {3}> 
-                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Output :</b> {item.output} </div>
+                                        <Cell width = {4}> 
+                                            <div style = {{whiteSpace : "pre" , textAlign : "left"}}> <b>Input :</b> {item.stdin} </div>
                                         </Cell>
-                                        <Cell width = {3}> 
-                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Đáp Án :</b> {item.answer} </div>
+                                        <Cell width = {4}> 
+                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Output :</b> {item.stdout} </div>
                                         </Cell>
                                         <Cell width = {2}> 
-                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Kết Quả : </b>{`${item.result ? "Đúng" : "Sai"}`} </div>
+                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Kết Quả : </b>{`${item.status.description === 'Wrong Answer' ? "Sai" : "Đúng"}`} </div>
                                         </Cell>
                                     </Grid>
                                 </div>
-                        })}
+                        })
+                        :
+                            <div className="w-32 mx-auto">CHƯA CÓ KẾT QUẢ</div>    
+                        }
                         </div>
                     </Cell>
+                    {isPendding && 
+                        <Cell>
+                           <div className="w-10 mx-auto"> <Loading1/></div>
+                        </Cell>
+                    }
                 </Fragment>
                 :
-                <div>Loading... <Loading/></div>
+                <Loading1/>
                 }
             </Grid>
         </Fragment>

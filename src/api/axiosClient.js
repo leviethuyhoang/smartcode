@@ -3,9 +3,10 @@ import quyeryString from "query-string";
 
 
 const axiosClient = axios.create({
-  baseURL : process.env.REACT_APP_API_URL,
+  baseURL : "https://c71d-113-176-107-143.ngrok.io/api/v1",
   headers : {
     'Content-type' : 'application/json',
+    'authorization' : `Bearer ${localStorage.getItem('accessToken')}`,
   },
   paramsSerializer : params => quyeryString.stringify(params)
 })

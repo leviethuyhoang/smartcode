@@ -3,27 +3,32 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
     name : "authSlice",
     initialState :{
-        token : localStorage.getItem('token'),
-        isLoggedIn : !!localStorage.getItem('token'),
+        token : localStorage.getItem('accessToken'),
+        isLoggedIn : !!localStorage.getItem('accessToken'),
         isAdmin : (localStorage.getItem("role") === "admin")
     },
     reducers : {
-        login(state,action){
-            localStorage.setItem('token',action.payload);
+        login(state,data){
+            localStorage.setItem('accessToken',data.payload.accessToken);
+            localStorage.setItem('refreshToken',data.payload.refreshToken);
             localStorage.setItem('role',"admin");
-            state.token = action.payload;
+            state.token = data.payload.accessToken;
+            state.refreshToken = data.payload.refreshToken;
             state.isLoggedIn = true;
             state.isAdmin = true;
         },
-        register(state,action){
-            localStorage.setItem('token',action.payload);
+        register(state,data){
+            localStorage.setItem('accessToken',data.payload.accessToken);
+            localStorage.setItem('refreshToken',data.payload.refreshToken);
             localStorage.setItem('role',"admin");
-            state.token = action.payload;
+            state.token = data.payload.accessToken;
+            state.refreshToken = data.payload.refreshToken;
             state.isLoggedIn = true;
             state.isAdmin = true;
         },
         logout(state){
-            localStorage.removeItem('token');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             state.token = null;
             state.isLoggedIn = false;
             state.isAdmin = false;

@@ -9,13 +9,12 @@ import { problemActions } from "app/slice/problemSlice";
 
 const AssignmentItem = (props) => {
 
+    const {id, title, testCases, createdAt} = props;
     const match = useRouteMatch();
 
     const dispatch = useDispatch()
 
     const handleDelete = () => {
-        const id = props.id;
-        console.log("id assignment", id);
         dispatch(problemActions.deleteOne(id));
     }
 
@@ -25,29 +24,25 @@ const AssignmentItem = (props) => {
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{props.name}</p>
+                        <p className = "whitespace-nowrap text-center">{title}</p>
                     </div>
                 </td>
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{props.user}</p>
+                        <p className = "whitespace-nowrap text-center">{"Admin"}</p>
                     </div>
                 </td>
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{props.testcase_quantity}</p>
+                        <p className = "whitespace-nowrap text-center">{testCases ?  testCases.length : 0}</p>
                     </div>
                 </td>
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs text-center items-center whitespace-nowrap mt-0.5">
-                        {props.published ? <p className="text-center text-theme-10">
-                             Đã Đăng
-                        </p> : <p className="text-center text-theme-24">
-                             Chưa Đăng
-                        </p>}
+                        {createdAt}
                     </div>
                 </td>
 

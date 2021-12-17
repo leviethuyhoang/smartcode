@@ -10,7 +10,7 @@ const submitionApi = {
         return axiosClient.get(url)
     },
     getMany : () => {
-        const url = `https://testting-data-default-rtdb.firebaseio.com/submittion.json`;
+        const url = `/submission`;
         return axiosClient.get(url)
     },
     createOne : (params) => {

@@ -1,20 +1,15 @@
-import lessonApi from "api/lessonApi";
 import problemApi from "api/problemApi";
-import { lessActions } from "app/slice/lessonSlice";
-import { problemActions } from "app/slice/problemSlice";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import InputField from "components/UI/Feild/InputField";
-import ReactSelect from "components/UI/Feild/ReactSelect";
 import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
-import InputFile from "components/UI/InputFile";
+// import InputFile from "components/UI/InputFile";
 import Switch from "components/UI/Switch";
-import useHttp from "hooks/useHttp";
 import { FastField, Field, FieldArray, Form, Formik } from "formik";
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Fragment,  useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import * as Yup from "yup";
 
@@ -22,110 +17,60 @@ const EditAssignmentForm = (props) => {
 
     const params = useParams();
     const history = useHistory();
-    const dispatch = useDispatch();
-    const { sendRequest  } = useHttp();
 
-    const {lesson : lessons ,problem : problems} = useSelector(state => state)
-    const [ lessonOptions, setLessonOptions] = useState(null);
+    const { problem : problems} = useSelector(state => state)
     const [ data , setData ] = useState({
-        name : "",
+        title : "",
+        timeLimit : "1.00",
+        memoryLimit : "128",
         description : "",
-        input_description : "",
-        output_description : "",
-        time_limit : "1.00",
-        memory_limit : "128",
-        types : [],
-        published : false,
-        testcases : [],
-        testcase_file : "",
-        hint : "",
+        sampleTestCases : [],
+        testCases: [],
     })
 
-    // get lesson options
-    const configLesson = useCallback((res) => {
-        const result = Object.values(res)
-        if(result[0] !== null ){
-            dispatch(lessActions.getMany(Object.values(res)))
-        }
-    },[dispatch]) 
-
-    const fetchLesson = useCallback(() => {
-        sendRequest(lessonApi.getMany,configLesson)
-    },[configLesson, sendRequest])
-    // end get lesson option
-
-    // get all problem
-    const configData = useCallback((res) => {
-        const result = Object.values(res)
-        if(result[0] !== null ){
-            dispatch(problemActions.getMany(result));
-        }
-    },[dispatch])
-
-    const fetchProblem = useCallback(() => {
-        sendRequest(problemApi.getMany,configData);
-    },[configData, sendRequest]);
-    // end get all problem
-
     useEffect(() => {
-        // con fig lesson
-        if(lessons.data === null){
-            fetchLesson();
-        } else {
-            setLessonOptions(lessons.data.map(item => {
-                return {
-                    label : item.name,
-                    value : item.id
-                }
-            }))
-        }
-        // get data
-        if(problems.data === null){
-            fetchProblem();
-        } else {
-            const result = problems.data.find(item => +item.id === +params.id);
-            console.log("result",result)
-            setData(prev => prev = {...prev,...result})
-        }
-    },[fetchLesson, fetchProblem, lessons.data, params.id, problems.data])
+        const result = problems.data.find(item => +item.id === +params.id);
+        setData(prev => prev = {...prev,...result})
+    },[params.id, problems.data])
 
-    // btn huy
+
     const handleCancel = (e) => {
         e.preventDefault();
         history.goBack();
     }
 
-    // btn submit
-    const handleSubmit = (value) => {
-        console.log("submitting : ",value)
-        // const result = {...value,testcase_file : value.testcase_file[0].file}
-        // sendRequest()
-        dispatch(problemActions.updateOne(value));
+    const handleSubmit = (values,{setSubmitting}) => {
+        // dispatch(problemActions.updateOne(values));
+        console.log("submitting : ",values)
+        problemApi.upadateOne(values)
+        .then( res => {
+            console.log("Cap Nhat Thanh Cong",res)
+            history.goBack();
+        })
+        .catch(error => {
+            setSubmitting(false)
+            console.log("My ERROR",error)
+        })
+
     }
 
-    const initialValues = data;
-
     const validationSchema = Yup.object().shape({
-        name : Yup.string().required("Bắt buộc"),
-        testcases : Yup.array()
+        title : Yup.string().required("Bắt buộc"),
+        description : Yup.string().required("Bắt buộc"),
+        testCases : Yup.array()
         .of(
             Yup.object().shape({
-                input : Yup.string().required("Bắt buộc"),
-                output : Yup.string().required("Bắt buộc"),
+                stdin : Yup.string().required("Bắt buộc"),
+                stdout : Yup.string().required("Bắt buộc"),
             })
         )
         ,
-        types : Yup.array().min(1,'Phải thuộc ít nhất 1 dạng bài'),
-        // types : Yup.object().required(1,'Phải thuộc ít nhất 1 dạng bài'),
-        description : Yup.string().required("Bắt buộc"),
-        input_description : Yup.string().required("Bắt buộc"),
-        output_description : Yup.string().required("Bắt buộc"),
     })
     return (
         <Fragment>
         <Card>
         <Formik
-            initialValues = {initialValues}
+            initialValues = {data}
             validationSchema = {validationSchema}
             enableReinitialize = {true}
             onSubmit = {handleSubmit}
@@ -139,27 +84,16 @@ const EditAssignmentForm = (props) => {
                     
                     <Cell width = "3">
                         <FastField
-                            name = "name"
+                            name = "title"
                             component = {InputField}
                             label = "TÊN BÀI TẬP"
                             placeholder = "Nhập tên bài tập ..."
                         />
                         
                     </Cell>
-                    <Cell width = "3">
-                        <Field
-                            name = "types"
-                            component = {ReactSelect}
-
-                            options = {lessonOptions}
-                            label = "DẠNG BÀI"
-                            isMulti = {true}
-                            placeholder = "Chọn dạng bài ..."
-                        />
-                    </Cell>
                     <Cell width = "2">
                         <Field
-                            name = "time_limit"
+                            name = "timeLimit"
                             component = {InputField}
 
                             label = "GIỚI HẠN THỜI GIAN"
@@ -168,7 +102,7 @@ const EditAssignmentForm = (props) => {
                     </Cell>
                     <Cell width = "2">
                         <Field
-                            name = "memory_limit"
+                            name = "memoryLimit"
                             component = {InputField}
 
                             label = "GIỚI HẠN BỘ NHỚ"
@@ -193,41 +127,23 @@ const EditAssignmentForm = (props) => {
                             placeholder = "Nhập nội dung ..."
                         />
                     </Cell>
-                    <Cell width = "6">
-                        <FastField
-                            name = "input_description"
-                            component = {TextField}
-
-                            label = "INPUT"
-                            rows = "4"
-                        />
-                    </Cell>
-                    <Cell width = "6">
-                        <FastField
-                            name = "output_description"
-                            component = {TextField}
-
-                            label = "OUTPUT"
-                            rows = "4"
-                        />
-                    </Cell>
-                    <Cell width= "9" >
+                    <Cell>
                     <FieldArray
-                        name="testcases"
+                        name="sampleTestCases"
                         render = { arrayHelpers => (
                             <Fragment>
-                                <label className="form-label mx-auto"><b> TESTCASE</b></label><br />
+                                <label className="form-label mx-auto"><b>TESTCASE VÍ DỤ</b></label><br />
                                 <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
-                                {values.testcases && values.testcases.length > 0 ? (
+                                {values.sampleTestCases && values.sampleTestCases.length > 0 ? (
                                     <Fragment>
-                                        {values.testcases.map((tc, index) => (
+                                        {values.sampleTestCases.map((tc, index) => (
                                             <Grid key = {index} >
                                                 <br />
                                                 <Cell width = "4">
-                                                    <Field name={`testcases.${index}.input`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1"/>
+                                                    <Field name={`sampleTestCases.${index}.stdin`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1"/>
                                                 </Cell>
                                                 <Cell width = "4">
-                                                    <Field name={`testcases.${index}.output`} component = {TextField} label = {index === 0 ? "Output" : null} rows = "1"/>
+                                                    <Field name={`sampleTestCases.${index}.stdout`} component = {TextField} label = {index === 0 ? "Output" : null} rows = "1"/>
                                                 </Cell>
                                                 <Cell width = "2">
                                                     <div className = "flex flex-row mr-auto">
@@ -249,24 +165,51 @@ const EditAssignmentForm = (props) => {
                             )}
                     />
                     </Cell>
-                    <Cell width = "3" classes = "mt-5">
+                    <Cell width= "9" >
+                    <FieldArray
+                        name="testCases"
+                        render = { arrayHelpers => (
+                            <Fragment>
+                                <label className="form-label mx-auto"><b> TESTCASE</b></label><br />
+                                <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
+                                {values.testCases && values.testCases.length > 0 ? (
+                                    <Fragment>
+                                        {values.testCases.map((tc, index) => (
+                                            <Grid key = {index} >
+                                                <br />
+                                                <Cell width = "4">
+                                                    <Field name={`testCases.${index}.stdin`} component = {TextField} label = {index === 0 ? "Input" : null} rows = "1"/>
+                                                </Cell>
+                                                <Cell width = "4">
+                                                    <Field name={`testCases.${index}.stdout`} component = {TextField} label = {index === 0 ? "Output" : null} rows = "1"/>
+                                                </Cell>
+                                                <Cell width = "2">
+                                                    <div className = "flex flex-row mr-auto">
+                                                        <Button classes = {`btn-outline-danger w-16 mr-2 mt-${index === 0 ? '10' : '3'}`} onClick={() => arrayHelpers.remove(index)}>
+                                                            Xóa
+                                                        </Button>
+                                                        <Button classes = {`btn-outline-primary w-16 mr-2 mt-${index === 0 ? '10' : '3'}`} onClick={() => arrayHelpers.insert(index+1,'')}>
+                                                            Thêm
+                                                        </Button>
+                                                    </div>
+                                                </Cell>
+                                            </Grid>
+                                        ))}
+                                        
+                                    </Fragment>
+                                    ) : null}
+                                
+                            </Fragment>
+                            )}
+                    />
+                    </Cell>
+                    {/* <Cell width = "3" classes = "mt-5">
                         <Field 
                             name = "testcase_file"
                             component = {InputFile}
 
                         />
-                    </Cell>
-                    <Cell>
-                        <FastField
-                            name="hint"
-                            component={TextField}
-                            
-                            label = "HƯỚNG DẪN"
-                            placeholder = "..."
-                        />
-                    </Cell>
-                    
-                    
+                    </Cell> */}
                     <Cell width = "6">
                         <Button type = "submit" classes = "btn btn-primary w-full">
                             Lưu

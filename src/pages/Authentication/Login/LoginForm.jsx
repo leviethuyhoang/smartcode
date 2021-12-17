@@ -9,13 +9,18 @@ import { Loading } from "assets/icons/Loading";
 const LoginForm = (props) => {
 
     const initialValues = {
-        userName : "",
+        // userName : "",
+        // password : "",
+        // server : "",
+        email : "",
         password : "",
-        server : ""
     }
     const validationSchema = Yup.object().shape({
-        userName : Yup.string().required("Không được để trống"),
-        password : Yup.string().required("Không được để trống")
+        // userName : Yup.string().required("Không được để trống"),
+        // password : Yup.string().required("Không được để trống")
+
+        email : Yup.string().required("Bắt buộc").email("Địa chỉ email không hợp lệ"),
+        password : Yup.string().required("Bắt buộc")
     })
     return (
         <Formik
@@ -35,12 +40,21 @@ const LoginForm = (props) => {
                 <Form>
                     <div className="intro-x mt-8">
                         
-                        <FastField
+                        {/* <FastField
                             name = "userName"
                             component = {InputField}
 
                             classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block"
                             placeholder = "Tên Đăng Nhập"
+                        /> */}
+
+                        <FastField
+                            name = "email"
+                            component = {InputField}
+
+                            classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block"
+                            placeholder = "Email"
+                            type = "email"
                         />
 
                         <FastField

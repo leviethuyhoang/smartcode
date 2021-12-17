@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const configSlice = createSlice({
     name : "configSlice",
     initialState : {
-        data : []
+        data : null
     },
     reducers : {
-        getConfig : (state,payload) => {
-            state.data = [...payload.payload]
+        getMany : (state,data) => {
+            state.data = data.payload
         }
     }      
 });

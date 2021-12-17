@@ -10,8 +10,7 @@ const SubmmittionItem = (props) => {
 
     const match = useRouteMatch();
 
-    const {id,user,time,problem,language,result} = props;
-
+    const {id, userName, problem} = props;
     const [isShowModal, setIsShowModal] = useState(false);
 
     const showModal = (id) => {
@@ -27,27 +26,27 @@ const SubmmittionItem = (props) => {
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        <Link to = {`/profile/${id}`} >{user}</Link>
+                        <Link to = {`/profile/${id}`} >{userName}</Link>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{time}</p>
+                        <p className = "whitespace-nowrap text-center">{"Hom Nay"}</p>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{problem}</p>
+                        <p className = "whitespace-nowrap text-center">{problem.title}</p>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{language}</p>
+                        <p className = "whitespace-nowrap text-center">{"C++"}</p>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{result}</p>
+                        <p className = "whitespace-nowrap text-center">{"10"}</p>
                     </div>
                 </td>
                 <td className = "w-40">

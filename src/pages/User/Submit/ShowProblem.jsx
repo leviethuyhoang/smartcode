@@ -3,6 +3,7 @@ import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
 import SplitView from "components/UI/SplitView";
+import HtmlParser from "react-html-parser";
 import { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import SubmitForm from "./SubmitForm";
@@ -44,7 +45,7 @@ const ShowProblem = (props) => {
                         </Cell>
                         <Cell>
                             <b>Đề Bài</b>
-                            <p className = "mt-3" style = {{whiteSpace : "pre"}}>{problem.description}</p>
+                            <p className = "mt-3" >{HtmlParser(problem.description)}</p>
                         </Cell>
                         <Cell width = {6}>
                             <b>Input</b>

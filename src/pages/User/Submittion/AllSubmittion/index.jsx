@@ -15,88 +15,6 @@ import Wrap from "components/UI/Wrap";
 import Search from "components/UI/Feild/Search";
 import Loading1 from "components/UI/Loading/Loading1";
 
-// const listsubmittion = [
-//     {
-//         id : 0,
-//         userId : "",
-//         user : "Hoang",
-//         time : "02/06/2000",
-//         problemId : 0,
-//         problem : "Tính Chu Vi Hình Vuông",
-//         sourceCode : 'cout << "Hello World"',
-//         language : "C++",
-//         timeRun : "500",
-//         memory : "20",
-//         result : "Hoàn Thành",
-//         submittions : [
-//             {
-//                 input : "2",
-//                 output : "8",
-//                 answer : "8",
-//                 result : true
-//             },
-//             {
-//                 input : "4",
-//                 output : "16",
-//                 answer : "17",
-//                 result : false
-//             },
-//             {
-//                 input : "10",
-//                 output : "40",
-//                 answer : "40",
-//                 result : true
-//             },
-//             {
-//                 input : "0.2",
-//                 output : "0.8",
-//                 answer : "0",
-//                 result : false
-//             },
-//         ]
-
-//     },
-//     {
-//         id : 1,
-//         userId : "",
-//         user : "Hoang 1",
-//         time : "01/05/2000",
-//         sourceCode : 'cout << "Hello World"',
-//         problemId : 0,
-//         problem : "Tính Chu Vi Hình Chữ Nhật",
-//         language : "C++",
-//         timeRun : "500",
-//         memory : "20",
-//         result : "Hoàn Thành",
-//         submittions : [
-//             {
-//                 input : "2,4",
-//                 output : "12",
-//                 answer : "12",
-//                 result : true
-//             },
-//             {
-//                 input : "4,4",
-//                 output : "16",
-//                 answer : "17",
-//                 result : false
-//             },
-//             {
-//                 input : "10,10",
-//                 output : "40",
-//                 answer : "40",
-//                 result : true
-//             },
-//             {
-//                 input : "0.2,0.5",
-//                 output : "1.4",
-//                 answer : "1",
-//                 result : false
-//             },
-//         ]
-
-//     }
-// ]
 
 const AllSubmittion = (props) => {
 
@@ -107,30 +25,37 @@ const AllSubmittion = (props) => {
     const dispatch = useDispatch();
     
     const [listSubmittion, setListSubmittion] = useState(null)
-
-    const configData = useCallback((res) => {
-       dispatch(submittionActions.getAll(Object.values(res)));
+    
+    const configSubmittion = useCallback((res) => {
+        dispatch(submittionActions.getMany(res))
     },[dispatch])
 
-    const fetchData = useCallback(() => {
-        sendRequest(submitionApi.getMany,configData)
-    },[configData, sendRequest])
-    
+    const fetchSubmittion = useCallback(() => {
+        submitionApi.getMany()
+        .then(res => {
+            console.log("res",res)
+            configSubmittion(res.results)
+        })
+        .catch(error => {
+            console.log("error",error)
+        })
+    },[configSubmittion])
+
     useEffect(()=> {
         if(submittion.data === null){
-            fetchData();
+            fetchSubmittion();
         } else {
             setListSubmittion(submittion.data)
         }
-    },[configData, fetchData, sendRequest, submittion.data])
+    },[fetchSubmittion, sendRequest, submittion.data])
 
     const filterSearch = useCallback((keySearch) => {
         const allSubmitton = submittion.data;
         if(allSubmitton){
-            setListSubmittion(allSubmitton.filter(item => item.user.match(keySearch)))
+            setListSubmittion(allSubmitton.filter(item => item.userId.match(keySearch)))
         }
     },[submittion.data])
-
+console.log("all",listSubmittion)
     return (
         <Fragment>
             <HeaderPage>
@@ -175,7 +100,11 @@ const AllSubmittion = (props) => {
                             return  <SubmmittionItem
                                 key = {key}
                                 id = {item.id}
-                                {...item}
+                                languageId = {item.languageId}
+                                problem = {item.problem}
+                                userName = {item.user.username}
+                                results = {item.results}
+                                createAt = {item.createAt}
                             />
                         })}
                     </Table>

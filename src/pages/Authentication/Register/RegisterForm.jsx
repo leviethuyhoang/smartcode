@@ -10,21 +10,28 @@ import { Link } from "react-router-dom";
 const RegisterForm = (props) => {
 
     const initialValues = {
-        fullName : "",
-        userName : "",
+        // fullName : "",
+        // userName : "",
+        // password : "",
+        // passwordConfirm : "",
+        // server : "",
+        email : "",
         password : "",
         passwordConfirm : "",
-        server : ""
     }
 
     const validationSchema = Yup.object().shape({
-        fullName : Yup
+        // fullName : Yup
+        //     .string()
+        //     .required("Không được để trống"),
+        // userName : Yup
+        //     .string()
+        //     .required("Không được để trống")
+        //     .min(6,"Ít nhất 6 ký tự"),
+        email : Yup
             .string()
-            .required("Không được để trống"),
-        userName : Yup
-            .string()
-            .required("Không được để trống")
-            .min(6,"Ít nhất 6 ký tự"),
+            .required("Bắt buộc")
+            .email("Địa chỉ email không hợp lệ"),
         password : Yup
             .string()
             .required()
@@ -53,19 +60,27 @@ const RegisterForm = (props) => {
                     </h2>
                     <Form>
                     <div className="intro-x mt-8">
-                        <FastField
+                        {/* <FastField
                             name = "fullName"
                             component = {InputFeild}
 
                             classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
                             placeholder = "Tên Đầy Đủ"
-                        />
-                        <FastField
+                        /> */}
+                        {/* <FastField
                             name = "userName"
                             component = {InputFeild}
 
                             classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
                             placeholder = "Tên Người Dùng"
+                        /> */}
+                        <FastField
+                            name = "email"
+                            component = {InputFeild}
+
+                            classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
+                            placeholder = "Email"
+                            type = "email"
                         />
                         <FastField
                             name = "password"
