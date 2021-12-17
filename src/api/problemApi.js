@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const problemApi = {
     getMany : () => {
-        const url = 'https://testting-data-default-rtdb.firebaseio.com/problem.json'
+        const url = `/problem`;
         return axiosClient.get(url)
     },
     createOne : (params) => {

@@ -4,27 +4,30 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 20;
+  z-index: 100;
   background-color: rgba(0, 0, 0, 0.75);
 }
 
 .modal {
   position: fixed;
   top: 20vh;
-  left: 5%;
-  width: 90%;
+  width: 50%;
   background-color: white;
   padding: 1rem;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  z-index: 30;
+  z-index: 110;
   animation: slide-down 300ms ease-out forwards;
+  display: block;
+  overflow: auto;
+  height: 30rem;
+  
+ 
 }
 
 @media (min-width: 768px) {
   .modal {
-    width: 40rem;
-    left: calc(50% - 20rem);
+    width: 95%;
   }
 }
 
@@ -37,4 +40,7 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+.modal::-webkit-scrollbar {
+  
 }

@@ -5,7 +5,6 @@ import Pagination from 'components/UI/Problem/pagination';
 import  ProblemDetail from 'components/UI/Problem/Problemdetial/Problemdetial';
 import { useSelector, useDispatch } from 'react-redux';
 import problemApi from 'api/problemApi';
-import { object } from 'yup';
 import { problemActions } from 'app/slice/problemSlice';
 
 
@@ -17,15 +16,10 @@ const Assignment = (props) => {
 
     const fetchData = useCallback(() => {
       problemApi.getMany()
-      .then((res) => {
-        const result = Object.values(res);
-        console.log('result',result);
-        if(result[0] === null)
-        {
-          setData(false);
-          return;
-        }       
-        dispatch(problemActions.getMany(result))
+      .then((res) => { 
+        
+        console.log('result',res);
+        dispatch(problemActions.getMany(res.results))
       })
       .catch(error => {
         console.log("error",error)
@@ -48,7 +42,7 @@ const Assignment = (props) => {
     const [problemDetail, setProblemDetail]=useState(false)
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(6);
+    const [postsPerPage] = useState(9);
 
 
     const indexOfLastPost = currentPage * postsPerPage;
@@ -73,7 +67,7 @@ const Assignment = (props) => {
     <BoxProblem
       key={problem.id}
       id={problem.id}
-      title={problem.name}
+      title={problem.title}
       content={problem.description}
       author={problem.author}
       getShowProblemDetail={ShowProblemHandler}
