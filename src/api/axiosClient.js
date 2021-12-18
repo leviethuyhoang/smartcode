@@ -3,7 +3,7 @@ import quyeryString from "query-string";
 
 
 const axiosClient = axios.create({
-  baseURL : "https://e633-2001-ee0-4b7b-9d80-9099-a6b4-6d17-8f49.ngrok.io/api/v1",
+  baseURL : "http://3.17.80.194:3000/api/v1",
   headers : {
     'Content-type' : 'application/json',
     'authorization' : `Bearer ${localStorage.getItem('accessToken')}`,
