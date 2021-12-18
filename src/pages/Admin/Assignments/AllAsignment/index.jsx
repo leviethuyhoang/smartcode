@@ -51,7 +51,7 @@ const AllAssignments = (props) => {
             setData(getProblems.filter(items => items.title.match(keySearch)))
         }
     },[problems.data])
-
+    console.log("data",data)
     return (
         <Fragment>
             <HeaderPage>

@@ -56,7 +56,7 @@ const SubmittionForm = (props) => {
                     <Cell>
                         <div className = "flex flex-row flex-end infor">
                             <span><b>ID : </b>{id}</span>
-                            <span><b>Người Code :</b> {submittion.user.username}</span>
+                            <span><b>Người Code :</b> {"Coder"}</span>
                             <span><b>Ngày Nộp : </b>{new Date().getTime()}</span>
                             <span><b>Tên Bài Tập :</b> {submittion.problem.title}</span>
                             <span><b>Ngôn Ngữ :</b> {"C++"}</span>
@@ -80,7 +80,7 @@ const SubmittionForm = (props) => {
                             if(item.status.description === "Pendding"){
                                 setIsPendding(true)
                             }
-                            return <div key = {index} className = {`btn ${item.status.description === "Wrong Answer" ? "btn-danger-soft" : "btn-success-soft" } w-full mr-1 mb-2 block`}>
+                            return <div key = {index} className = {`btn ${item.status.description === "Compilation Error" || item.status.description === 'Wrong Answer' ? "btn-danger-soft" : "btn-success-soft" } w-full mr-1 mb-2 block`}>
                                     <Grid>
                                         <Cell width = {2}>
                                             {index+1}
@@ -92,7 +92,7 @@ const SubmittionForm = (props) => {
                                             <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Output :</b> {item.stdout} </div>
                                         </Cell>
                                         <Cell width = {2}> 
-                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Kết Quả : </b>{`${item.status.description === 'Wrong Answer' ? "Sai" : "Đúng"}`} </div>
+                                            <div style = {{whiteSpace : "pre", textAlign : "left"}}> <b>Kết Quả : </b>{`${item.status.description}`} </div>
                                         </Cell>
                                     </Grid>
                                 </div>

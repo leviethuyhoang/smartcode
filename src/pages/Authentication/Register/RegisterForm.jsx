@@ -16,6 +16,7 @@ const RegisterForm = (props) => {
         // passwordConfirm : "",
         // server : "",
         email : "",
+        username : "",
         password : "",
         passwordConfirm : "",
     }
@@ -32,6 +33,9 @@ const RegisterForm = (props) => {
             .string()
             .required("Bắt buộc")
             .email("Địa chỉ email không hợp lệ"),
+        username : Yup
+            .string()
+            .required("Bắt buộc"),
         password : Yup
             .string()
             .required()
@@ -81,6 +85,13 @@ const RegisterForm = (props) => {
                             classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
                             placeholder = "Email"
                             type = "email"
+                        />
+                        <FastField
+                            name = "username"
+                            component = {InputFeild}
+
+                            classes = "intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
+                            placeholder = "Tên Đăng Nhập"
                         />
                         <FastField
                             name = "password"

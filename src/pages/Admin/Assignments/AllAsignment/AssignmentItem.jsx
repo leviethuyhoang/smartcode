@@ -5,6 +5,7 @@ import { useRouteMatch } from "react-router";
 import ButtonDelete from "components/UI/Action/Delete";
 import { useDispatch } from "react-redux";
 import { problemActions } from "app/slice/problemSlice";
+import problemApi from "api/problemApi"
 
 
 const AssignmentItem = (props) => {
@@ -15,7 +16,14 @@ const AssignmentItem = (props) => {
     const dispatch = useDispatch()
 
     const handleDelete = () => {
-        dispatch(problemActions.deleteOne(id));
+        problemApi.deleteOne(id)
+        .then( res => {
+            console.log("Xoa Thanh Cong")
+            dispatch(problemActions.deleteOne(id));
+        })
+        .catch( error => {
+            console.log("Xoa That Bai", error)
+        })
     }
 
     return (
