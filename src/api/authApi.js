@@ -3,6 +3,7 @@ import axiosClient from "./axiosClient";
 const authApi =  {
     register : (params) => {
         // const url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDQiTVBvoJHuBFXQsKPJLv9JGi5fIq24DA";
+        console.log("pấm : ",params)
         const url = "/auth/register";
         return axiosClient.post(url,params);
     },

@@ -56,7 +56,7 @@ const SubmittionForm = (props) => {
                     <Cell>
                         <div className = "flex flex-row flex-end infor">
                             <span><b>ID : </b>{id}</span>
-                            <span><b>Người Code :</b> {submittion.user.username}</span>
+                            <span><b>Người Code :</b> {"Coder"}</span>
                             <span><b>Ngày Nộp : </b>{new Date().getTime()}</span>
                             <span><b>Tên Bài Tập :</b> {submittion.problem.title}</span>
                             <span><b>Ngôn Ngữ :</b> {"C++"}</span>

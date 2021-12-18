@@ -10,7 +10,7 @@ const SubmmittionItem = (props) => {
 
     const match = useRouteMatch();
 
-    const {id, userName, problem} = props;
+    const {id, problem} = props;
     const [isShowModal, setIsShowModal] = useState(false);
 
     const showModal = (id) => {
@@ -26,7 +26,7 @@ const SubmmittionItem = (props) => {
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        <Link to = {`/profile/${id}`} >{userName}</Link>
+                        <Link to = {`/profile/${id}`} >{"Coder"}</Link>
                     </div>
                 </td>
                 <td className = "w-40">

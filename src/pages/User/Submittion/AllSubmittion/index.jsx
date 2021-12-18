@@ -52,7 +52,7 @@ const AllSubmittion = (props) => {
     const filterSearch = useCallback((keySearch) => {
         const allSubmitton = submittion.data;
         if(allSubmitton){
-            setListSubmittion(allSubmitton.filter(item => item.userId.match(keySearch)))
+            setListSubmittion(allSubmitton.filter(item => item.problemId.match(keySearch)))
         }
     },[submittion.data])
 console.log("all",listSubmittion)
@@ -102,7 +102,6 @@ console.log("all",listSubmittion)
                                 id = {item.id}
                                 languageId = {item.languageId}
                                 problem = {item.problem}
-                                userName = {item.user.username}
                                 results = {item.results}
                                 createAt = {item.createAt}
                             />

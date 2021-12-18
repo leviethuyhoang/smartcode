@@ -13,8 +13,9 @@ const Register = (props) => {
 
     const handleSubmit = async (value ,{setSubmitting, setFieldError}) => {
         const params = {
-            email : value.email,
-            password : value.password,
+            "email" : value.email,
+            "password" : value.password,
+            "username" : value.username,
         }
         console.log("params register",params)
         authApi.register(params)
