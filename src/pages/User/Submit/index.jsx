@@ -1,20 +1,24 @@
 import problemApi from "api/problemApi";
+import submitionApi from "api/submittionApi";
 import { problemActions } from "app/slice/problemSlice";
 import { Loading } from "assets/icons/Loading";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
+import Toastify from "components/UI/Notification/Toastify";
 import { useCallback, useEffect } from "react";
 import { useState } from "react";
 
 import { Fragment,  } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ShowProblem from "./ShowProblem";
 
 
 const Submit = (props) => {
 
+    const history = useHistory();
     const dispatch = useDispatch();
     const problems = useSelector(state => state.problem);
     const [listProblems, setListProblems ] = useState(null);
@@ -39,8 +43,17 @@ const Submit = (props) => {
         }
     },[fetchProblem, problems.data])
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (values,{setSubmitting, resetForm}) => {
+        submitionApi.submit(values)
+        .then( res => {
+            Toastify("success", "Nộp Bài Thành Công");
+            resetForm(true);
+            history.push("/submittion")
+        })
+        .catch( error => {
+            Toastify("error", "Nộp Bài Thất Bại")
+            setSubmitting(false)
+        })
     }
 
     return (
