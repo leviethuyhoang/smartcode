@@ -73,7 +73,6 @@ const SubmitForm = (props) => {
     }
 
     const onSubmit = (...config) => {
-        console.log("submitting",config)
         handleSubmit.apply(null,config);
         
     }
