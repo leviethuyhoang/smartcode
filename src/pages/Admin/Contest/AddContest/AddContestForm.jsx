@@ -51,6 +51,8 @@ const AddContestForm = (props) => {
   useEffect(() => {
     if(listContest.data === null){
       fetchContest();
+    } else {
+      setAddable(false)
     }
 
   },[fetchContest, listContest.data])
@@ -85,6 +87,7 @@ const AddContestForm = (props) => {
 
 
   const handleSubmit = (values , {setSubmitting}) => {
+    console.log("values",values);
     contestApi.createOne(values)
     .then((res) => {
       dispatch(contestAction.createOne(res));
