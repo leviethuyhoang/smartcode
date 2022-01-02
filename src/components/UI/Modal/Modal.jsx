@@ -4,8 +4,7 @@ import ReactDOM  from "react-dom";
 import "./Modal.scss"
 
 const Modal = (props) => {
-
-    console.log("con",props.children)
+    
     const onClose = () => {
         props.onClose();
     }
@@ -16,7 +15,7 @@ const Modal = (props) => {
 
     const Content = () => {
         return (
-            <div className = "my-modal relative">
+            <div className = "my-modal relative centered">
                     {props.children}
             </div>
         )

@@ -9,7 +9,7 @@ import { problemActions } from 'app/slice/problemSlice';
 
 
 const Assignment = (props) => {
-    const [allProblem, setAllProblem]  = useState([]);
+    const [allProblem, setAllProblem]  = useState([{id : 1},{id : 2}]);
     const [data, setData] = useState(false);
     const dispatch = useDispatch();
     const show = useSelector(state => state.problem.data);
@@ -17,7 +17,6 @@ const Assignment = (props) => {
     const fetchData = useCallback(() => {
       problemApi.getMany()
       .then((res) => { 
-        
         console.log('result',res);
         dispatch(problemActions.getMany(res.results))
       })
@@ -75,15 +74,15 @@ const Assignment = (props) => {
   ));
   return (
     <Fragment>
-    {!data&&<p>no data</p>}
-    {data&&problemDetail&&<ProblemDetail onClose={HideProblemHandler} />}
-      <div className="content">
-        <div className="grid grid-cols-12 gap-6 mt-5">
-          {box}
+      {!data&&<p>no data</p>}
+      {data && problemDetail && <ProblemDetail onClose={HideProblemHandler} />}
+        <div className="content">
+          <div className="grid grid-cols-12 gap-6 mt-5">
+            {box}
+          </div>
         </div>
-      </div>
-      <WrapPagination>
-        <Pagination totalPost={allProblem.length} postsPerPage={postsPerPage}  paginate={paginate}/>
+        <WrapPagination>
+          <Pagination totalPost={allProblem.length} postsPerPage={postsPerPage}  paginate={paginate}/>
         </WrapPagination>
     </Fragment>
   );

@@ -6,7 +6,6 @@ import Cell from "components/UI/Cell";
 import CodeEditor from "components/UI/CodeEditor";
 import Grid from "components/UI/Grid";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
-import submittionApi from "api/submittionApi";
 import Loading1 from "components/UI/Loading/Loading1"
 
 import "./SubmittionForm.css"
@@ -19,34 +18,12 @@ const SubmittionForm = (props) => {
     const allsubmittion = useSelector(state => state.submittion);
     const [submittion, setSubmittion] = useState(null);
 
-    const [isPendding, setIsPendding] = useState(false);
-
     useEffect(() => {
         if(submittion == null){
             const idSubmittion = id || params.id
             setSubmittion(allsubmittion.data.find(item => +item.id === +idSubmittion))
         } 
     },[allsubmittion, id, params.id, submittion])
-
-    useEffect(() => {
-        let timer ;
-        if(isPendding){
-            timer = setInterval(() => {
-                submittionApi.getOne(id)
-                .then( res => {
-                    setIsPendding(false)
-                    setSubmittion(res.results);
-                })
-                .catch( errors => {
-                    console.log("ERROR", errors)
-                })
-            },10000)
-        }
-
-        return (
-            clearInterval(timer)
-        )
-    },[id, isPendding])
 
     return (
         <Fragment>
@@ -77,10 +54,7 @@ const SubmittionForm = (props) => {
                         <div className = "flex flex-col w-full">
 
                         {submittion.results.length > 0 ? submittion.results.map((item,index) =>  {
-                            if(item.status.description === "Pendding"){
-                                setIsPendding(true)
-                            }
-                            return <div key = {index} className = {`btn ${item.status.description === "Compilation Error" || item.status.description === 'Wrong Answer' ? "btn-danger-soft" : "btn-success-soft" } w-full mr-1 mb-2 block`}>
+                            return <div key = {index} className = {`btn ${item.status.description === "Accepted" ? "btn-success-soft" : item.status.description === 'Pending' ? "btn-warning-soft": "btn-danger-soft" } w-full mr-1 mb-2 block`}>
                                     <Grid>
                                         <Cell width = {2}>
                                             {index+1}
@@ -102,11 +76,6 @@ const SubmittionForm = (props) => {
                         }
                         </div>
                     </Cell>
-                    {isPendding && 
-                        <Cell>
-                           <div className="w-10 mx-auto"> <Loading1/></div>
-                        </Cell>
-                    }
                 </Fragment>
                 :
                 <Loading1/>

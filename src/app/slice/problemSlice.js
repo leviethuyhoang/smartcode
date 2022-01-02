@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import problemApi from 'api/problemApi';
 
 const problemSlice = createSlice({
     name : 'problemSlice',
@@ -20,12 +21,21 @@ const problemSlice = createSlice({
         deleteOne : (state, data) => {
             state.data = state.data.filter(item => item.id !== data.payload);
         },
-        showDetail : ( state,data) =>
-        {   
+        showDetail : ( state,data) => {   
             state.showDetail = state.data.find(state=>state.id === data.payload);
         } 
     }
 })
+
+export const GetProblem = (SendReqest) => {
+
+    return async (dispatch) => {
+        const configData = (res) => {
+            dispatch(problemActions.getMany(res.results))
+        }
+        SendReqest(problemApi.getMany, configData)
+    } 
+}
 
 const {reducer,actions} = problemSlice;
 export const problemActions = actions;

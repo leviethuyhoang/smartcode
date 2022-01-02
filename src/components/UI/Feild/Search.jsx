@@ -15,7 +15,6 @@ const Search = ({width,filterSearch,classes}) => {
         },500)
 
         return (()=>{
-
             clearTimeout(timer)
         })
     },[keySearch,filterSearch])

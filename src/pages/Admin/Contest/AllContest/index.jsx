@@ -10,41 +10,37 @@ import ContestItem from "./ContestItem";
 import Card from "components/UI/Card";
 import { useSelector, useDispatch } from "react-redux";
 import contestApi from "api/contestApi";
-import { contestAction } from "app/slice/contestSlice";
+import Loading1 from "components/UI/Loading/Loading1"
+import { GetContest } from "app/slice/contestSlice";
 
 const AllContest = (props) => {
+
   const dispatch = useDispatch();
-  const show = useSelector((state) => state.contest);
   const match = useRouteMatch();
-  const [allContest, setAllContest] = useState(show.data);
-  const [data , setData ] = useState(false);
+  const listContest = useSelector((state) => state.contest);
+  const [allContest, setAllContest] = useState(null);
   
  
   const fetchData = useCallback(() => {
       contestApi.getMany()
       .then((res) => {
-        const result = Object.values(res);
-        console.log('result',result);
-        if(result[0] === null)
-        {
-          setData(false);
-          return;
-        }       
-        dispatch(contestAction.getMany(result))
+        console.log("res",res)
+        dispatch(GetContest(res.results))
       })
       .catch(error => {
         console.log("error",error)
       })
+
   },[dispatch])
 
-useEffect(() => {
-  if(show.data === null){
-    fetchData();
-  } else {
-    setAllContest(show.data);
-    setData(true);
-  }
-},[fetchData, show.data])
+  useEffect(() => {
+    if(listContest.data === null){
+      fetchData();
+    } else {
+      setAllContest(listContest.data);
+    }
+
+  },[fetchData, listContest.data])
 
   return (
     <Fragment>
@@ -62,9 +58,6 @@ useEffect(() => {
             <Table
               listHead={[
                 {
-                  title: "Người Tạo",
-                },
-                {
                   title: "Tên",
                 },
                 {
@@ -74,30 +67,27 @@ useEffect(() => {
                   title: "Thời Gian Kết Thúc",
                 },
                 {
-                  title: "Ngày Tạo",
-                },
-                {
-                  title: "Cập Nhật",
-                },
-                {
                   title: "Thao Tác",
                 },
               ]}
             >
-              {!data&&<p>no data</p>}
-              {data&&allContest.map((contest, key) => (
+              {allContest && allContest.map((contest, key) => (
                   <ContestItem
                     key={key}
                     id={contest.id}
-                    user={contest.user}
-                    name={contest.name}
-                    start_time={contest.start_time}
-                    end_time={contest.end_time}
-                    create_time={contest.create_time}
-                    last_update_time={contest.last_update_time}
+                    title = {contest.title}
+                    description = {contest.description}
+                    password = {contest.password}
+                    startTime = {contest.startTime}
+                    endTime = {contest.endTime}
                   />
-                ))}
+                ))
+              }
             </Table>
+            {!allContest && 
+                <div className="flex flex-row justify-center w-full">
+                    <Loading1/>
+                </div>}
           </Card>
         </Cell>
       </Grid>

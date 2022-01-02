@@ -7,61 +7,50 @@ import TabItem from "components/UI/Tabs/TabsNav/TabItem";
 import useTab from "hooks/useTab";
 import ContestItem from "./ContestItem";
 import Card from "components/UI/Card";
-import { Fragment } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Button from "components/UI/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import contestApi from "api/contestApi";
+import { GetContest } from "app/slice/contestSlice";
 
 const DUMMY_DATA = [
     {
         id : 1,
-        name : "Thi Lần 1",
-        start_time : "12/12/2012",
-        deadline : "208",
-        quantity_participants : "10",
-    },
-    {
-        id : 2,
-        name : "Thi Lần 2",
-        start_time : "12/12/2013",
-        deadline : "204",
-        quantity_participants : "10",
-    },
-    {
-        id : 3,
-        name : "Thi Lần 3",
-        start_time : "12/12/2014",
-        deadline : "203",
-        quantity_participants : "10",
-    },
-    {
-        id : 4,
-        name : "Thi Lần 4",
-        start_time : "12/12/2015",
-        deadline : "207",
-        quantity_participants : "5",
-    },
-    {
-        id : 5,
-        name : "Thi Lần 5",
-        start_time : "12/12/2016",
-        deadline : "205",
-        quantity_participants : "21",
-    },
-    {
-        id : 6,
-        name : "Thi Lần 6",
-        start_time : "12/12/2017",
-        deadline : "200",
-        quantity_participants : "80",
-    },
-
+        title : "HELL",
+    }
 ]
-
 
 const AllContest = (props) => {
 
     const tab1 = useTab("tab1");
+
+    const dispatch = useDispatch();
+    const listContest = useSelector((state) => state.contest);
+    const [allContest, setAllContest] = useState([]);
     
+    
+    const fetchData = useCallback(() => {
+        contestApi.getMany()
+        .then((res) => {
+            dispatch(GetContest(res.results))
+        })
+        .catch(error => {
+            dispatch(GetContest(DUMMY_DATA))
+            console.log("error",error)
+        })
+
+    },[dispatch])
+
+    useEffect(() => {
+        if(listContest.data === null){
+            fetchData();
+        } else {
+            setAllContest(listContest.data);
+        }
+
+    },[fetchData, listContest.data])
+    console.log(listContest.data);
     return (
         <Fragment>
             <div className="flex flex-row">
@@ -82,18 +71,6 @@ const AllContest = (props) => {
                         >
                             Kỳ Thi Cũ
                         </TabItem>
-                        <TabItem
-                            name = "tab2"
-                            {...tab1}                  
-                        >
-                            Kỳ Thi Đang Diễn Ra
-                        </TabItem>
-                        <TabItem
-                            name = "tab3"
-                            {...tab1}                  
-                        >
-                            Kỳ Thi Sắp Tới
-                        </TabItem>
                     </TabsNav>
                     <TabContent>
                         <TabPane
@@ -109,104 +86,27 @@ const AllContest = (props) => {
                                         title : "Ngày Bắt Đầu"
                                     },
                                     {
-                                        title : "Thời Gian"
+                                        title : "Ngày Kết Thúc"
                                     },
                                     {
-                                        title : "Sô Lượng Tham Gia"
-                                    },
-                                    {
-                                        title : "Bảng Xếp Hạng"
+                                        title : "Đã Tham Gia"
                                     },
                                 ]}
                             >
-                                {DUMMY_DATA.map(item => {
+                                {allContest.map((item, key) => {
                                     return (
                                         <ContestItem
-                                            key = {item.id}
+                                            key = {key}
                                             id = {item.id}
+                                            title = {item.title}
                                             name = {item.name}
-                                            start_time = {item.start_time}
-                                            deadline = {item.deadline}
-                                            quantity_participants = {item.quantity_participants}
+                                            startTime = {item.startTime}
                                         />
                                     )
                                 })}
                             </Table>
                         </TabPane>
-                        <TabPane
-                            name = "tab2"
-                            {...tab1}
-                        >
-                            <Table
-                                listHead = {[
-                                    {
-                                        title : "Tên Kỳ Thi"
-                                    },
-                                    {
-                                        title : "Ngày Bắt Đầu"
-                                    },
-                                    {
-                                        title : "Thời Gian"
-                                    },
-                                    {
-                                        title : "Sô Lượng Tham Gia"
-                                    },
-                                    {
-                                        title : "Bảng Xếp Hạng"
-                                    },
-                                ]}
-                            >
-                                {DUMMY_DATA.map(item => {
-                                    return (
-                                        <ContestItem
-                                            key = {item.id}
-                                            id = {item.id}
-                                            name = {item.name}
-                                            start_time = {item.start_time}
-                                            deadline = {item.deadline}
-                                            quantity_participants = {item.quantity_participants}
-                                        />
-                                    )
-                                })}
-                            </Table>
-                        </TabPane>
-                        <TabPane
-                            name = "tab3"
-                            {...tab1}
-                        >
-                            <Table
-                                listHead = {[
-                                    {
-                                        title : "Tên Kỳ Thi"
-                                    },
-                                    {
-                                        title : "Ngày Bắt Đầu"
-                                    },
-                                    {
-                                        title : "Thời Gian"
-                                    },
-                                    {
-                                        title : "Sô Lượng Tham Gia"
-                                    },
-                                    {
-                                        title : "Bảng Xếp Hạng"
-                                    },
-                                ]}
-                            >
-                                {DUMMY_DATA.map(item => {
-                                    return (
-                                        <ContestItem
-                                            key = {item.id}
-                                            id = {item.id}
-                                            name = {item.name}
-                                            start_time = {item.start_time}
-                                            deadline = {item.deadline}
-                                            quantity_participants = {item.quantity_participants}
-                                        />
-                                    )
-                                })}
-                            </Table>
-                        </TabPane>
+                       
                     </TabContent>
                 </Tabs>
             </Card>

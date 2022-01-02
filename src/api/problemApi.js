@@ -5,6 +5,10 @@ const problemApi = {
         const url = '/problem'
         return axiosClient.get(url)
     },
+    getOne : (id) => {
+        const url = `/problem/${id}`
+        return axiosClient.get(url);
+    },
     createOne : (params) => {
         const url = "/problem";
         return axiosClient.post(url,params);

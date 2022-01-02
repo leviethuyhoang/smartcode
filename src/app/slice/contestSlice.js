@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+// import contestApi from "api/contestApi";
 
 const contestSlice = createSlice({
   name: "contestSlice",
@@ -17,22 +18,35 @@ const contestSlice = createSlice({
         state.data.push(data.payload);
       }
     },
-    editOne : (state, data) =>
-    {
+    editOne : (state, data) => {
       const contestEdit = data.payload;
-      const dataEditNew = state.data.findIndex(contest =>contest.id.toString() === contestEdit.id.toString());
-      const newList =[...state.data];
-      newList[dataEditNew] = contestEdit;
-      state.data = newList;  
+      const index = state.data.findIndex(contest =>contest.id.toString() === contestEdit.id.toString());
+      state.data[index] = data.payload;
     },
-    deleteOne : (state, data) =>
-    {
+    deleteOne : (state, data) => {
       const contestEdit = data.payload;
-      const dataEditNew = state.data.filter(contest =>contest.id.toString() !== contestEdit.toString());
-      state.data = dataEditNew;  
+      state.data = state.data.filter(contest =>contest.id.toString() !== contestEdit.toString());
+    },
+    join : (state, data) => {
+        const id = data.payload;
+        const index = state.data.findIndex(contest =>contest.id.toString() === id.toString());
+        state.data[index].isJoined = true;
     }
   },
 });
+
+export const GetContest = (data) => {
+
+  return (dispatch) => {
+      // const configData = (res) => {
+      //     dispatch(contestAction.getMany(res.results))
+      // }
+      // SendReqest(contestApi.getMany, configData)
+      dispatch(contestAction.getMany(data))
+  } 
+}
+
+
 const { actions, reducer } = contestSlice;
 export const contestAction = actions;
 export default reducer;

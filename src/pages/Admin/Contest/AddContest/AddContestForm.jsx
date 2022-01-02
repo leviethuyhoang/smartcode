@@ -1,53 +1,102 @@
-import { Fragment } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FastField, Field, Form, Formik } from "formik";
+import { useHistory } from "react-router-dom";
+import * as  Yup from 'yup';
 
-import { FastField, Form, Formik } from "formik";
 import Grid from "components/UI/Grid";
 import InputField from "components/UI/Feild/InputField";
 import TextField from "components/UI/Feild/TextField";
 import Cell from "components/UI/Cell";
-import Switch from "components/UI/Switch";
-import ReactSelect from "components/UI/Feild/ReactSelect";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import contestApi from "api/contestApi";
-import { useDispatch } from "react-redux";
-import { contestAction } from "app/slice/contestSlice";
-import { useHistory } from "react-router-dom";
-import * as  Yup from 'yup';
+import { contestAction, GetContest } from "app/slice/contestSlice";
+import { Loading } from "assets/icons/Loading";
+import Toastify from "components/UI/Notification/Toastify";
+import ReactSelect from "components/UI/Feild/ReactSelect";
+import { GetProblem } from "app/slice/problemSlice";
+import useHttp from "hooks/useHttp";
 
 const AddContestForm = (props) => {
   const history = useHistory();
-
-  const dateTime = new Date().toLocaleString();
   const dispatch = useDispatch();
+  const [addable, setAddable] = useState(true);
+  const { SendRequest } = useHttp();
+
+  const listContest = useSelector((state) => state.contest);
+  const listProblem = useSelector(state => state.problem);
+
+  const [ problemOptions, setProblemOption] = useState([]);
+
+  const fetchContest = useCallback(() => {
+    contestApi.getMany()
+    .then((res) => {
+      setAddable(false)
+      dispatch(GetContest(res.results))
+    })
+    .catch(error => {
+      setAddable(false)
+      Toastify('error','Đã xãy ra lỗi');
+      console.log("error",error)
+    })
+
+ },[dispatch])
+
+  const fetchProblem = useCallback(() => {
+    dispatch(GetProblem(SendRequest));
+  },[SendRequest, dispatch])
+
+  // get Contest
+  useEffect(() => {
+    if(listContest.data === null){
+      fetchContest();
+    }
+
+  },[fetchContest, listContest.data])
+
+  // get problem option
+  useEffect(() => {
+    if(listProblem.data === null){
+      fetchProblem();
+    } else {
+      const options = listProblem.data.map( (problemItem) =>{ return {value : problemItem.id, label : problemItem.title}})
+      console.log("options", options);
+      setProblemOption(options);
+    }
+
+  },[fetchProblem, listProblem, listProblem.data])
 
   const initialValues = {
-    name: "",
+    title: "",
     password: "",
-    decreption: "",
-    start_time: dateTime,
-    end_time: "",
-    rule_type: "",
-    real_time_rank: 45,
-    published: true,
-    status: "",
-    id: Math.random(),
+    description: "",
+    startTime: "",
+    endTime : "",
+    problemIds : [],
   };
    const validationSchema = Yup.object().shape({
-    name: Yup.string().required('this field is required.'),
-    password: Yup.string().required('this field is required.'),
-    decreption: Yup.string().required('this field is required.'),
-    status: Yup.boolean()
+      title: Yup.string().required('Bắt Buộc'),
+      description: Yup.string().required('Bắt Buộc'),
+      password: Yup.string().required('Bắt Buộc'),
+      startTime : Yup.string().required('Bắt Buộc'),
+      endTime: Yup.string().required('Bắt Buộc'),
    });
 
 
-  const handleSubmit = (values) => {
-    contestApi.createOne(values).then((res) => {
-      dispatch(contestAction.createOne(values));
-      history.replace("/admin/contest");
-    }) 
-    
+  const handleSubmit = (values , {setSubmitting}) => {
+    contestApi.createOne(values)
+    .then((res) => {
+      dispatch(contestAction.createOne(res));
+      setSubmitting(false);
+      Toastify('success','Tạo Kỳ Thi Thành Công');
+    })
+    .catch( error => {
+      setSubmitting(false);
+      Toastify('error','Tạo Kỳ Thi Thất Bại')
+    })
   };
+
   const cancelHandler = () => {
     history.push("/admin/contest");
   };
@@ -55,16 +104,23 @@ const AddContestForm = (props) => {
   return (
     <Fragment>
       <Card>
-        <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema} >
+        <Formik 
+          initialValues={initialValues} 
+          onSubmit={handleSubmit} 
+          validationSchema={validationSchema}
+          enableReinitialize = {true}
+        >
           {(formikProps) => {
+            const {isSubmitting} = formikProps;
+
             return (
               <Form>
                 <Grid>
                   <Cell width="3">
                     <FastField
-                      name="name"
+                      name="title"
                       component={InputField}
-                      label="Tên Kỳ Thi"
+                      label="Tên Kỳ Thi *"
                       placeholder="Nhập tên kỳ thi ..."
                     />
                   </Cell>
@@ -76,66 +132,57 @@ const AddContestForm = (props) => {
                       type="password"
                     />
                   </Cell>
-                  <Cell width="4">
-                    <FastField
-                      name="rule_type"
-                      component={ReactSelect}
-                      label="Rule Type"
-                      placeholder="Chọn"
-                    />
-                  </Cell>
-                  <Cell width="2">
-                    <FastField
-                      name="published"
-                      component={Switch}
-                      label="Đăng"
-                    />
-                  </Cell>
                   <Cell width="3">
                     <FastField
-                      name="start_time"
+                      name="startTime"
                       component={InputField}
-                      label="Thời Gian Bắt Đầu"
+                      label="Thời Gian Bắt Đầu *"
                       placeholder=""
                       type="datetime-local"
                     />
                   </Cell>
                   <Cell width="3">
                     <FastField
-                      name="end_time"
+                      name="endTime"
                       component={InputField}
                       label="Thời Gian Kết Thúc"
                       placeholder="Nhập tên kỳ thi ..."
                       type="datetime-local"
                     />
                   </Cell>
-                  <Cell width="3">
-                    <FastField
-                      name="real_time_rank"
-                      component={InputField}
-                      label="Thời Gian Thi"
-                      placeholder="Nhập thời gian thi ..."
-                    />
-                  </Cell>
-
                   <Cell>
                     <FastField
-                      name="decreption"
+                      name="description"
                       component={TextField}
-                      label="Mô tả"
-                      rows="15"
+                      label="Mô Tả *"
+                      rows="5"
+                    />
+                  </Cell>
+                  <Cell>
+                    <Field 
+                      name = "problemIds"
+                      component = {ReactSelect}
+                      options = {problemOptions}
+                      isMulti = {true}
+
+                      label = "Danh Sách Đề Thi"
+                      placeholder = "Chọn Đề Thi"
                     />
                   </Cell>
                   <Cell>
                     <Grid>
                       <Cell width="6">
-                        <Button type="submit" classes="btn btn-primary w-full">
-                          THÊM
+                        <Button 
+                          type="submit" 
+                          classes="btn btn-primary w-full h-10"
+                          disabled = {addable}
+                        >
+                          {isSubmitting ? <Loading/> : "Tạo Kỳ Thi"}
                         </Button>
                       </Cell>
                       <Cell width="6">
                         <Button
-                          classes="btn btn-secondary w-full"
+                          classes="btn btn-secondary w-full h-10"
                           onClick={cancelHandler}
                         >
                           HỦY

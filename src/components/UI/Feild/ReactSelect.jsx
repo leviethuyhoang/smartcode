@@ -50,7 +50,6 @@ const ReactSelect = (props) => {
             } 
             return provided;
         }}
-
     return (
         <div className=" mt-3">
             {label && <label htmlFor={name} className="form-label"><b> {label} </b></label>}

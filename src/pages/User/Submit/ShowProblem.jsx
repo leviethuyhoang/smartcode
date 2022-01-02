@@ -5,18 +5,18 @@ import Grid from "components/UI/Grid";
 import SplitView from "components/UI/SplitView";
 import HtmlParser from "react-html-parser";
 import { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
 import SubmitForm from "./SubmitForm";
 
 
 const ShowProblem = (props) => {
 
-    const listProblems = useSelector(state => state.problem);
+    const { listProblems, handleSubmit } = props;
+    
     const [problem, setProblem] = useState(null);
     const [isShowHint, setIsShowHint] = useState(false);
 
     const handleChangeProblem = (id) => {
-        setProblem(listProblems.data.find(item => item.id === +id))
+        setProblem(listProblems.find(item => item.id === +id))
         setIsShowHint(false);
     }
 
@@ -69,9 +69,11 @@ const ShowProblem = (props) => {
                     :
                     <p>Hãy Chọn Bài Tập</p>
                     }
-                </Card>  
+                </Card>
                 <SubmitForm
+                    listProblems = {listProblems}
                     handleChangeProblem = {handleChangeProblem}
+                    handleSubmit = {handleSubmit}
                 />
             </SplitView>
         </Fragment>

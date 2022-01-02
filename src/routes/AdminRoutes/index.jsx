@@ -18,6 +18,8 @@ const AdminRoutes = (props) => {
     
     return (
         <Fragment>
+            {!auth.isLoggedIn && <Redirect to = "/login"/>}
+            {!auth.isAdmin && <Redirect to = "/"/>}
             {(auth.isLoggedIn && auth.isAdmin ) && 
                 <AdminLayout>
                     <Switch>
@@ -42,7 +44,7 @@ const AdminRoutes = (props) => {
                     </Switch>
                 </AdminLayout>
             }
-            {!auth.isLoggedIn && <Redirect to = "/login"/>}
+            
         </Fragment>
     )
 }
