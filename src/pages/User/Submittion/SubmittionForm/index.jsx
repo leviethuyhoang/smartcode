@@ -54,7 +54,7 @@ const SubmittionForm = (props) => {
                         <div className = "flex flex-col w-full">
 
                         {submittion.results.length > 0 ? submittion.results.map((item,index) =>  {
-                            return <div key = {index} className = {`btn ${item.status.description === "Accepted" ? "btn-success-soft" : item.status === 'Pending' ? "btn-warning-soft": "btn-danger-soft" } w-full mr-1 mb-2 block`}>
+                            return <div key = {index} className = {`btn ${item.status.description === "Accepted" ? "btn-success-soft" : item.status.description === 'Pending' ? "btn-warning-soft": "btn-danger-soft" } w-full mr-1 mb-2 block`}>
                                     <Grid>
                                         <Cell width = {2}>
                                             {index+1}
