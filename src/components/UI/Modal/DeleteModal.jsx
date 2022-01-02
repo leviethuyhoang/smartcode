@@ -1,3 +1,4 @@
+import { Loading } from "assets/icons/Loading";
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 import Button from "../Button/Button";
@@ -29,7 +30,7 @@ const DeleteModal = (props) => {
                             classes = "btn-danger w-24"
                             onClick = {props.onDelete}
                         >
-                            Delete
+                            {props.isDeleting ? <Loading/> : "Xóa"}
                         </Button>
                     </div>
                     </div>

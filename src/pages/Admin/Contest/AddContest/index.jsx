@@ -14,8 +14,6 @@ const AddContest = (props) => {
     const match = useRouteMatch();
     const urlBackWard = match.url.split("/").slice(0,-1).join("/");
     
-   
-
     return (
         <Fragment>
             <HeaderPage>

@@ -12,32 +12,24 @@ import AssignmentItem from './AssignmentItem';
 import Card from 'components/UI/Card';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import problemApi from 'api/problemApi';
-import { problemActions } from 'app/slice/problemSlice';
 import Loading1 from 'components/UI/Loading/Loading1';
+import useHttp from 'hooks/useHttp';
+import { GetProblem } from 'app/slice/problemSlice';
 
 
 const AllAssignments = (props) => {
 
     const match = useRouteMatch();
 
-    const problems = useSelector(state => state.problem);
     const dispatch = useDispatch();
+    const problems = useSelector(state => state.problem);
     const [data, setData] = useState(problems.data);
 
-    const configData = useCallback((res) => {
-        dispatch(problemActions.getMany(res));
-    },[dispatch])
+    const {SendRequest} = useHttp();
 
     const fetchProblem = useCallback(() => {
-        problemApi.getMany()
-        .then( res => {
-            configData(res.results)
-        })
-        .catch(error => {
-            console.log("ERROR",error)
-        })
-    },[configData]);
+        dispatch(GetProblem(SendRequest));
+    },[SendRequest, dispatch]);
 
     useEffect(()=>{
         if(problems.data === null){
@@ -45,13 +37,13 @@ const AllAssignments = (props) => {
         }
     },[fetchProblem, problems.data])
     
+    // UI
     const filterSearch = useCallback((keySearch) => {
         const getProblems = problems.data;
         if(getProblems){
             setData(getProblems.filter(items => items.title.match(keySearch)))
         }
     },[problems.data])
-    console.log("data",data)
     return (
         <Fragment>
             <HeaderPage>

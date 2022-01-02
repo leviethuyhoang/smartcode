@@ -1,18 +1,16 @@
 import axios from "axios";
-import quyeryString from "query-string";
-
 
 const axiosClient = axios.create({
-  baseURL : "http://3.17.80.194:3000/api/v1",
+  baseURL : "https://4d3d-2001-ee0-4b7f-25e0-a916-3d91-f9d9-bfe4.ngrok.io/api/v1",
   headers : {
     'Content-type' : 'application/json',
-    'authorization' : `Bearer ${localStorage.getItem('accessToken')}`,
   },
-  paramsSerializer : params => quyeryString.stringify(params)
+  timeout : 30000,
 })
 
 axiosClient.interceptors.request.use(async (config) => {
-  console.log("config",config)
+  console.log("request config",config)
+  config.headers.authorization = `Bearer ${localStorage.getItem('accessToken')}`;
   return config;
 },error => {
   return Promise.reject(error);

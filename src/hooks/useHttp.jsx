@@ -26,11 +26,32 @@ const useHttp = () => {
         })
     },[])
 
+    const SendRequest = useCallback( async (Request, configData, configOption) => {
+        if(typeof(Request) === 'function'){
+            setIsLoading(true);
+            Request()
+            .then(res => {
+                console.log("(hook) Request Thanh Cong");
+                configData(res, configOption);
+            })
+            .catch( error => {
+                console.log("(hook) ERROR Request", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+            
+        } else {
+            console.log("Loi Post request custom hook")
+        }
+    },[])
+
 
     return {
         isLoading,
+        error,
         sendRequest,
-        error
+        SendRequest,
     }
 }
 export default useHttp;

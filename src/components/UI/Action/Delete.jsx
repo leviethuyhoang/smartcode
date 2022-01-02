@@ -1,34 +1,34 @@
 import { Fragment, useState } from "react";
 import DeleteModal from "../Modal/DeleteModal";
-import { useSelector, useDispatch } from "react-redux";
-import contestApi from "api/contestApi";
-import { contestAction } from "app/slice/contestSlice";
-import { useHistory } from "react-router-dom";
+import Toastify from "../Notification/Toastify";
 
 const ButtonDelete = (props) => {
   const [isShowMoal, setIsShowModal] = useState(false);
   const [status, setStatus] = useState(false);
-  const show = useSelector((state) => state.contest.data);
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const [isDeleting, setIsDeleting ] = useState(false);
+ 
 
   const handleShow = () => {
     setIsShowModal(true);
     setTimeout(() => setStatus(true), 200);
   };
-  const handleDelete = (event) => {
-    dispatch(contestAction.deleteOne(props.id));
-    const contestDeteleHandler = props.id;
-    const dataEditNew = show.findIndex(
-      (contest) => contest.id.toString() === contestDeteleHandler.toString()
-    );
 
-    const edit = dataEditNew;
-    contestApi.deteleOne(edit).then(() => {});
-    history.push("/admin/contest");
-    // props.onConfirm();
-    // handleCancel(event);
+  const handleDelete = async (event) => {
+    event.stopPropagation();
+    try {
+      setIsDeleting(true);
+      const handle = await props.onConfirm();
+      Toastify('success',handle);
+      setIsDeleting(false)
+      handleCancel(event)
+    } catch (error) {
+      Toastify('error',error);
+      setIsDeleting(false)
+      handleCancel(event)
+    }
+
   };
+
   const handleCancel = (event) => {
     event.stopPropagation();
     setStatus(false);
@@ -60,13 +60,14 @@ const ButtonDelete = (props) => {
           <line x1={10} y1={11} x2={10} y2={17} />
           <line x1={14} y1={11} x2={14} y2={17} />
         </svg>
-        Delete
+        Xóa
       </div>
       {isShowMoal && (
         <DeleteModal
           isShowModal={status}
           onDelete={handleDelete}
           onCancel={handleCancel}
+          isDeleting = {isDeleting}
         />
       )}
     </Fragment>

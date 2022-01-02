@@ -1,17 +1,21 @@
 import { Fragment } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import Assignment from "pages/User/Assignment";
+import AllAssignment from "pages/User/Assignment/AllAsignment";
+import DetailAssignment from "pages/User/Assignment/DetailAssignment";
 
 
 const AssignmentRoutes = (props) => {
 
     const match = useRouteMatch();
-
+    
     return (
         <Fragment>
             <Switch>
                 <Route exact path = {`${match.url}/`}>
-                    <Assignment/>
+                    <AllAssignment/>
+                </Route>
+                <Route exact path = {`${match.url}/:id`}>
+                    <DetailAssignment/>
                 </Route>
             </Switch>
         </Fragment>

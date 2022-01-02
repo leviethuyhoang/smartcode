@@ -2,21 +2,34 @@ import axiosClient from "./axiosClient";
 
 const contestApi =  {
     getMany : () => {
-        const url = "https://contest-smart-code-default-rtdb.firebaseio.com/contest.json";
+        const url = "/contest";
+        return axiosClient.get(url);
+    },
+    getOne : (params) => {
+        const url = `/contest/${params}`;
+        return axiosClient.get(url);
+    },
+    getSubmission : (params) => {
+        const url = `/contest/${params}/submission`;
         return axiosClient.get(url);
     },
     createOne : (params) => {
-        const url = "https://contest-smart-code-default-rtdb.firebaseio.com/contest.json";
-        return axiosClient.post("",params,{baseURL : url});
+        const url = "/contest";
+        return axiosClient.post(url,params);
     },
     editOne : (params) => {
-        const url = "https://contest-smart-code-default-rtdb.firebaseio.com/contest.json";
-        return axiosClient.put("",params,{baseURL : url});
+        const url = `/contest/${params.id}`;
+        delete params.id;
+        return axiosClient.put(url,params);
     },
-    deteleOne : (params) => {
-        const url = "https://contest-smart-code-default-rtdb.firebaseio.com/contest.json";
-        return axiosClient.put("",params,{baseURL : url});
+    deleteOne : (params) => {
+        const url = "/contest";
+        return axiosClient.delete(url,params);
     },
+    join : (params) => {
+        const url = "/contest/registerUser";
+        return axiosClient.post(url,params);
+    }
 };
 
 export default contestApi;

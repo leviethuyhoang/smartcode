@@ -1,4 +1,5 @@
 import problemApi from "api/problemApi";
+import { GetProblem, problemActions } from "app/slice/problemSlice";
 import { Loading } from "assets/icons/Loading";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
@@ -7,29 +8,45 @@ import InputField from "components/UI/Feild/InputField";
 import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
 import InputFile from "components/UI/InputFile";
+import Toastify from "components/UI/Notification/Toastify";
 import { FastField, Field, FieldArray, Form, Formik } from "formik";
-import { Fragment } from "react";
+import useHttp from "hooks/useHttp";
+import { Fragment, useCallback, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import * as Yup from "yup";
 
 const AddAssignmentForm = (props) => {
 
     const history = useHistory();
+    const dispatch = useDispatch();
+    const problems = useSelector(state => state.problem);
 
-    const handleSubmit = (values,...pread) => {
-        SendRequest(values,...pread);
-    }
+    const { SendRequest } = useHttp();
 
-    const SendRequest = (values,{setSubmitting,resetForm}) => {
+
+    const fetchProblem = useCallback(() => {
+        dispatch(GetProblem(SendRequest));
+    },[SendRequest, dispatch]);
+
+    useEffect(() => {
+        if(problems.data === null){
+            fetchProblem();
+        }
+    },[fetchProblem, problems.data]);
+
+    const handleSubmit = (values,{setSubmitting,resetForm}) => {
         problemApi.createOne(values)
         .then( res => {
-            console.log("Thanh cong",res)
+            dispatch(problemActions.createOne(res))
             setSubmitting(false)
             resetForm(true)
-        } )
-        .catch(error => {
-            console.log("ERROR",error)
+            Toastify('success','Thêm Bài Tập Thành Công')
         })
+        .catch( error => {
+            Toastify('error','Thêm Bài Tập Thất Bại')
+        }) 
     }
 
     const handleCancel = (e) => {

@@ -6,48 +6,50 @@ import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
-import problemApi from "api/problemApi";
-import submitionApi from "api/submittionApi";
+// import submitionApi from "api/submittionApi";
 import CodeEditor from "components/UI/CodeEditor";
 import { useDispatch  } from "react-redux";
 import { useSelector } from "react-redux";
-import { problemActions } from "app/slice/problemSlice";
 import ReactSelect from "components/UI/Feild/ReactSelect";
 import configApi from "api/configApi";
 import { configActions } from "app/slice/configSlice";
+import { useLocation } from "react-router";
+import queryString from "query-string";
 
 const SubmitForm = (props) => {
 
-    const {config} = useSelector(state => state)
-    const listProblem = useSelector(state => state.problem)
+    const { listProblems, handleSubmit } = props;
+
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    const { id } = queryString.parse(location.search);
+
+    const config = useSelector(state => state.config)
+
     const [problemOption, setProblemOption] = useState([])
     const [languageOptions, setLanguageOptions] = useState([])
-    const dispatch = useDispatch();
 
+    
     const fetchConfig = useCallback(() => {
         configApi.getMany()
         .then(res => {
             dispatch(configActions.getMany(res))
+            console.log("config",res)
         })
         .catch( errors => {
             console.log("My ERROR", errors)
         })
     },[dispatch])
 
-    const configData = useCallback((res) => {
-        dispatch(problemActions.getMany(res));
-    },[dispatch])
-
-    const fetchProblem = useCallback(() => {
-        problemApi.getMany()
-        .then( res => {
-            configData(res.results)
-        })
-        .catch(error => {
-            console.log("ERROR",error)
-        })
-    },[configData]);
-
+    useEffect(() => {
+        setProblemOption(listProblems.map(item => {
+            return {
+                value : item.id,
+                label : item.title
+            }
+        }))
+    },[listProblems])
 
     useEffect(() => {
         if(config.data === null) {
@@ -55,40 +57,25 @@ const SubmitForm = (props) => {
         } else {
             setLanguageOptions(config.data.languages.map(languageItem => {
                 return {value : languageItem.id, label : languageItem.name}
-            }))
+            }));
         }
-        if(listProblem.data === null){
-            fetchProblem();
-        } else {
-            setProblemOption(listProblem.data.map(item => {
-                return {
-                    value : item.id,
-                    label : item.title
-                }
-            }))
-        }
-    },[config, fetchConfig, fetchProblem, listProblem.data])
+        
+    },[config, fetchConfig])
+
+    if(id){
+        props.handleChangeProblem(id);
+    }
 
     const initialValues = {
-        problemId : null,
-        languageId : 0,
+        problemId : +id || null ,
+        languageId : null,
         sourceCode : "// code here\n",
     }
 
-    const handleSubmit = (values,{setSubmitting}) => {
-        console.log("submitting",values)
-
-        submitionApi.submit({...values,problemId : `${values.problemId}`})
-        .then(res => {
-            console.log("Thanh Cong",res)
-        })
-        .catch(error =>{
-            console.log("error",error)
-        })
-        .finally( () => {
-            setSubmitting(false)
-        }
-        )
+    const onSubmit = (...config) => {
+        console.log("submitting",config)
+        handleSubmit.apply(null,config);
+        
     }
 
     return (
@@ -98,7 +85,7 @@ const SubmitForm = (props) => {
                 <Card classes = "ml-1">
                     <Formik
                         initialValues = {initialValues}
-                        onSubmit = {handleSubmit}
+                        onSubmit = {onSubmit}
                         enableReinitialize
                     >
                     {propsFormik => {
