@@ -52,8 +52,8 @@ const EditAssignmentForm = (props) => {
             description: values.description,
             sampleTestCases: values.sampleTestCases,
             testCases: values.testCases.map( item => {return {stdin : item.stdin, stdout : item.stdout}}),
-            time_limit: values.timeLimit,
-            memory_limit: values.memoryLimit,
+            timeLimit: values.timeLimit,
+            memoryLimit: values.memoryLimit,
         }
 
         console.log(dataSend)
