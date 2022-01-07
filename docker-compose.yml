@@ -1,0 +1,19 @@
+version: '3.2'
+
+volumes:
+  postgis-data: {}
+  node-modules: {}
+  redis_data: {}
+services:
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api/v1
