@@ -38,7 +38,7 @@ const ShowProblem = (props) => {
                             <hr />
                             <div className="flex flex-col items-center my-5">
                                 <b className="text-lg">MÔ TẢ</b>
-                                <p className="mt-5">{problem.description}</p>
+                                <p className="mt-5" style={{whiteSpace : "pre-wrap", wordBreak : 'break-word'}}>{problem.description}</p>
                             </div>
                             <hr />
                         </Cell>
@@ -58,8 +58,8 @@ const ShowProblem = (props) => {
                                             problem.sampleTestCases.map( (item, index) => {
                                                 return <tr key={index}>
                                                     <td className="border-b dark:border-dark-5 w-14 text-center">{index+1}</td>
-                                                    <td className="border-b dark:border-dark-5 w-auto">{item.stdin}</td>
-                                                    <td className="border-b dark:border-dark-5 w-auto">{item.stdout}</td>
+                                                    <td className="border-b dark:border-dark-5 text-center">{item.stdin}</td>
+                                                    <td className="border-b dark:border-dark-5 text-center" >{item.stdout}</td>
                                                 </tr>
                                             })
                                         }
