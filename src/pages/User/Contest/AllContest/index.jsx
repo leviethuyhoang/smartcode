@@ -101,6 +101,8 @@ const AllContest = (props) => {
                                             title = {item.title}
                                             name = {item.name}
                                             startTime = {item.startTime}
+                                            endTime = {item.endTime}
+                                            numberJoined = {item.numberjoined}
                                         />
                                     )
                                 })}

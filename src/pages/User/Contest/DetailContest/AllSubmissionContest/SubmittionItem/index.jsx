@@ -1,18 +1,18 @@
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
+import SubmittionForm from "components/Page/User/Submission/SubmissionForm";
 import Card from "components/UI/Card";
 import Modal from "components/UI/Modal/Modal";
 import { Fragment, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
-import SubmittionForm from "../SubmissionForm";
+
 
 const SubmmittionItem = (props) => {
 
     const match = useRouteMatch();
 
-    const {id, problem, submissionInfor} = props;
+    const {id, problem} = props.submissionInfor;
     const [isShowModal, setIsShowModal] = useState(false);
-    console.log("??",submissionInfor)
     const showModal = (id) => {
         setIsShowModal(true)
     }
@@ -51,7 +51,8 @@ const SubmmittionItem = (props) => {
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center" onClick = {showModal}><svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-clipboard block mx-auto"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x={8} y={2} width={8} height={4} rx={1} ry={1} /></svg></p>
+                        <p className = "whitespace-nowrap text-center" onClick = {showModal}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-clipboard block mx-auto"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x={8} y={2} width={8} height={4} rx={1} ry={1} /></svg></p>
                     </div>
                 </td>
             </tr>
@@ -69,7 +70,7 @@ const SubmmittionItem = (props) => {
                         <div className = "w-full mt-5">
                         </div>
                         <SubmittionForm 
-                            submissionInfor = {submissionInfor}
+                            submissionInfor = {props.submissionInfor}
                         />
                     </Card>
                 </Modal>

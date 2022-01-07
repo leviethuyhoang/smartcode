@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { GetProblem } from "app/slice/problemSlice";
 import ReactSelect from "components/UI/Feild/ReactSelect";
 import useHttp from "hooks/useHttp";
+import Switch from "components/UI/Switch";
 
 const EditContestForm = (props) => {
 
@@ -27,24 +28,26 @@ const EditContestForm = (props) => {
   const listContest = useSelector((state) => state.contest);
   const listProblem = useSelector(state => state.problem);
 
-  const [ problemOptions, setProblemOption] = useState([]);
+  const [ problemOptions, setProblemOption] = useState(null);
   const [initialValues, setInitialValues] = useState({
     id : "",
     title: "",
+    isPublic: false,
     password: "",
     description: "",
     startTime: "",
-    endTime : " ",
+    endTime : "",
     problemIds : [],
   });
-
+  console.log("initial",initialValues)
   useEffect(() => {
     const contestEdit = listContest.data.find((item) => item.id.toString() === parmas.id.toString());
+
     const listProblemOfContest = contestEdit.problemIds.map( item => item.id)
 
     const dataConfig = {...contestEdit,
-      startTime : contestEdit.startTime.split(':').slice(0,-1).join(":"),
-      endTime : contestEdit.endTime.split(':').slice(0,-1).join(":"),
+      startTime : contestEdit.startTime.split(':').slice(0,2).join(":"),
+      endTime : contestEdit.endTime.split(':').slice(0,2).join(":"),
       problemIds : listProblemOfContest,
     }
 
@@ -61,7 +64,8 @@ const EditContestForm = (props) => {
       if(listProblem.data === null){
         fetchProblem();
       } else {
-        const options = listProblem.data.map( (problemItem) =>{ return {value : problemItem.id, label : problemItem.title}})
+        const options = listProblem.data.map( problemItem =>{ return {value : problemItem.id, label : problemItem.title}})
+        console.log("problemoption",options)
         setProblemOption(options);
       }
   
@@ -88,6 +92,8 @@ const EditContestForm = (props) => {
         endTime : values.endTime,
         problemIds : values.problemIds,
       }
+
+      console.log("update",dataConfig)
       
       contestApi.editOne(dataConfig)
       .then(res => {
@@ -97,7 +103,7 @@ const EditContestForm = (props) => {
       .catch(error => {
         Toastify('error', "CẬP NHẬT KỲ THI THẤT BẠI" )
       })
-      .finally(_ => {
+      .finally( _ => {
         setSubmitting(false);
       })
   };
@@ -123,41 +129,48 @@ const EditContestForm = (props) => {
                 <Fragment>
                     <Form>
                       <Grid>
-                        <Cell width="3">
-                          <FastField
-                            name="title"
-                            component={InputField}
-                            label="Tên Kỳ Thi"
-                            placeholder="Nhập tên kỳ thi ..."
-                          />
-                        </Cell>
-                        <Cell width="3">
-                          <FastField
-                            name="password"
-                            component={InputField}
-                            label="Mật Khẩu"
-                            type="password"
-                          />
-                        </Cell>
-                        <Cell width="3">
-                          <FastField
-                            name="startTime"
-                            component={InputField}
-                            label="Thời Gian Bắt Đầu"
-                            placeholder=""
-                            type="datetime-local"
-                          />
-                        </Cell>
-                        <Cell width="3">
-                          <FastField
-                            name="endTime"
-                            component={InputField}
-                            label="Thời Gian Kết Thúc"
-                            placeholder="Nhập tên kỳ thi ..."
-                            type="datetime-local"
-                          />
-                        </Cell>
-
+                      <Cell width="4">
+                        <FastField
+                          name="title"
+                          component={InputField}
+                          label="Tên Kỳ Thi *"
+                          placeholder="Nhập tên kỳ thi ..."
+                        />
+                      </Cell>
+                      <Cell width="4">
+                        <FastField
+                          name="password"
+                          component={InputField}
+                          label="Mật Khẩu"
+                          type="password"
+                        />
+                      </Cell>
+                      <Cell width = "4">
+                        <FastField
+                          name="isPublic"
+                          component={Switch}
+                          
+                          label="Công Khai"
+                        />
+                      </Cell>
+                      <Cell width="4">
+                        <FastField
+                          name="startTime"
+                          component={InputField}
+                          label="Thời Gian Bắt Đầu *"
+                          placeholder=""
+                          type="datetime-local"
+                        />
+                      </Cell>
+                      <Cell width="4">
+                        <FastField
+                          name="endTime"
+                          component={InputField}
+                          label="Thời Gian Kết Thúc"
+                          placeholder="Nhập tên kỳ thi ..."
+                          type="datetime-local"
+                        />
+                      </Cell>
                         <Cell>
                           <FastField
                             name="description"

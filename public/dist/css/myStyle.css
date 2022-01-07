@@ -5,3 +5,6 @@ h1{font-size: 30px;}h2{font-size: 25px;}h3{font-size: 20px;}h4{font-size: 15px;}
 .text-overfollow-ellipsis {
     text-overflow: ellipsis;
 }
+.justify-space-around{
+    justify-content: space-around;
+}

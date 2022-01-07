@@ -17,6 +17,7 @@ import Toastify from "components/UI/Notification/Toastify";
 import ReactSelect from "components/UI/Feild/ReactSelect";
 import { GetProblem } from "app/slice/problemSlice";
 import useHttp from "hooks/useHttp";
+import Switch from "components/UI/Switch";
 
 const AddContestForm = (props) => {
   const history = useHistory();
@@ -72,6 +73,7 @@ const AddContestForm = (props) => {
   const initialValues = {
     title: "",
     password: "",
+    isPublic: false,
     description: "",
     startTime: "",
     endTime : "",
@@ -90,7 +92,7 @@ const AddContestForm = (props) => {
     console.log("values",values);
     contestApi.createOne(values)
     .then((res) => {
-      dispatch(contestAction.createOne(res));
+      dispatch(contestAction.createOne({...values, id : res.id}));
       setSubmitting(false);
       Toastify('success','Tạo Kỳ Thi Thành Công');
     })
@@ -118,8 +120,9 @@ const AddContestForm = (props) => {
 
             return (
               <Form>
-                <Grid>
-                  <Cell width="3">
+                <Grid gap = {3}>
+                    
+                  <Cell width="4">
                     <FastField
                       name="title"
                       component={InputField}
@@ -127,7 +130,7 @@ const AddContestForm = (props) => {
                       placeholder="Nhập tên kỳ thi ..."
                     />
                   </Cell>
-                  <Cell width="3">
+                  <Cell width="4">
                     <FastField
                       name="password"
                       component={InputField}
@@ -135,7 +138,15 @@ const AddContestForm = (props) => {
                       type="password"
                     />
                   </Cell>
-                  <Cell width="3">
+                  <Cell width = "4">
+                    <FastField
+                      name="isPublic"
+                      component={Switch}
+                      
+                      label="Công Khai"
+                    />
+                  </Cell>
+                  <Cell width="4">
                     <FastField
                       name="startTime"
                       component={InputField}
@@ -144,7 +155,7 @@ const AddContestForm = (props) => {
                       type="datetime-local"
                     />
                   </Cell>
-                  <Cell width="3">
+                  <Cell width="4">
                     <FastField
                       name="endTime"
                       component={InputField}

@@ -6,6 +6,7 @@ import ButtonDelete from "components/UI/Action/Delete";
 import { useDispatch } from "react-redux";
 import { contestAction } from "app/slice/contestSlice";
 import contestApi from "api/contestApi";
+import ConvertDate from "util/ConvertDate";
 
 const ContestItem = (props) => {
 
@@ -42,13 +43,13 @@ const ContestItem = (props) => {
 
         <td className="w-40">
           <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-            <p className="whitespace-nowrap text-center">{startTime}</p>
+            <p className="whitespace-nowrap text-center">{ConvertDate.getDateNomal(startTime)}</p>
           </div>
         </td>
 
         <td className="w-40">
           <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-            <p className="whitespace-nowrap text-center">{endTime}</p>
+            <p className="whitespace-nowrap text-center">{ConvertDate.getDateNomal  (endTime)}</p>
           </div>
         </td>
 

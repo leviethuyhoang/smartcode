@@ -5,29 +5,28 @@ import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 
 import "./SubmittionForm.css"
 import { Fragment } from "react";
+import ConvertDate from "util/ConvertDate";
 
 const SubmittionForm = (props) => {
 
     const { submissionInfor } = props;
-    console.log("???",submissionInfor)
     return (
         <Fragment>
-            <Grid >
+            <Grid gap="2" >
                 <Cell>
-                    <div className = "flex flex-row flex-end infor">
-                        <span><b>ID : </b>{"ID"}</span>
-                        <span><b>Người Code :</b> {"Coder"}</span>
-                        <span><b>Ngày Nộp : </b>{new Date().getTime()}</span>
-                        <span><b>Tên Bài Tập :</b> {submissionInfor.problem.title}</span>
-                        <span><b>Ngôn Ngữ :</b> {"C++"}</span>
-                        <span><b>Thời Gian Chạy :</b> {"1"}ms</span>
-                        <span><b>Bộ Nhớ : </b>{"1"}kb</span>
+                    <div className = "flex flex-row justify-space-around">
+                        <p><b>Người Code :</b> {"Coder"}</p>
+                        <p><b>Ngày Nộp : </b>{ConvertDate.getDateNomal(submissionInfor.createdAt)}</p>
+                        <p><b>Ngôn Ngữ :</b> {submissionInfor.languageId}</p>
+                    </div>
+                    <div className="w-full flex justify-center mt-5">
+                        <b className="text-lg mx-auto">{submissionInfor.problem.title}</b>
                     </div>
                 </Cell>
                 <Cell>
                     <CodeEditor
                         type = "read"
-                        source_code = {submissionInfor.sourceCode}
+                        sourceCode = {submissionInfor.sourceCode}
                     />
                 </Cell>
                 <Cell>
