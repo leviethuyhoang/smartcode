@@ -57,7 +57,7 @@ const ShowProblem = (props) => {
                                         
                                             problem.sampleTestCases.map( (item, index) => {
                                                 return <tr key={index}>
-                                                    <td className="border-b dark:border-dark-5 w-14 text-center">{index+1}</td>
+                                                    <td className="border-b dark:border-dark-5 w-12 text-center">{index+1}</td>
                                                     <td className="border-b dark:border-dark-5 text-center">{item.stdin}</td>
                                                     <td className="border-b dark:border-dark-5 text-center" >{item.stdout}</td>
                                                 </tr>
