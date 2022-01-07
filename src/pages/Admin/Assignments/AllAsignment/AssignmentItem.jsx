@@ -6,6 +6,7 @@ import ButtonDelete from "components/UI/Action/Delete";
 import { useDispatch } from "react-redux";
 import { problemActions } from "app/slice/problemSlice";
 import problemApi from "api/problemApi"
+import ConvertDate from "util/ConvertDate";
 
 
 const AssignmentItem = (props) => {
@@ -50,7 +51,7 @@ const AssignmentItem = (props) => {
 
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs text-center items-center whitespace-nowrap mt-0.5">
-                        {createdAt}
+                        {ConvertDate.getDateNomal(createdAt)}
                     </div>
                 </td>
 

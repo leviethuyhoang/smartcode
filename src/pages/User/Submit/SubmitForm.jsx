@@ -6,7 +6,6 @@ import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
-// import submitionApi from "api/submittionApi";
 import CodeEditor from "components/UI/CodeEditor";
 import { useDispatch  } from "react-redux";
 import { useSelector } from "react-redux";
@@ -18,7 +17,7 @@ import queryString from "query-string";
 
 const SubmitForm = (props) => {
 
-    const { listProblems, handleSubmit } = props;
+    const { listProblems, handleSubmit, idProblem } = props;
 
     const dispatch = useDispatch();
     const location = useLocation();
@@ -62,12 +61,12 @@ const SubmitForm = (props) => {
         
     },[config, fetchConfig])
 
-    if(id){
-        props.handleChangeProblem(id);
+    if(id || idProblem){
+        props.handleChangeProblem(id || idProblem);
     }
 
     const initialValues = {
-        problemId : +id || null ,
+        problemId : +id || idProblem || null ,
         languageId : null,
         sourceCode : "// code here\n",
     }

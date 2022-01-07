@@ -1,9 +1,10 @@
 import { useRouteMatch } from "react-router-dom";
 import { Link } from "react-router-dom";
+import ConvertDate from "util/ConvertDate";
 
 const ContestItem = (props) => {
 
-    const { id, title, startTime, endTime } = props;
+    const { id, title, startTime, endTime, numberJoined } = props;
     const match = useRouteMatch();
 
     return (
@@ -15,17 +16,17 @@ const ContestItem = (props) => {
             </td>
             <td className = "">
                 <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                    <p className = "whitespace-nowrap text-center">{startTime}</p>
+                    <p className = "whitespace-nowrap text-center">{ConvertDate.getDateNomal(startTime)}</p>
                 </div>
             </td>
             <td className = "">
                 <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                    <p className = "whitespace-nowrap text-center">{endTime}</p>
+                    <p className = "whitespace-nowrap text-center">{ConvertDate.getDateNomal(endTime)}</p>
                 </div>
             </td>
             <td className = "">
                 <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                    <p className = "whitespace-nowrap text-center">10</p>
+                    <p className = "whitespace-nowrap text-center">{numberJoined}</p>
                 </div>
             </td>
         </tr>

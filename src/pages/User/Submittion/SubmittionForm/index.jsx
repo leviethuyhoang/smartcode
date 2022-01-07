@@ -31,7 +31,7 @@ const SubmittionForm = (props) => {
                 {submittion ? 
                 <Fragment>
                     <Cell>
-                        <div className = "flex flex-row flex-end infor">
+                        <div className = "flex flex-row flex-space-around infor">
                             <span><b>ID : </b>{id}</span>
                             <span><b>Người Code :</b> {"Coder"}</span>
                             <span><b>Ngày Nộp : </b>{new Date().getTime()}</span>
