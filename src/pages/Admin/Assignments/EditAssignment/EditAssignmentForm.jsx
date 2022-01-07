@@ -1,14 +1,17 @@
 import problemApi from "api/problemApi";
+import { problemActions } from "app/slice/problemSlice";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import InputField from "components/UI/Feild/InputField";
 import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
+import Toastify from "components/UI/Notification/Toastify";
 // import InputFile from "components/UI/InputFile";
 import Switch from "components/UI/Switch";
 import { FastField, Field, FieldArray, Form, Formik } from "formik";
 import { Fragment,  useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import * as Yup from "yup";
@@ -17,6 +20,7 @@ const EditAssignmentForm = (props) => {
 
     const params = useParams();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const { problem : problems} = useSelector(state => state)
     const [ data , setData ] = useState({
@@ -30,6 +34,7 @@ const EditAssignmentForm = (props) => {
 
     useEffect(() => {
         const result = problems.data.find(item => +item.id === +params.id);
+        console.log("result",result);
         setData(prev => prev = {...prev,...result})
     },[params.id, problems.data])
 
@@ -40,15 +45,28 @@ const EditAssignmentForm = (props) => {
     }
 
     const handleSubmit = (values,{setSubmitting}) => {
-        // dispatch(problemActions.updateOne(values));
-        console.log("submitting : ",values)
-        problemApi.upadateOne(values)
+        
+        const dataSend = {
+            id : `${values.id}`,
+            title: values.title,
+            description: values.description,
+            sampleTestCases: values.sampleTestCases,
+            testCases: values.testCases.map( item => {return {stdin : item.stdin, stdout : item.stdout}}),
+            time_limit: values.timeLimit,
+            memory_limit: values.memoryLimit,
+        }
+
+        console.log(dataSend)
+        problemApi.upadateOne(dataSend)
         .then( res => {
+            dispatch(problemActions.updateOne(dataSend));
             console.log("Cap Nhat Thanh Cong",res)
+            Toastify('success','Cập Nhật Bài Tập Thành Công')
             history.goBack();
         })
         .catch(error => {
             setSubmitting(false)
+            Toastify('error','Cập Nhật Bài Tập Thất Bại')
             console.log("My ERROR",error)
         })
 
@@ -63,8 +81,7 @@ const EditAssignmentForm = (props) => {
                 stdin : Yup.string().required("Bắt buộc"),
                 stdout : Yup.string().required("Bắt buộc"),
             })
-        )
-        ,
+        ),
     })
     return (
         <Fragment>

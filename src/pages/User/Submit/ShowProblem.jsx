@@ -3,23 +3,21 @@ import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
 import SplitView from "components/UI/SplitView";
-import HtmlParser from "react-html-parser";
 import { Fragment, useState } from "react";
 import SubmitForm from "./SubmitForm";
 
 
 const ShowProblem = (props) => {
 
-    const { listProblems, handleSubmit } = props;
+    const { listProblems, handleSubmit, idProblem } = props;
     
     const [problem, setProblem] = useState(null);
     const [isShowHint, setIsShowHint] = useState(false);
-
+    
     const handleChangeProblem = (id) => {
         setProblem(listProblems.find(item => item.id === +id))
         setIsShowHint(false);
     }
-
     const onShowHint = () => {
         setIsShowHint(true);
     }
@@ -31,29 +29,43 @@ const ShowProblem = (props) => {
                 <Card classes = "mr-1 min-width">
                     {problem ? 
                     <Grid >
-                        <Cell width = {3}>
-                            <b>Người Đăng</b>
-                            <p className = "mt-3" style = {{whiteSpace : "pre"}}>{problem.user}</p>
-                        </Cell>
-                        <Cell width = {3}>
-                            <b>Giới Hạn Thời Gian</b>
-                            <p className = "mt-3" style = {{whiteSpace : "pre"}}>{problem.time_limit}</p>
-                        </Cell>
-                        <Cell width = {3}>
-                            <b>Giới Hạn Bộ Nhớ</b>
-                            <p className = "mt-3" style = {{whiteSpace : "pre"}}>{problem.memory_limit}</p>
+                        <Cell>
+                            <div className="flex flex-row justify-space-around mb-2">
+                                <p><b>ID : </b>{problem.id}</p>
+                                <p><b>Giới Hạn Thời Gian Chạy : </b>{problem.timeLimit}</p>
+                                <p><b>Giới Han Bộ Nhớ : </b>{problem.memoryLimit}</p>
+                            </div>
+                            <hr />
+                            <div className="flex flex-col items-center my-5">
+                                <b className="text-lg">MÔ TẢ</b>
+                                <p className="mt-5">{problem.description}</p>
+                            </div>
+                            <hr />
                         </Cell>
                         <Cell>
-                            <b>Đề Bài</b>
-                            <p className = "mt-3" >{HtmlParser(problem.description)}</p>
-                        </Cell>
-                        <Cell width = {6}>
-                            <b>Input</b>
-                            <p style = {{whiteSpace : "pre"}}>{problem.input_description}</p>
-                        </Cell>
-                        <Cell width = {6}>
-                            <b>Output</b>
-                            <p style = {{whiteSpace : "pre"}}>{problem.output_description}</p>
+                            <div className="flex flex-col items-center">
+                                <table className="table">
+                                    <thead>
+                                        <tr className="bg-gray-700 dark:bg-dark-1 text-white">
+                                            <th className="whitespace-nowrap text-center">Ví Dụ</th>
+                                            <th className="whitespace-nowrap text-center">Nhập</th>
+                                            <th className="whitespace-nowrap text-center">Xuất</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        { problem.sampleTestCases && 
+                                        
+                                            problem.sampleTestCases.map( (item, index) => {
+                                                return <tr key={index}>
+                                                    <td className="border-b dark:border-dark-5 w-14 text-center">{index+1}</td>
+                                                    <td className="border-b dark:border-dark-5 w-auto">{item.stdin}</td>
+                                                    <td className="border-b dark:border-dark-5 w-auto">{item.stdout}</td>
+                                                </tr>
+                                            })
+                                        }
+                                    </tbody>
+                                    </table>
+                            </div>
                         </Cell>
                         {isShowHint ? 
                             <Cell>
@@ -74,6 +86,7 @@ const ShowProblem = (props) => {
                     listProblems = {listProblems}
                     handleChangeProblem = {handleChangeProblem}
                     handleSubmit = {handleSubmit}
+                    idProblem = {idProblem}
                 />
             </SplitView>
         </Fragment>

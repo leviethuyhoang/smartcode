@@ -96,16 +96,17 @@ console.log("all",listSubmittion)
                             },
                         ]}
                     >
-                         {listSubmittion.map((item,key) => {
+                         {/* {listSubmittion.map((item,key) => {
                             return  <SubmmittionItem
                                 key = {key}
                                 id = {item.id}
-                                languageId = {item.languageId}
+                                language = {item.languageId}
                                 problem = {item.problem}
                                 results = {item.results}
-                                createAt = {item.createAt}
+                                createdAt = {item.createdAt}
+                                infor = {item}
                             />
-                        })}
+                        })} */}
                     </Table>
                     :
                     <div className = "flex justify-center">

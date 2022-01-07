@@ -6,7 +6,7 @@ import "./style.scss";
 
 const CodeEditor = (props) => {
 
-    const {field,form,config,type,source_code} = props;
+    const {field,form,config,type,sourceCode} = props;
 
     const [theme,setTheme] = useState("xcode");
     const [mode,setMode] = useState("elixir");
@@ -27,10 +27,8 @@ const CodeEditor = (props) => {
     }
 
     const EditConfig = () => {
-        if(type){
-            if(type === 'read'){
-                return ''
-            }
+        if(type && type === 'read'){
+            return '';
         }
         return (
             <div className="editor-bar-box">
@@ -96,7 +94,7 @@ const CodeEditor = (props) => {
                 showPrintMargin={true}
                 showGutter={true}
                 highlightActiveLine={true}
-                value = {field ? field.value : source_code}
+                value = {field ? field.value : sourceCode}
                 height = "500px"
                 width = "auto"
                 readOnly = {(type === "read")}

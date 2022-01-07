@@ -10,9 +10,8 @@ const SubmmittionItem = (props) => {
 
     const match = useRouteMatch();
 
-    const {id, problem} = props;
+    const {id, user, userId, problem, language, createdAt} = props;
     const [isShowModal, setIsShowModal] = useState(false);
-
     const showModal = (id) => {
         setIsShowModal(true)
     }
@@ -21,17 +20,22 @@ const SubmmittionItem = (props) => {
         setIsShowModal(false);
     }
 
+    const formatTime = (time) => {
+        let date = new Date(`${time}`);
+        return date.getDate()+'/' + (date.getMonth()+1) + '/'+date.getFullYear() + ' - ' + date.getHours() + ':' + date.getMinutes() ;
+    }
+
     return (
         <Fragment>
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        <Link to = {`/profile/${id}`} >{"Coder"}</Link>
+                        <Link to = {`/profile/${userId}`} >{user + 'Coder'}</Link>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"Hom Nay"}</p>
+                        <p className = "whitespace-nowrap text-center">{formatTime(createdAt)}</p>
                     </div>
                 </td>
                 <td className = "w-40">
@@ -41,7 +45,7 @@ const SubmmittionItem = (props) => {
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"C++"}</p>
+                        <p className = "whitespace-nowrap text-center">{language}</p>
                     </div>
                 </td>
                 <td className = "w-40">
