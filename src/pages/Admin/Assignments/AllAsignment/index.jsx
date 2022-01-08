@@ -10,40 +10,43 @@ import Search from 'components/UI/Feild/Search';
 import Table from 'components/UI/Table/Table';
 import AssignmentItem from './AssignmentItem';
 import Card from 'components/UI/Card';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import Loading1 from 'components/UI/Loading/Loading1';
-import useHttp from 'hooks/useHttp';
-import { GetProblem } from 'app/slice/problemSlice';
+import problemApi from 'api/problemApi';
 
 
 const AllAssignments = (props) => {
 
     const match = useRouteMatch();
 
-    const dispatch = useDispatch();
-    const problems = useSelector(state => state.problem);
-    const [data, setData] = useState(problems.data);
+    const [data, setData] = useState(null);
+    const [listProblem, setListProblem] = useState(null);
 
-    const {SendRequest} = useHttp();
 
     const fetchProblem = useCallback(() => {
-        dispatch(GetProblem(SendRequest));
-    },[SendRequest, dispatch]);
+        problemApi.getMany()
+        .then( res => {
+            setData(res.results);
+        })
+        .catch( error => {
+            console.log(error)
+        })
+    },[]);
 
     useEffect(()=>{
-        if(problems.data === null){
-            fetchProblem();
-        }
-    },[fetchProblem, problems.data])
+
+        const timer = setTimeout(fetchProblem(),0);
+
+        return (
+            clearTimeout(timer)
+        )
+    },[fetchProblem])
     
     // UI
     const filterSearch = useCallback((keySearch) => {
-        const getProblems = problems.data;
-        if(getProblems){
-            setData(getProblems.filter(items => items.title.match(keySearch)))
+        if(data){
+            setListProblem(data.filter(items => items.title.match(keySearch)))
         }
-    },[problems.data])
+    },[data])
     return (
         <Fragment>
             <HeaderPage>
@@ -62,7 +65,7 @@ const AllAssignments = (props) => {
                 </Cell>
                 <Cell>
                     <Card classes = "min-h-screen">
-                    {data ?
+                    {listProblem ?
                         <Table
                             listHead = {[
                                 {
@@ -82,9 +85,10 @@ const AllAssignments = (props) => {
                                 },
                             ]}
                         >
-                            { data.map((item,key) => {
+                            { listProblem.map((item,key) => {
                             return <AssignmentItem
                                     key = {key}
+                                    fetchData = {fetchProblem}
                                     {...item}
                                 />
                             })}

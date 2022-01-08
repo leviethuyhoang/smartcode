@@ -88,13 +88,14 @@ const AddContestForm = (props) => {
    });
 
 
-  const handleSubmit = (values , {setSubmitting}) => {
+  const handleSubmit = (values , {setSubmitting, resetForm}) => {
     console.log("values",values);
     contestApi.createOne(values)
     .then((res) => {
       dispatch(contestAction.createOne({...values, id : res.id}));
       setSubmitting(false);
       Toastify('success','Tạo Kỳ Thi Thành Công');
+      resetForm(true);
     })
     .catch( error => {
       setSubmitting(false);
