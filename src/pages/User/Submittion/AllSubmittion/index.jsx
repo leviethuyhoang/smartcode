@@ -99,11 +99,6 @@ console.log("all",listSubmittion)
                          {listSubmittion.map((item,key) => {
                             return  <SubmmittionItem
                                 key = {key}
-                                id = {item.id}
-                                language = {item.languageId}
-                                problem = {item.problem}
-                                results = {item.results}
-                                createdAt = {item.createdAt}
                                 infor = {item}
                             />
                         })}

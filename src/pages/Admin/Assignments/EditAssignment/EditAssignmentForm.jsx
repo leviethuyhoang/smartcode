@@ -25,6 +25,7 @@ const EditAssignmentForm = (props) => {
     const { problem : problems} = useSelector(state => state)
     const [ data , setData ] = useState({
         title : "",
+        point : "",
         timeLimit : "1.00",
         memoryLimit : "128",
         description : "",
@@ -49,6 +50,7 @@ const EditAssignmentForm = (props) => {
         const dataSend = {
             id : `${values.id}`,
             title: values.title,
+            point: values.point,
             description: values.description,
             sampleTestCases: values.sampleTestCases,
             testCases: values.testCases.map( item => {return {stdin : item.stdin, stdout : item.stdout}}),
@@ -107,6 +109,15 @@ const EditAssignmentForm = (props) => {
                             placeholder = "Nhập tên bài tập ..."
                         />
                         
+                    </Cell>
+                    <Cell width = "2">
+                        <Field
+                            name = "point"
+                            component = {InputField}
+
+                            label = "ĐIỂM"
+                            type="number"
+                        />
                     </Cell>
                     <Cell width = "2">
                         <Field
