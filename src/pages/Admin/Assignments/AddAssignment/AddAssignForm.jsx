@@ -37,6 +37,7 @@ const AddAssignmentForm = (props) => {
     },[fetchProblem, problems.data]);
 
     const handleSubmit = (values,{setSubmitting,resetForm}) => {
+        console.log(values)
         problemApi.createOne(values)
         .then( res => {
             dispatch(problemActions.createOne(res))
@@ -56,6 +57,7 @@ const AddAssignmentForm = (props) => {
     const initialValues = {
 
         title : "",
+        point : "",
         timeLimit : "1.00",
         memoryLimit : "128",
         description : "",
@@ -71,8 +73,7 @@ const AddAssignmentForm = (props) => {
                 stdin : Yup.string().required("Bắt buộc"),
                 stdout : Yup.string().required("Bắt buộc"),
             })
-        )
-        ,
+        ),
     })
 
     return (
@@ -90,7 +91,7 @@ const AddAssignmentForm = (props) => {
             <Form>
             <Grid>
                 
-                <Cell width = "3">
+                <Cell width = "4">
                     <FastField
                         name = "title"
                         component = {InputField}
@@ -98,6 +99,15 @@ const AddAssignmentForm = (props) => {
                         placeholder = "Nhập tên bài tập ..."
                     />
                     
+                </Cell>
+                <Cell width = "2">
+                    <Field
+                        name = "point"
+                        component = {InputField}
+
+                        label = "ĐIỂM"
+                        type="number"
+                    />
                 </Cell>
                 <Cell width = "2">
                     <Field
@@ -117,7 +127,6 @@ const AddAssignmentForm = (props) => {
                         placeholder = "kb"
                     />
                 </Cell>
-                
                 <Cell>
                     <FastField
                         name="description"

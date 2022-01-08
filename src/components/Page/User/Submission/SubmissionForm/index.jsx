@@ -19,7 +19,7 @@ const SubmittionForm = (props) => {
                         <b className="text-lg mx-auto">{submissionInfor.problem.title}</b>
                     </div>
                     <div className = "flex flex-row justify-space-around mt-2">
-                        <p><b>Người Code :</b> {"Coder"}</p>
+                        <p><b>Người Code :</b> {submissionInfor.user.username}</p>
                         <p><b>Ngày Nộp : </b>{ConvertDate.getDateNomal(submissionInfor.createdAt)}</p>
                         <p><b>Ngôn Ngữ :</b> {submissionInfor.languageId}</p>
                     </div>

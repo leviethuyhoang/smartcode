@@ -1,6 +1,3 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { submittionActions } from "app/slice/submittionSlice";
 import { Fragment, useCallback, useEffect, useState } from "react";
 
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
@@ -10,51 +7,37 @@ import Grid from "components/UI/Grid";
 import SubmmittionItem from "./SubmittionItem";
 import submitionApi from "api/submittionApi";
 import Table from "components/UI/Table/Table";
-import useHttp from "hooks/useHttp";
 import Wrap from "components/UI/Wrap";
 import Search from "components/UI/Feild/Search";
 import Loading1 from "components/UI/Loading/Loading1";
+import Button from "components/UI/Button/Button";
 
 
 const AllSubmittion = (props) => {
-
-    const {sendRequest} = useHttp();
     
-    
-    const submittion = useSelector(state => state.submittion);
-    const dispatch = useDispatch();
-    
+    const [data, setData] = useState(null);
     const [listSubmittion, setListSubmittion] = useState(null)
-    
-    const configSubmittion = useCallback((res) => {
-        dispatch(submittionActions.getMany(res))
-    },[dispatch])
 
     const fetchSubmittion = useCallback(() => {
         submitionApi.getMany()
         .then(res => {
             console.log("res",res)
-            configSubmittion(res.results)
+            setData(res.results)
         })
         .catch(error => {
             console.log("error",error)
         })
-    },[configSubmittion])
+    },[])
 
     useEffect(()=> {
-        if(submittion.data === null){
-            fetchSubmittion();
-        } else {
-            setListSubmittion(submittion.data)
-        }
-    },[fetchSubmittion, sendRequest, submittion.data])
+        fetchSubmittion();
+    },[fetchSubmittion])
 
     const filterSearch = useCallback((keySearch) => {
-        const allSubmitton = submittion.data;
-        if(allSubmitton){
-            setListSubmittion(allSubmitton.filter(item => item.problemId.match(keySearch)))
+        if(data != null){
+            setListSubmittion(data.filter(item => item.problemId.match(keySearch)))
         }
-    },[submittion.data])
+    },[data])
 console.log("all",listSubmittion)
     return (
         <Fragment>
@@ -68,6 +51,12 @@ console.log("all",listSubmittion)
                             classes = "ml-auto"
                             filterSearch = {filterSearch}
                         />
+                        <Button
+                            classes = "btn btn-outline ml-3"
+                            onClick = {fetchSubmittion}
+                        >
+                            LÀM MỚI
+                        </Button>
                     </Wrap>
                 </Cell>
                 <Cell >
@@ -99,11 +88,6 @@ console.log("all",listSubmittion)
                          {listSubmittion.map((item,key) => {
                             return  <SubmmittionItem
                                 key = {key}
-                                id = {item.id}
-                                language = {item.languageId}
-                                problem = {item.problem}
-                                results = {item.results}
-                                createdAt = {item.createdAt}
                                 infor = {item}
                             />
                         })}

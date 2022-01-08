@@ -91,6 +91,7 @@ const DetailsContest = (props) => {
         .then(res => {
             Toastify("success", "Nộp Bài Thành Công");
             resetForm(true);
+            fetchContest();
         })
         .catch( error => {
             console.log("error",error)
