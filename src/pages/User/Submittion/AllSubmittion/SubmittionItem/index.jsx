@@ -11,7 +11,7 @@ const SubmmittionItem = (props) => {
 
     const match = useRouteMatch();
 
-    const {id, user, problem, languageId, createdAt} = props.infor;
+    const {id, user, problem, languageId, createdAt, score, totalScore} = props.infor;
     const [isShowModal, setIsShowModal] = useState(false);
     const showModal = (id) => {
         setIsShowModal(true)
@@ -46,7 +46,7 @@ const SubmmittionItem = (props) => {
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"10"}</p>
+                        <p className = "whitespace-nowrap text-center">{`${score}/${totalScore}`}</p>
                     </div>
                 </td>
                 <td className = "w-40">
