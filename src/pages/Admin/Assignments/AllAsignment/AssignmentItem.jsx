@@ -3,27 +3,25 @@ import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
 
 import ButtonDelete from "components/UI/Action/Delete";
-import { useDispatch } from "react-redux";
-import { problemActions } from "app/slice/problemSlice";
 import problemApi from "api/problemApi"
 import ConvertDate from "util/ConvertDate";
+import Toastify from "components/UI/Notification/Toastify";
 
 
 const AssignmentItem = (props) => {
 
-    const {id, title, testCases, createdAt} = props;
+    const {id, title, testCases, createdAt, fetchData} = props;
     const match = useRouteMatch();
-
-    const dispatch = useDispatch()
 
     const handleDelete = () => {
         problemApi.deleteOne(id)
         .then( res => {
-            console.log("Xoa Thanh Cong")
-            dispatch(problemActions.deleteOne(id));
+            Toastify('success','Xóa Thành Công')
+            fetchData();
         })
         .catch( error => {
             console.log("Xoa That Bai", error)
+            Toastify('error','Xóa Thất Bại')
         })
     }
 

@@ -86,6 +86,7 @@ const EditContestForm = (props) => {
       const dataConfig = {
         id : values.id,
         title : values.title,
+        isPublic: values.isPublic,
         description : values.description,
         password : values.password,
         startTime : values.startTime,

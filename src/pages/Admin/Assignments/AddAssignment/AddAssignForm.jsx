@@ -180,7 +180,7 @@ const AddAssignmentForm = (props) => {
                     render = { arrayHelpers => (
                         <Fragment>
                             <label className="form-label mx-auto"><b> TESTCASE *</b></label><br/>
-                            <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
+                            <Button classes = "btn-elevated-rounded-dark w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
                             {values.testCases && values.testCases.length > 0 ? (
                                 <Fragment>
                                     {values.testCases.map((friend, index) => {
