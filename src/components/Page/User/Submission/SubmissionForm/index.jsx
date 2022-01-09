@@ -10,24 +10,24 @@ import ShowResult from "./ShowResult";
 
 const SubmittionForm = (props) => {
 
-    const { submissionInfor } = props;
+    const { problem, user, createdAt, language, sourceCode, results} = props.submissionInfor;
     return (
         <Fragment>
             <Grid gap="3" >
                 <Cell>
                     <div className="w-full flex justify-center">
-                        <b className="text-lg mx-auto">{submissionInfor.problem.title}</b>
+                        <b className="text-lg mx-auto">{problem.title}</b>
                     </div>
                     <div className = "flex flex-row justify-space-around mt-2">
-                        <p><b>Người Code :</b> {submissionInfor.user.username}</p>
-                        <p><b>Ngày Nộp : </b>{ConvertDate.getDateNomal(submissionInfor.createdAt)}</p>
-                        <p><b>Ngôn Ngữ :</b> {submissionInfor.languageId}</p>
+                        <p><b>Người Code :</b> {user.username}</p>
+                        <p><b>Ngày Nộp : </b>{ConvertDate.getDateNomal(createdAt)}</p>
+                        <p><b>Ngôn Ngữ :</b> {language.name}</p>
                     </div>
                 </Cell>
                 <Cell>
                     <CodeEditor
                         type = "read"
-                        sourceCode = {submissionInfor.sourceCode}
+                        sourceCode = {sourceCode}
                     />
                 </Cell>
                 <Cell>
@@ -36,7 +36,7 @@ const SubmittionForm = (props) => {
                     </HeaderPage>
                     <div className = "flex flex-col w-full">
                         <ShowResult
-                            results = {submissionInfor.results}
+                            results = {results}
                         />
                     </div>
                 </Cell>

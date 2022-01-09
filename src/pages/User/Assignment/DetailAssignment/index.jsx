@@ -32,7 +32,7 @@ const DetailAssignment = (props) => {
     return (
         <Fragment>
             <HeaderPage>
-                CHỈNH SỬA BÀI TẬP
+                XEM BÀI TẬP
             </HeaderPage>
             <Grid>
                 <Cell>
@@ -47,7 +47,7 @@ const DetailAssignment = (props) => {
                         <Fragment>
                             <div className="flex flex-col items-center w-full border-b border-gray-200 dark:border-dark-5 pb-5">
                             <h1>{assignmentDetail.title}</h1>
-                            <p className="mt-5 text-center">{assignmentDetail.description}</p>
+                            <p className="mt-5 ml-32" style={{whiteSpace:'pre-wrap',wordBreak:'break-word'}}>{assignmentDetail.description}</p>
                             <div className="flex flex-wrap lg:flex-nowrap items-center justify-center p-3">
                                 <Link to = {`/submit?id=${id}`} className="btn btn-outline-secondary py-1 px-2">Làm Bài</Link>
                             </div>
