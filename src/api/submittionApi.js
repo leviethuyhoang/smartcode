@@ -14,8 +14,9 @@ const submitionApi = {
         return axiosClient.get(url)
     },
     getPathDownLoadFileExcel : (id) => {
-        const url = `/admin/constest/${id}/exportExcel`;
-        return url
+        const baseURL = `https://3132-2001-ee0-4b7f-25e0-3917-d16b-79a5-cfaa.ngrok.io/api/v1`;
+        const url = `${baseURL}/admin/constest/${id}/exportExcel`;
+        return url;
     }
 }
 export default submitionApi;
