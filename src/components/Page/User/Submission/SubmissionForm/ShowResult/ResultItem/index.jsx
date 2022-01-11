@@ -27,7 +27,7 @@ const ResultItem = (props) => {
                                 <div className="flex"><b className="whitespace-nowrap mr-2">Output |</b> <span className="truncate white-space-pre h-32"> {item.stdout}</span></div>
                                 </Cell>
                                 <Cell width = {3}> 
-                                    <div className="flex "><b className="whitespace-nowrap mr-2">Kết Quả |</b><span className="truncate white-space-preh-32">{`${item.status.description}`}</span></div>
+                                    <div className="flex "><b className="whitespace-nowrap mr-2">Kết Quả |</b><span className="truncate white-space-pre h-32">{`${item.status.description}`}</span></div>
                                 </Cell>
                             </Fragment>
                             :

@@ -40,7 +40,7 @@ const SubmittionForm = (props) => {
                     <SubmissionForm submissionInfor = {submittion}/>
                 </Cell>
                 :
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row justify-center">
                     <Loading1/>
                 </div>
                 }

@@ -19,6 +19,7 @@ const EditUserForm = (props) => {
     const [detailUser, setDetailUser] = useState({
         id : '',
         email : '',
+        password : '',
         username : '',
         avatar : "https://scontent.fdad1-3.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-5&_nc_sid=7206a8&_nc_ohc=5OEPdEIQJikAX8zPNjy&tn=m6q7MCaTqWp189Cr&_nc_ht=scontent.fdad1-3.fna&oh=00_AT_uJlPsmlXws0MibJ8PoKp-suB4jgRj9TQkP9ixsD_Rjw&oe=6200C278",
         isAdmin : false,
@@ -88,6 +89,13 @@ const EditUserForm = (props) => {
                                                     component = {InputField}
 
                                                     label = "Trường Học"
+                                                />
+                                                <Field
+                                                    name = "password"
+                                                    component = {InputField}
+
+                                                    label = "Mật Khẩu"
+                                                    type  = "password"
                                                 />
                                             </Fragment>
                                         :

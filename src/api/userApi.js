@@ -11,7 +11,7 @@ const usertApi =  {
     },
     createOne : (params) => {
         const url = "/user";
-        return axiosClient.get(url);
+        return axiosClient.post(url,params);
     },
     updateOne : (params) => {
         const url = `/user/${params.id}`;
