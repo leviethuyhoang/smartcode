@@ -10,47 +10,31 @@ import Card from "components/UI/Card";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Button from "components/UI/Button/Button";
-import { useDispatch, useSelector } from "react-redux";
 import contestApi from "api/contestApi";
-import { GetContest } from "app/slice/contestSlice";
+import Loading1 from "components/UI/Loading/Loading1";
 
-const DUMMY_DATA = [
-    {
-        id : 1,
-        title : "HELL",
-    }
-]
 
 const AllContest = (props) => {
 
     const tab1 = useTab("tab1");
 
-    const dispatch = useDispatch();
-    const listContest = useSelector((state) => state.contest);
-    const [allContest, setAllContest] = useState([]);
+    const [data, setData] = useState(null);
     
     
     const fetchData = useCallback(() => {
         contestApi.getMany()
         .then((res) => {
-            dispatch(GetContest(res.results))
+            setData(res.results)
         })
         .catch(error => {
-            dispatch(GetContest(DUMMY_DATA))
             console.log("error",error)
         })
 
-    },[dispatch])
+    },[])
 
     useEffect(() => {
-        if(listContest.data === null){
-            fetchData();
-        } else {
-            setAllContest(listContest.data);
-        }
-
-    },[fetchData, listContest.data])
-    console.log(listContest.data);
+        fetchData();
+    },[fetchData])
     return (
         <Fragment>
             <div className="flex flex-row">
@@ -69,7 +53,7 @@ const AllContest = (props) => {
                             name = "tab1"
                             {...tab1}                  
                         >
-                            Kỳ Thi Cũ
+                            Kỳ Thi Đang Diễn Ra
                         </TabItem>
                     </TabsNav>
                     <TabContent>
@@ -77,7 +61,7 @@ const AllContest = (props) => {
                             name = "tab1"
                             {...tab1}
                         >
-                            <Table
+                            { data ? <Table
                                 listHead = {[
                                     {
                                         title : "Tên Kỳ Thi"
@@ -93,7 +77,7 @@ const AllContest = (props) => {
                                     },
                                 ]}
                             >
-                                {allContest.map((item, key) => {
+                                {data.map((item, key) => {
                                     return (
                                         <ContestItem
                                             key = {key}
@@ -107,6 +91,11 @@ const AllContest = (props) => {
                                     )
                                 })}
                             </Table>
+                            :
+                            <div className="flex justify-center">
+                                <Loading1/>
+                            </div>    
+                        }
                         </TabPane>
                        
                     </TabContent>

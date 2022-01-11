@@ -8,50 +8,55 @@ import Wrap from "components/UI/Wrap";
 import Table from "components/UI/Table/Table";
 import ContestItem from "./ContestItem";
 import Card from "components/UI/Card";
-import { useSelector, useDispatch } from "react-redux";
 import contestApi from "api/contestApi";
 import Loading1 from "components/UI/Loading/Loading1"
-import { GetContest } from "app/slice/contestSlice";
+import Search from "components/UI/Feild/Search";
 
 const AllContest = (props) => {
 
-  const dispatch = useDispatch();
   const match = useRouteMatch();
-  const listContest = useSelector((state) => state.contest);
-  const [allContest, setAllContest] = useState(null);
+  const [data, setData] = useState(null);
+  const [listContest, setListContest] = useState(null);
   
  
   const fetchData = useCallback(() => {
       contestApi.getMany()
       .then((res) => {
-        console.log("res",res)
-        dispatch(GetContest(res.results))
+        setData(res.results);
       })
       .catch(error => {
         console.log("error",error)
       })
 
-  },[dispatch])
+  },[])
 
   useEffect(() => {
-    if(listContest.data === null){
       fetchData();
-    } else {
-      setAllContest(listContest.data);
-    }
+  },[fetchData])
 
-  },[fetchData, listContest.data])
+  const handleDelete = (id) => {
+    setData(prev => prev.filter( item => item.id !== id ));
+  }
+
+  const filterSearch = useCallback((keySearch) => {
+    if(data){
+      setListContest(data.filter(item => item.title.match(keySearch)))
+    }
+},[data])
 
   return (
     <Fragment>
       <HeaderPage>TẤT CẢ KỲ THI</HeaderPage>
       <Grid>
         <Cell>
-          <Wrap>
-            <Link className="btn btn-primary mr-auto" to={`${match.url}/add`}>
-              Tạo Kỳ Thi
-            </Link>
-          </Wrap>
+            <Wrap>
+                <Link className = "btn btn-primary mr-auto" to = {`${match.url}/add`}>
+                    Thêm Kỳ Thi
+                </Link>
+                <Search
+                  filterSearch = {filterSearch}
+                />
+            </Wrap>
         </Cell>
         <Cell>
           <Card>
@@ -71,7 +76,7 @@ const AllContest = (props) => {
                 },
               ]}
             >
-              {allContest && allContest.map((contest, key) => (
+              {listContest && listContest.map((contest, key) => (
                   <ContestItem
                     key={key}
                     id={contest.id}
@@ -80,11 +85,12 @@ const AllContest = (props) => {
                     password = {contest.password}
                     startTime = {contest.startTime}
                     endTime = {contest.endTime}
+                    handleDelete ={handleDelete}
                   />
                 ))
               }
             </Table>
-            {!allContest && 
+            {!listContest && 
                 <div className="flex flex-row justify-center w-full">
                     <Loading1/>
                 </div>}

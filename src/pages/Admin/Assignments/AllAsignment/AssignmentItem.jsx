@@ -10,18 +10,22 @@ import Toastify from "components/UI/Notification/Toastify";
 
 const AssignmentItem = (props) => {
 
-    const {id, title, testCases, createdAt, fetchData} = props;
+    const {id, title, testCases, createdAt} = props;
     const match = useRouteMatch();
 
     const handleDelete = () => {
-        problemApi.deleteOne(id)
-        .then( res => {
-            Toastify('success','Xóa Thành Công')
-            fetchData();
-        })
-        .catch( error => {
-            console.log("Xoa That Bai", error)
-            Toastify('error','Xóa Thất Bại')
+        return new Promise((resolve, reject) => {
+            problemApi.deleteOne(id)
+            .then( res => {
+                Toastify('success','Xóa Thành Công')
+                props.handleDelete(id);
+                resolve();
+            })
+            .catch( error => {
+                console.log("Xoa That Bai", error)
+                Toastify('error','Xóa Thất Bại')
+                reject();
+            })
         })
     }
 

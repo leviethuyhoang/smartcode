@@ -20,10 +20,10 @@ const EditAssignment = (props) => {
     const urlBackWard = match.url.split("/").slice(0,3).join("/");
 
     const handleSubmit = (values,{setSubmitting}) => {
-        console.log("values",values)
         const dataSend = {
             id : `${values.id}`,
             title: values.title,
+            isPublished : values.isPublished,
             point: values.point,
             description: values.description,
             sampleTestCases: values.sampleTestCases,
@@ -31,6 +31,7 @@ const EditAssignment = (props) => {
             timeLimit: values.timeLimit,
             memoryLimit: values.memoryLimit,
         }
+        console.log("values",dataSend)
         problemApi.upadateOne(dataSend)
         .then( res => {
             Toastify('success','Cập Nhật Bài Tập Thành Công')

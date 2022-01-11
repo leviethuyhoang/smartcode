@@ -10,15 +10,15 @@ import ShowResult from "./ShowResult";
 
 const SubmittionForm = (props) => {
 
-    const { problem, user, createdAt, language, sourceCode, results} = props.submissionInfor;
+    const { problem, user, createdAt, sourceCode, results, language} = props.submissionInfor;
     return (
         <Fragment>
             <Grid gap="3" >
                 <Cell>
                     <div className="w-full flex justify-center">
-                        <b className="text-lg mx-auto">{problem.title}</b>
+                        <h1 className="font-medium">{problem.title}</h1>
                     </div>
-                    <div className = "flex flex-row justify-space-around mt-2">
+                    <div className = "flex flex-row justify-space-around mt-5">
                         <p><b>Người Code :</b> {user.username}</p>
                         <p><b>Ngày Nộp : </b>{ConvertDate.getDateNomal(createdAt)}</p>
                         <p><b>Ngôn Ngữ :</b> {language.name}</p>

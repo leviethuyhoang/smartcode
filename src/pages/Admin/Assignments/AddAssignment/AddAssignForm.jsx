@@ -1,5 +1,3 @@
-import problemApi from "api/problemApi";
-import { GetProblem, problemActions } from "app/slice/problemSlice";
 import { Loading } from "assets/icons/Loading";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
@@ -8,56 +6,26 @@ import InputField from "components/UI/Feild/InputField";
 import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
 import InputFile from "components/UI/InputFile";
-import Toastify from "components/UI/Notification/Toastify";
+import Switch from "components/UI/Switch";
 import { FastField, Field, FieldArray, Form, Formik } from "formik";
-import useHttp from "hooks/useHttp";
-import { Fragment, useCallback, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { Fragment } from "react";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 const AddAssignmentForm = (props) => {
 
     const history = useHistory();
-    const dispatch = useDispatch();
-    const problems = useSelector(state => state.problem);
-
-    const { SendRequest } = useHttp();
-
-
-    const fetchProblem = useCallback(() => {
-        dispatch(GetProblem(SendRequest));
-    },[SendRequest, dispatch]);
-
-    useEffect(() => {
-        if(problems.data === null){
-            fetchProblem();
-        }
-    },[fetchProblem, problems.data]);
-
-    const handleSubmit = (values,{setSubmitting,resetForm}) => {
-        console.log(values)
-        problemApi.createOne(values)
-        .then( res => {
-            dispatch(problemActions.createOne(res))
-            setSubmitting(false)
-            resetForm(true)
-            Toastify('success','Thêm Bài Tập Thành Công')
-        })
-        .catch( error => {
-            Toastify('error','Thêm Bài Tập Thất Bại')
-        }) 
-    }
 
     const handleCancel = (e) => {
         e.preventDefault();
         history.goBack();
     }
+
     const initialValues = {
 
         title : "",
         point : "",
+        isPublished : false,
         timeLimit : "1.00",
         memoryLimit : "128",
         description : "",
@@ -81,7 +49,7 @@ const AddAssignmentForm = (props) => {
         <Card>
         <Formik
             initialValues = {initialValues}
-            onSubmit = {handleSubmit}
+            onSubmit = {props.handleSubmit}
             validationSchema = {validationSchema}
         >
         {formikProps => {
@@ -124,6 +92,15 @@ const AddAssignmentForm = (props) => {
                         component = {InputField}
 
                         label = "GIỚI HẠN BỘ NHỚ"
+                        placeholder = "kb"
+                    />
+                </Cell>
+                <Cell width = "2">
+                    <Field
+                        name = "isPublished"
+                        component = {Switch}
+
+                        label = "Công Khai"
                         placeholder = "kb"
                     />
                 </Cell>
@@ -222,12 +199,12 @@ const AddAssignmentForm = (props) => {
                 </Cell>
                 
                 <Cell width = "6">
-                    <Button type = "submit" classes = "btn btn-primary w-full">
+                    <Button type = "submit" classes = "btn btn-primary w-full h-10" disabled = {isSubmitting}>
                         { isSubmitting ? <Loading/> : "Lưu"}
                     </Button>
                 </Cell>
                 <Cell width = "6">
-                    <Button classes = "btn-outline w-full" onClick = {handleCancel}>
+                    <Button classes = "btn-outline w-full h-10" onClick = {handleCancel}>
                         Hủy
                     </Button>
                 </Cell>

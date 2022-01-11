@@ -1,4 +1,5 @@
 import problemApi from "api/problemApi";
+import { Loading } from "assets/icons/Loading";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
@@ -20,6 +21,7 @@ const EditAssignmentForm = (props) => {
     const [ data , setData ] = useState({
         title : "",
         point : "",
+        isPublished : false,
         timeLimit : "1.00",
         memoryLimit : "128",
         description : "",
@@ -73,13 +75,13 @@ const EditAssignmentForm = (props) => {
             onSubmit = {props.handleSubmit}
         >
             {formikProps => {
-                const {values} = formikProps;
+                const {values, isSubmitting} = formikProps;
             return (
                 
             <Form>
                 <Grid>
                     
-                    <Cell width = "3">
+                    <Cell width = "4">
                         <FastField
                             name = "title"
                             component = {InputField}
@@ -117,10 +119,10 @@ const EditAssignmentForm = (props) => {
                     </Cell>
                     <Cell width = "2">
                         <Field
-                            name = "published"
+                            name = "isPublished"
                             component = {Switch}
 
-                            label = "Đăng"
+                            label = "Công Khai"
                         />
                     </Cell>
                     
@@ -209,20 +211,13 @@ const EditAssignmentForm = (props) => {
                             )}
                     />
                     </Cell>
-                    {/* <Cell width = "3" classes = "mt-5">
-                        <Field 
-                            name = "testcase_file"
-                            component = {InputFile}
-
-                        />
-                    </Cell> */}
                     <Cell width = "6">
-                        <Button type = "submit" classes = "btn btn-primary w-full">
-                            Lưu
+                        <Button type = "submit" classes = "btn btn-primary w-full h-10">
+                            {isSubmitting ? <Loading/> : "LƯU"}
                         </Button>
                     </Cell>
                     <Cell width = "6">
-                        <Button classes = "btn-outline w-full" onClick = {handleCancel}>
+                        <Button classes = "btn-outline w-full h-10" onClick = {handleCancel}>
                             Hủy
                         </Button>
                     </Cell>

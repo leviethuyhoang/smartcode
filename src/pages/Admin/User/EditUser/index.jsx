@@ -1,6 +1,8 @@
+import usertApi from "api/userApi";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
+import Toastify from "components/UI/Notification/Toastify";
 import Wrap from "components/UI/Wrap";
 
 import { Fragment } from "react";
@@ -13,6 +15,26 @@ const EditUser = (props) => {
 
     const match = useRouteMatch();
     const urlBackWard = match.url.split("/").slice(0,-2).join("/");
+
+    const handleSubmit = (values,{setSubmitting}, setOnEditMode) => {
+        const dataSend = {
+            id : values.id.toString(),
+            username : values.username,
+            school : values.school,
+            isActive : values.isActive
+        }
+        usertApi.updateOne(dataSend)
+        .then( res => {
+            Toastify('success','Cập Nhật Người Dùng Thành Công')
+        })
+        .catch( error => {
+            Toastify('error','Cập Nhật Người Dùng Thất Bại')
+        })
+        .finally( _ => {
+            setSubmitting(false);
+            setOnEditMode(false);
+        })
+    }
 
     return (
         <Fragment>
@@ -28,7 +50,9 @@ const EditUser = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <EditUserForm/>
+                    <EditUserForm
+                        handleSubmit = {handleSubmit}
+                    />
                 </Cell>
             </Grid>
         </Fragment>
