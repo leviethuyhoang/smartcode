@@ -1,18 +1,14 @@
 import problemApi from "api/problemApi";
-import { problemActions } from "app/slice/problemSlice";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import InputField from "components/UI/Feild/InputField";
 import TextField from "components/UI/Feild/TextField";
 import Grid from "components/UI/Grid";
-import Toastify from "components/UI/Notification/Toastify";
-// import InputFile from "components/UI/InputFile";
 import Switch from "components/UI/Switch";
 import { FastField, Field, FieldArray, Form, Formik } from "formik";
+import { useCallback } from "react";
 import { Fragment,  useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import * as Yup from "yup";
 
@@ -20,11 +16,10 @@ const EditAssignmentForm = (props) => {
 
     const params = useParams();
     const history = useHistory();
-    const dispatch = useDispatch();
 
-    const { problem : problems} = useSelector(state => state)
     const [ data , setData ] = useState({
         title : "",
+        point : "",
         timeLimit : "1.00",
         memoryLimit : "128",
         description : "",
@@ -32,45 +27,30 @@ const EditAssignmentForm = (props) => {
         testCases: [],
     })
 
-    useEffect(() => {
-        const result = problems.data.find(item => +item.id === +params.id);
-        console.log("result",result);
-        setData(prev => prev = {...prev,...result})
-    },[params.id, problems.data])
-
-
-    const handleCancel = (e) => {
-        e.preventDefault();
-        history.goBack();
-    }
-
-    const handleSubmit = (values,{setSubmitting}) => {
-        
-        const dataSend = {
-            id : `${values.id}`,
-            title: values.title,
-            description: values.description,
-            sampleTestCases: values.sampleTestCases,
-            testCases: values.testCases.map( item => {return {stdin : item.stdin, stdout : item.stdout}}),
-            timeLimit: values.timeLimit,
-            memoryLimit: values.memoryLimit,
-        }
-
-        console.log(dataSend)
-        problemApi.upadateOne(dataSend)
+    const fetchProblem = useCallback(() => {
+        problemApi.getOne(params.id)
         .then( res => {
-            dispatch(problemActions.updateOne(dataSend));
-            console.log("Cap Nhat Thanh Cong",res)
-            Toastify('success','Cập Nhật Bài Tập Thành Công')
-            history.goBack();
+            console.log(res);
+            setData(prev => prev = {...prev,...res})
         })
-        .catch(error => {
-            setSubmitting(false)
-            Toastify('error','Cập Nhật Bài Tập Thất Bại')
-            console.log("My ERROR",error)
+        .catch( error => {
+            console.log(error)
         })
+    },[params.id])
 
-    }
+    useEffect(() => {
+        const timer = setTimeout(fetchProblem(),0);
+
+        return (
+            clearTimeout(timer)
+        )
+    },[fetchProblem])
+
+
+    function handleCancel(e) {
+    e.preventDefault();
+    history.goBack();
+}
 
     const validationSchema = Yup.object().shape({
         title : Yup.string().required("Bắt buộc"),
@@ -90,7 +70,7 @@ const EditAssignmentForm = (props) => {
             initialValues = {data}
             validationSchema = {validationSchema}
             enableReinitialize = {true}
-            onSubmit = {handleSubmit}
+            onSubmit = {props.handleSubmit}
         >
             {formikProps => {
                 const {values} = formikProps;
@@ -107,6 +87,15 @@ const EditAssignmentForm = (props) => {
                             placeholder = "Nhập tên bài tập ..."
                         />
                         
+                    </Cell>
+                    <Cell width = "2">
+                        <Field
+                            name = "point"
+                            component = {InputField}
+
+                            label = "ĐIỂM"
+                            type="number"
+                        />
                     </Cell>
                     <Cell width = "2">
                         <Field
@@ -150,7 +139,7 @@ const EditAssignmentForm = (props) => {
                         render = { arrayHelpers => (
                             <Fragment>
                                 <label className="form-label mx-auto"><b>TESTCASE VÍ DỤ</b></label><br />
-                                <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
+                                <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Ví Dụ</Button>
                                 {values.sampleTestCases && values.sampleTestCases.length > 0 ? (
                                     <Fragment>
                                         {values.sampleTestCases.map((tc, index) => (
@@ -182,13 +171,13 @@ const EditAssignmentForm = (props) => {
                             )}
                     />
                     </Cell>
-                    <Cell width= "9" >
+                    <Cell>
                     <FieldArray
                         name="testCases"
                         render = { arrayHelpers => (
                             <Fragment>
                                 <label className="form-label mx-auto"><b> TESTCASE</b></label><br />
-                                <Button classes = "btn-elevated-rounded-primary w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
+                                <Button classes = "btn-elevated-rounded-dark w-full mr-5 mt-2 " onClick={() => arrayHelpers.push('')}>Thêm Testcase</Button>
                                 {values.testCases && values.testCases.length > 0 ? (
                                     <Fragment>
                                         {values.testCases.map((tc, index) => (

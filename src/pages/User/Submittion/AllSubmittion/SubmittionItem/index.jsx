@@ -4,13 +4,14 @@ import Modal from "components/UI/Modal/Modal";
 import { Fragment, useState } from "react";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
-import SubmittionForm from "../../SubmittionForm";
+import ConvertDate from "util/ConvertDate";
+import SubmissionForm from "components/Page/User/Submission/SubmissionForm"
 
 const SubmmittionItem = (props) => {
 
     const match = useRouteMatch();
 
-    const {id, user, userId, problem, language, createdAt} = props;
+    const {id, user, problem, language, createdAt, score, totalScore} = props.infor;
     const [isShowModal, setIsShowModal] = useState(false);
     const showModal = (id) => {
         setIsShowModal(true)
@@ -20,22 +21,17 @@ const SubmmittionItem = (props) => {
         setIsShowModal(false);
     }
 
-    const formatTime = (time) => {
-        let date = new Date(`${time}`);
-        return date.getDate()+'/' + (date.getMonth()+1) + '/'+date.getFullYear() + ' - ' + date.getHours() + ':' + date.getMinutes() ;
-    }
-
     return (
         <Fragment>
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        <Link to = {`/profile/${userId}`} >{user + 'Coder'}</Link>
+                        <Link to = {`/profile/${user.id}`} >{user.username}</Link>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{formatTime(createdAt)}</p>
+                        <p className = "whitespace-nowrap text-center">{ConvertDate.getDateNomal(createdAt)}</p>
                     </div>
                 </td>
                 <td className = "w-40">
@@ -45,12 +41,12 @@ const SubmmittionItem = (props) => {
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{language}</p>
+                        <p className = "whitespace-nowrap text-center">{language.name}</p>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"10"}</p>
+                        <p className = "whitespace-nowrap text-center">{`${score}/${totalScore}`}</p>
                     </div>
                 </td>
                 <td className = "w-40">
@@ -72,7 +68,7 @@ const SubmmittionItem = (props) => {
                         </HeaderPage>
                         <div className = "w-full mt-5">
                         </div>
-                        <SubmittionForm id = {id}/>
+                        <SubmissionForm submissionInfor = {props.infor}/>
                     </Card>
                 </Modal>
             }

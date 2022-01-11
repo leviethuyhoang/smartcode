@@ -8,12 +8,40 @@ import EditAssignmentForm from "./EditAssignmentForm";
 import { Fragment } from "react";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
+import problemApi from "api/problemApi";
+import Toastify from "components/UI/Notification/Toastify";
+import { useHistory } from "react-router-dom";
 
 
 const EditAssignment = (props) => {
 
     const match = useRouteMatch();
+    const history = useHistory();
     const urlBackWard = match.url.split("/").slice(0,3).join("/");
+
+    const handleSubmit = (values,{setSubmitting}) => {
+        console.log("values",values)
+        const dataSend = {
+            id : `${values.id}`,
+            title: values.title,
+            point: values.point,
+            description: values.description,
+            sampleTestCases: values.sampleTestCases,
+            testCases: values.testCases.map( item => {return {stdin : item.stdin, stdout : item.stdout}}),
+            timeLimit: values.timeLimit,
+            memoryLimit: values.memoryLimit,
+        }
+        problemApi.upadateOne(dataSend)
+        .then( res => {
+            Toastify('success','Cập Nhật Bài Tập Thành Công')
+            history.goBack();
+        })
+        .catch(error => {
+            setSubmitting(false)
+            Toastify('error','Cập Nhật Bài Tập Thất Bại')
+            console.log("My ERROR",error)
+        })
+    }
 
     return (
         <Fragment>
@@ -29,7 +57,9 @@ const EditAssignment = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <EditAssignmentForm/>
+                    <EditAssignmentForm
+                        handleSubmit =  {handleSubmit}
+                    />
                 </Cell>
             </Grid>
         </Fragment>
