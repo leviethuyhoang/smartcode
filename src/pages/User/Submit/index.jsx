@@ -49,7 +49,7 @@ const Submit = (props) => {
             console.log("submit",res)
             Toastify("success", "Nộp Bài Thành Công");
             resetForm(true);
-            history.push("/submittion")
+            history.push(`/submittion/${res.id}`)
         })
         .catch( error => {
             Toastify("error", "Nộp Bài Thất Bại")

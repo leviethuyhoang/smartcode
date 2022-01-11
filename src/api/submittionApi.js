@@ -13,9 +13,9 @@ const submitionApi = {
         const url = `/submission`;
         return axiosClient.get(url)
     },
-    createOne : (params) => {
-        const url = `https://testting-data-default-rtdb.firebaseio.com/submittion.json`;
-        return axiosClient.post("",params,{baseURL : url});
+    getPathDownLoadFileExcel : (id) => {
+        const url = `/admin/constest/${id}/exportExcel`;
+        return url
     }
 }
 export default submitionApi;

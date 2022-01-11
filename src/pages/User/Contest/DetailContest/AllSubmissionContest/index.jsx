@@ -13,6 +13,7 @@ import SubmmittionItem from "./SubmittionItem";
 
 const AllSubmissionContest = (props) => {
 
+
     const {id} = props;
     const [data, seData] = useState([]);
     const [listSubmission, setListSubmission] = useState(null)
@@ -56,40 +57,45 @@ const AllSubmissionContest = (props) => {
                 </Cell>
             </Grid>
             { listSubmission ? 
-                    <Table
-                        listHead = {[
-                            {
-                                title : "Coder"
-                            },
-                            {
-                                title : "Thời Gian"
-                            },
-                            {
-                                title : "Bài Tập"
-                            },
-                            {
-                                title : "Ngôn Ngữ"
-                            },
-                            {
-                                title : "Kết Quả"
-                            },
-                            {
-                                title : "Xem"
-                            },
-                        ]}
-                    >
-                         {listSubmission.map((item,key) => {
-                            return  <SubmmittionItem
-                                key = {key}
-                                id = {item.id}
-                                languageId = {item.languageId}
-                                problem = {item.problem}
-                                results = {item.results}
-                                createAt = {item.createAt}
-                                submissionInfor = {item}
-                            />
-                        })}
-                    </Table>
+                    <Fragment>
+                        <Table
+                            listHead = {[
+                                {
+                                    title : "Coder"
+                                },
+                                {
+                                    title : "Thời Gian"
+                                },
+                                {
+                                    title : "Bài Tập"
+                                },
+                                {
+                                    title : "Ngôn Ngữ"
+                                },
+                                {
+                                    title : "Kết Quả"
+                                },
+                                {
+                                    title : "Xem"
+                                },
+                                {
+                                    title : "Tải"
+                                },
+                            ]}
+                        >
+                            {listSubmission.map((item,key) => {
+                                return  <SubmmittionItem
+                                    key = {key}
+                                    id = {item.id}
+                                    languageId = {item.languageId}
+                                    problem = {item.problem}
+                                    results = {item.results}
+                                    createAt = {item.createAt}
+                                    submissionInfor = {item}
+                                />
+                            })}
+                        </Table>
+                    </Fragment>
                     :
                     <div className = "flex justify-center">
                         <Loading1/>
