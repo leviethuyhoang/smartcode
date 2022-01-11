@@ -1,5 +1,6 @@
 import { GetProblem } from "app/slice/problemSlice";
 import HeaderPage from "components/Page/Admin/Page/HeaderPage";
+import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Search from "components/UI/Feild/Search";
 import Grid from "components/UI/Grid";
@@ -50,17 +51,23 @@ const AllAssignment = (props) => {
                         />
                     </Wrap>
                 </Cell>
-                {
-                    listProblems.map((item, key) => {
-                        return <Cell width = {4} key = {key}>
-                            <AsignmentItem
-                                id = {item.id}
-                                title = {item.title}
-                                description = {item.description}
-                            />
-                        </Cell>
-                    })
-                }
+                <Cell>
+                    <Card>
+                        <Grid>
+                            {
+                                listProblems.map((item, key) => {
+                                    return <Cell width = {4} key = {key}>
+                                        <AsignmentItem
+                                            id = {item.id}
+                                            title = {item.title}
+                                            description = {item.description}
+                                        />
+                                    </Cell>
+                                })
+                            }
+                        </Grid>
+                    </Card>
+                </Cell>
             </Grid>
         </Fragment>
     )

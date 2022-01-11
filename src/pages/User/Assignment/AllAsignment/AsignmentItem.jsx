@@ -22,9 +22,9 @@ const AsignmentItem = ({id, title, description}) => {
 
     return (
         <Fragment>
-            <div className="box cursor-pointer" onClick= {onShowDescription}>
-                <div className="flex flex-col lg:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5 h-32">
-                    <div className="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0 h-16 overflow-hidden p-2 text-overfollow-ellipsis font-medium text-xl" >
+            <div className="box border border-gray-400 intro-y">
+                <div className="flex flex-col items-center p-5 border-b border-gray-200 h-32 cursor-pointer "  onClick= {onShowDescription}>
+                    <div className="lg:ml-2 lg:mr-auto text-center mt-3 lg:mt-0 h-16 overflow-hidden p-2 text-overfollow-ellipsis font-medium text-xl" >
                         {title}
                     </div>
                 </div>

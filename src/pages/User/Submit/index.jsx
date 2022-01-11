@@ -46,6 +46,7 @@ const Submit = (props) => {
     const handleSubmit = (values,{setSubmitting, resetForm}) => {
         submitionApi.submit(values)
         .then( res => {
+            console.log("submit",res)
             Toastify("success", "Nộp Bài Thành Công");
             resetForm(true);
             history.push("/submittion")

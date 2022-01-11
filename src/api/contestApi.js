@@ -17,14 +17,14 @@ const contestApi =  {
         const url = "/contest";
         return axiosClient.post(url,params);
     },
-    editOne : (params) => {
+    updateOne : (params) => {
         const url = `/contest/${params.id}`;
         delete params.id;
         return axiosClient.put(url,params);
     },
-    deleteOne : (params) => {
-        const url = "/contest";
-        return axiosClient.delete(url,params);
+    deleteOne : (id) => {
+        const url = `/contest/${id}`;
+        return axiosClient.delete(url);
     },
     join : (params) => {
         const url = "/contest/registerUser";

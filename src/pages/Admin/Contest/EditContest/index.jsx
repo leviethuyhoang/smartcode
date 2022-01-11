@@ -6,12 +6,43 @@ import { Link } from "react-router-dom";
 import EditContestForm from "./EditContestForm";
 import Grid from "components/UI/Grid";
 import Cell from "components/UI/Cell";
+import contestApi from "api/contestApi";
+import Toastify from "components/UI/Notification/Toastify";
 
 const EditContest = (props) => {
 
-  const match = useRouteMatch();
-  const urlBackWard = match.url.split("/").slice(0,-2).join("/");
+    const match = useRouteMatch();
+    const urlBackWard = match.url.split("/").slice(0,-2).join("/");
     
+    const handleSubmit = (values, {setSubmitting}) => {
+        console.log("values",values);
+        const dataSend = {
+            id : values.id,
+            title: values.title,
+            description: values.description,
+            startTime: values.startTime,
+            endTime: values.endTime,
+            isPublic: values.isPublic,
+            password: values.password,
+            problemIds: values.problemIds,
+        }
+        console.log("sumbit",dataSend);
+
+        contestApi.updateOne(dataSend)
+        .then( res => {
+            console.log("Thanh Cong",res)
+            Toastify('success','Cập Nhật Kỳ Thi Thành Công');
+        })
+        .catch( error => {
+            console.log("error",error);
+            Toastify('error', 'Cập Nhất Kỳ Thi Thất Bại');
+        })
+        .finally( _ => {
+            setSubmitting(false);
+        })
+    }
+
+
     return (
         <Fragment>
             <HeaderPage>
@@ -26,7 +57,9 @@ const EditContest = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <EditContestForm/>
+                    <EditContestForm
+                        handleSubmit = {handleSubmit}
+                    />
                 </Cell>
             </Grid>
         </Fragment>

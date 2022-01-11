@@ -1,5 +1,4 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { FastField, Field, Form, Formik } from "formik";
 import { useHistory } from "react-router-dom";
 import * as  Yup from 'yup';
@@ -10,109 +9,64 @@ import TextField from "components/UI/Feild/TextField";
 import Cell from "components/UI/Cell";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
-import contestApi from "api/contestApi";
-import { contestAction, GetContest } from "app/slice/contestSlice";
 import { Loading } from "assets/icons/Loading";
-import Toastify from "components/UI/Notification/Toastify";
 import ReactSelect from "components/UI/Feild/ReactSelect";
-import { GetProblem } from "app/slice/problemSlice";
-import useHttp from "hooks/useHttp";
 import Switch from "components/UI/Switch";
+import problemApi from "api/problemApi";
 
 const AddContestForm = (props) => {
+
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [addable, setAddable] = useState(true);
-  const { SendRequest } = useHttp();
-
-  const listContest = useSelector((state) => state.contest);
-  const listProblem = useSelector(state => state.problem);
-
+  
   const [ problemOptions, setProblemOption] = useState([]);
-
-  const fetchContest = useCallback(() => {
-    contestApi.getMany()
-    .then((res) => {
-      setAddable(false)
-      dispatch(GetContest(res.results))
+   
+  const fetchProblem = useCallback(() => {
+    problemApi.admin.getMany()
+    .then( res => {
+      const configProblemOptions = res.results.map( item => { return {value : item.id, label : item.title}})
+      setProblemOption(configProblemOptions);
     })
-    .catch(error => {
-      setAddable(false)
-      Toastify('error','Đã xãy ra lỗi');
+    .catch( error => {
       console.log("error",error)
     })
+  },[])
 
- },[dispatch])
-
-  const fetchProblem = useCallback(() => {
-    dispatch(GetProblem(SendRequest));
-  },[SendRequest, dispatch])
-
-  // get Contest
   useEffect(() => {
-    if(listContest.data === null){
-      fetchContest();
-    } else {
-      setAddable(false)
-    }
+    const timer = setTimeout(fetchProblem(),0);
 
-  },[fetchContest, listContest.data])
+    return (
+      clearTimeout(timer)
+    )
+  },[fetchProblem])
 
-  // get problem option
-  useEffect(() => {
-    if(listProblem.data === null){
-      fetchProblem();
-    } else {
-      const options = listProblem.data.map( (problemItem) =>{ return {value : problemItem.id, label : problemItem.title}})
-      console.log("options", options);
-      setProblemOption(options);
-    }
-
-  },[fetchProblem, listProblem, listProblem.data])
+  const cancelHandler = () => {
+    history.push("/admin/contest");
+  };
 
   const initialValues = {
     title: "",
-    password: "",
     isPublic: false,
+    password: "",
     description: "",
     startTime: "",
     endTime : "",
     problemIds : [],
   };
-   const validationSchema = Yup.object().shape({
-      title: Yup.string().required('Bắt Buộc'),
-      description: Yup.string().required('Bắt Buộc'),
-      password: Yup.string().required('Bắt Buộc'),
-      startTime : Yup.string().required('Bắt Buộc'),
-      endTime: Yup.string().required('Bắt Buộc'),
-   });
 
-
-  const handleSubmit = (values , {setSubmitting, resetForm}) => {
-    console.log("values",values);
-    contestApi.createOne(values)
-    .then((res) => {
-      dispatch(contestAction.createOne({...values, id : res.id}));
-      setSubmitting(false);
-      Toastify('success','Tạo Kỳ Thi Thành Công');
-      resetForm(true);
-    })
-    .catch( error => {
-      setSubmitting(false);
-      Toastify('error','Tạo Kỳ Thi Thất Bại')
-    })
-  };
-
-  const cancelHandler = () => {
-    history.push("/admin/contest");
-  };
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required('Bắt Buộc'),
+    description: Yup.string().required('Bắt Buộc'),
+    password: Yup.string().required('Bắt Buộc'),
+    startTime : Yup.string().required('Bắt Buộc'),
+    endTime: Yup.string().required('Bắt Buộc'),
+ });
 
   return (
     <Fragment>
       <Card>
         <Formik 
           initialValues={initialValues} 
-          onSubmit={handleSubmit} 
+          onSubmit={props.handleSubmit} 
           validationSchema={validationSchema}
           enableReinitialize = {true}
         >
@@ -190,7 +144,6 @@ const AddContestForm = (props) => {
                         <Button 
                           type="submit" 
                           classes="btn btn-primary w-full h-10"
-                          disabled = {addable}
                         >
                           {isSubmitting ? <Loading/> : "Tạo Kỳ Thi"}
                         </Button>

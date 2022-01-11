@@ -7,29 +7,22 @@ import TextField from "components/UI/Feild/TextField";
 import Cell from "components/UI/Cell";
 import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
-import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "assets/icons/Loading";
-import { contestAction } from "app/slice/contestSlice";
-import Toastify from "components/UI/Notification/Toastify";
 import contestApi from "api/contestApi";
 import * as Yup from "yup";
-import { GetProblem } from "app/slice/problemSlice";
 import ReactSelect from "components/UI/Feild/ReactSelect";
-import useHttp from "hooks/useHttp";
 import Switch from "components/UI/Switch";
+import ConvertDate from "util/ConvertDate";
+import problemApi from "api/problemApi";
 
 const EditContestForm = (props) => {
 
   const parmas = useParams();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { SendRequest } = useHttp();
 
-  const listContest = useSelector((state) => state.contest);
-  const listProblem = useSelector(state => state.problem);
 
-  const [ problemOptions, setProblemOption] = useState(null);
-  const [initialValues, setInitialValues] = useState({
+  const [ problemOptions, setProblemOption] = useState([]);
+  const [detailContest, setDetailContest] = useState({
     id : "",
     title: "",
     isPublic: false,
@@ -39,37 +32,40 @@ const EditContestForm = (props) => {
     endTime : "",
     problemIds : [],
   });
-  console.log("initial",initialValues)
-  useEffect(() => {
-    const contestEdit = listContest.data.find((item) => item.id.toString() === parmas.id.toString());
 
-    const listProblemOfContest = contestEdit.problemIds.map( item => item.id)
-
-    const dataConfig = {...contestEdit,
-      startTime : contestEdit.startTime.split(':').slice(0,2).join(":"),
-      endTime : contestEdit.endTime.split(':').slice(0,2).join(":"),
-      problemIds : listProblemOfContest,
-    }
-
-    setInitialValues(dataConfig);
-  }, [listContest.data, parmas.id]);
-
-  // get all problem
-  const fetchProblem = useCallback(() => {
-    dispatch(GetProblem(SendRequest));
-  },[SendRequest, dispatch])
-
-    // get problem option
-    useEffect(() => {
-      if(listProblem.data === null){
-        fetchProblem();
-      } else {
-        const options = listProblem.data.map( problemItem =>{ return {value : problemItem.id, label : problemItem.title}})
-        console.log("problemoption",options)
-        setProblemOption(options);
+  const fetchContest = useCallback(() => {
+    contestApi.getOne(parmas.id)
+    .then( res => {
+      const config = {...res,
+        endTime : ConvertDate.getDateTimeLocalInput(res.endTime),
+        startTime : ConvertDate.getDateTimeLocalInput(res.startTime),
+        problemIds : res.problemIds.map( item => item.id),
       }
-  
-    },[fetchProblem, listProblem, listProblem.data])
+      setDetailContest(config);
+    })
+    .catch( error => {
+      console.log("error");
+    })
+  },[parmas.id])
+
+  const fetchProblem = useCallback(() => {
+      problemApi.admin.getMany()
+      .then( res => {
+        const configProblemOptions = res.results.map( item => { return {value : item.id, label : item.title}})
+        setProblemOption(configProblemOptions);
+      })
+      .catch( error => {
+        console.log("error",error)
+      })
+  },[])
+
+  useEffect(() => {
+    fetchProblem();
+  },[fetchProblem])
+
+  useEffect( () => {
+    fetchContest();
+  },[fetchContest])
 
   const validationSchema = Yup.object().shape({
 
@@ -81,34 +77,6 @@ const EditContestForm = (props) => {
     
   });
 
-  const handleSubmit = (values , {setSubmitting}) => {
-
-      const dataConfig = {
-        id : values.id,
-        title : values.title,
-        isPublic: values.isPublic,
-        description : values.description,
-        password : values.password,
-        startTime : values.startTime,
-        endTime : values.endTime,
-        problemIds : values.problemIds,
-      }
-
-      console.log("update",dataConfig)
-      
-      contestApi.editOne(dataConfig)
-      .then(res => {
-        dispatch(contestAction.editOne(values));
-        Toastify('success', "CẬP NHẬT KỲ THI THÀNH CÔNG" )
-      })
-      .catch(error => {
-        Toastify('error', "CẬP NHẬT KỲ THI THẤT BẠI" )
-      })
-      .finally( _ => {
-        setSubmitting(false);
-      })
-  };
-
   const cancelHandler = () => {
     history.push("/admin/contest");
   };
@@ -117,8 +85,8 @@ const EditContestForm = (props) => {
     <Fragment>
         <Card>
           <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
+            initialValues={detailContest}
+            onSubmit={props.handleSubmit}
             validationSchema={validationSchema}
             enableReinitialize = {true}
           >
