@@ -24,6 +24,7 @@ const AllContest = (props) => {
     const fetchData = useCallback(() => {
         contestApi.getMany()
         .then((res) => {
+            console.log("Thanh Cong",res)
             setData(res.results)
         })
         .catch(error => {
