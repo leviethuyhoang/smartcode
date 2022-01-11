@@ -8,12 +8,40 @@ import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
 import Wrap from "components/UI/Wrap";
 import AddContestForm from "./AddContestForm";
+import contestApi from "api/contestApi";
+import Toastify from "components/UI/Notification/Toastify";
 
 const AddContest = (props) => {
 
     const match = useRouteMatch();
     const urlBackWard = match.url.split("/").slice(0,-1).join("/");
     
+    const handleSubmit = (values,{setSubmitting, resetForm}) => {
+        console.log("submit",values);
+
+        const dataSend = {
+            title : values.title,
+            description : values.description,
+            startTime : values.startTime,
+            endTime : values.endTime,
+            isPublic : values.isPublic,
+            password : values.password,
+            problemIds : values.problemIds,
+        }
+        console.log(dataSend)
+        contestApi.createOne(dataSend)
+        .then( res => {
+            Toastify('success','Thêm Bài Tập Thành Công');
+            resetForm(true);
+        })
+        .catch( _ => {
+            Toastify('error','Thêm Bài Tập Thất Bại');
+        })
+        .finally( _ => {
+            setSubmitting(false);
+        })
+    }
+
     return (
         <Fragment>
             <HeaderPage>
@@ -28,7 +56,9 @@ const AddContest = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <AddContestForm/>
+                    <AddContestForm
+                        handleSubmit = {handleSubmit}
+                    />
                 </Cell>
             </Grid>
         </Fragment>

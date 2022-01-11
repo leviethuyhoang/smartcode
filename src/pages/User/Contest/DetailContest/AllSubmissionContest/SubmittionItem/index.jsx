@@ -3,20 +3,18 @@ import SubmittionForm from "components/Page/User/Submission/SubmissionForm";
 import Card from "components/UI/Card";
 import Modal from "components/UI/Modal/Modal";
 import { Fragment, useState } from "react";
-import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
+import ConvertDate from "util/ConvertDate";
 
 
 const SubmmittionItem = (props) => {
 
-    const match = useRouteMatch();
-
-    const {id, problem} = props.submissionInfor;
+    const {id, user, problem, createdAt, score, totalScore, language} = props.submissionInfor;
     const [isShowModal, setIsShowModal] = useState(false);
     const showModal = (id) => {
         setIsShowModal(true)
     }
-
+    console.log(props.submissionInfor)
     const hideModal = () => {
         setIsShowModal(false);
     }
@@ -26,12 +24,12 @@ const SubmmittionItem = (props) => {
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        <Link to = {`/profile/${id}`} >{"Coder"}</Link>
+                        <Link to = {`/profile/${id}`} >{user.username}</Link>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"Hom Nay"}</p>
+                        <p className = "whitespace-nowrap text-center">{ConvertDate.getDateNomal(createdAt)}</p>
                     </div>
                 </td>
                 <td className = "w-40">
@@ -41,12 +39,12 @@ const SubmmittionItem = (props) => {
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"C++"}</p>
+                        <p className = "whitespace-nowrap text-center">{language.name}</p>
                     </div>
                 </td>
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{"10"}</p>
+                        <p className = "whitespace-nowrap text-center">{`${score}/${totalScore}`}</p>
                     </div>
                 </td>
                 <td className = "w-40">
@@ -61,8 +59,6 @@ const SubmmittionItem = (props) => {
                     <Card classes = "relative">
                         <HeaderPage mt = "0" classes = "flex fixed top-0" >
                             <span className = "mr-auto">Chi Tiết Bài Làm</span>
-                            <Link to = {`${match.url}/${id}`} className = "ml-auto w-40">Toàn Màn Hình <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize inline"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" /></svg></Link>
-
                             <span className = "btn btn-rounded-dark  w-8 h-8" onClick = {hideModal}>
                                 x
                             </span>

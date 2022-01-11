@@ -12,6 +12,7 @@ import AssignmentItem from './AssignmentItem';
 import Card from 'components/UI/Card';
 import Loading1 from 'components/UI/Loading/Loading1';
 import problemApi from 'api/problemApi';
+import Toastify from 'components/UI/Notification/Toastify';
 
 
 const AllAssignments = (props) => {
@@ -23,12 +24,13 @@ const AllAssignments = (props) => {
 
 
     const fetchProblem = useCallback(() => {
-        problemApi.getMany()
+        problemApi.admin.getMany()
         .then( res => {
             setData(res.results);
         })
         .catch( error => {
-            console.log(error)
+            console.log(error);
+            Toastify("error","Đã Xảy Ra Lỗi ! Vui Lòng Thử Lại")
         })
     },[]);
 
@@ -41,6 +43,10 @@ const AllAssignments = (props) => {
         )
     },[fetchProblem])
     
+    const handleDelete = (id) => {
+        setData(prev => prev.filter( item => item.id !== id))
+    }
+
     // UI
     const filterSearch = useCallback((keySearch) => {
         if(data){
@@ -88,7 +94,7 @@ const AllAssignments = (props) => {
                             { listProblem.map((item,key) => {
                             return <AssignmentItem
                                     key = {key}
-                                    fetchData = {fetchProblem}
+                                    handleDelete = {handleDelete}
                                     {...item}
                                 />
                             })}

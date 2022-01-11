@@ -125,7 +125,7 @@ const DetailsContest = (props) => {
                         {contestDetail ?
                             <Fragment>
                                 <div className="flex flex-col items-center w-full border-b border-gray-200 dark:border-dark-5 pb-5">
-                                    <h1>{contestDetail.title}</h1>
+                                    <h1 className="font-medium">{contestDetail.title}</h1>
                                     <p className="mt-5 text-center w-full">{contestDetail.description}</p>
                                     <div className="flex flex-row justify-center mt-5">
                                         <span className="mr-5">

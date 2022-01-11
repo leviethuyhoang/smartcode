@@ -20,6 +20,7 @@ const TextField = (props) => {
                 rows = {rows ? rows : '10'}
                 className={`form-control ${classes?classes:""} ${showError ? "border-theme-24" : ''}`} 
                 placeholder={placeholder}
+                style={{minHeight:'40px'}}
             />
             <p  className = "text-theme-24 mt-2 pristine-error"><ErrorMessage name= {name} /></p>
         </div>

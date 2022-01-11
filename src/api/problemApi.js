@@ -1,5 +1,7 @@
 import axiosClient from "./axiosClient";
 
+const adminUrl = "/admin";
+
 const problemApi = {
     getMany : () => {
         const url = '/problem'
@@ -20,6 +22,12 @@ const problemApi = {
     deleteOne : (id) => {
         const url = `/problem/${id}`;
         return axiosClient.delete(url)
+    },
+    admin : {
+        getMany : () => {
+            const url = `${adminUrl}/problem`;
+            return axiosClient.get(url);
+        }
     }
     
 }

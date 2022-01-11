@@ -3,8 +3,6 @@ import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 
 import ButtonDelete from "components/UI/Action/Delete";
-import { useDispatch } from "react-redux";
-import { contestAction } from "app/slice/contestSlice";
 import contestApi from "api/contestApi";
 import ConvertDate from "util/ConvertDate";
 
@@ -12,17 +10,14 @@ const ContestItem = (props) => {
 
   const {id, title, endTime, startTime} = props;
   const match = useRouteMatch();
-
-  const dispatch = useDispatch();
   
   const handleDelete = () => {
     return new Promise((resolve, reject) => {
-      console.log("ex")
       contestApi.deleteOne(id)
       .then(res => {
         console.log("res",res);
-        dispatch(contestAction.deleteOne(id));
         resolve("XÓA KỲ THI THÀNH CÔNG");
+        props.handleDelete(id);
       })
       .catch(error => {
         console.log("error",error);

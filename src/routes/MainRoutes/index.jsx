@@ -6,6 +6,7 @@ import AssignmentRoutes from "./AssignmentRoutes";
 import ProfiletRoutes from "./ProfileRoutes";
 import ContestRoutes from "./ContestRoutes";
 import Submit from "pages/User/Submit";
+import Testing from "pages/Testing";
 
 const MainRoutes = (props) => {
 
@@ -27,6 +28,9 @@ const MainRoutes = (props) => {
                     </Route>
                     <Route path = {`/contest`}>
                         <ContestRoutes/>
+                    </Route>
+                    <Route path = {`/test`}>
+                        <Testing/>
                     </Route>
                 </MainLayout>
             </Switch>
