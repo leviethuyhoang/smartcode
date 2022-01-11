@@ -11,10 +11,13 @@ import Wrap from "components/UI/Wrap";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Fragment, useCallback} from "react";
+import { Link } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom/cjs/react-router-dom.min";
 import UserItem from "./UserItem"; 
 
 const AllUsers = (props) => {
 
+    const match = useRouteMatch();
     const [data, setData] = useState(null);
     const [listUser, setListUser] = useState([]);
     console.log("data",data)
@@ -35,7 +38,7 @@ const AllUsers = (props) => {
     
     const filterSearch = useCallback((keySearch) => {
         if(data){
-            setListUser(data.filter(item => item.id !== 3 && item.username.match(keySearch)))
+            setListUser(data.filter(item => item.username.match(keySearch)))
         }
     },[data])
 
@@ -47,6 +50,9 @@ const AllUsers = (props) => {
             <Grid>
                 <Cell>
                     <Wrap>
+                        <Link className = "btn btn-primary mr-auto" to = {`${match.url}/add`}>
+                            Tạo Tài Khoản
+                        </Link>
                         <Search
                             filterSearch = {filterSearch}
                             classes = "ml-auto"
