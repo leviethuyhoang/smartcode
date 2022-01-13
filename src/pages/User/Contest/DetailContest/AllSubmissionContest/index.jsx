@@ -20,7 +20,6 @@ const AllSubmissionContest = (props) => {
     const {id} = props;
     const [data, seData] = useState([]);
     const [listSubmission, setListSubmission] = useState(null)
-
     const auth = useSelector(state => state.auth)
 
     const fetchSubmission = useCallback(() => {
@@ -90,15 +89,14 @@ const AllSubmissionContest = (props) => {
                                     title : "Xem"
                                 },
                             ]}
+
+                            exclude = {[ 
+                                !listSubmission[0]?.score && !listSubmission[0]?.totalScore && "Kết Quả" ,
+                            ]}
                         >
                             {listSubmission.map((item,key) => {
                                 return  <SubmmittionItem
                                     key = {key}
-                                    id = {item.id}
-                                    languageId = {item.languageId}
-                                    problem = {item.problem}
-                                    results = {item.results}
-                                    createAt = {item.createAt}
                                     submissionInfor = {item}
                                 />
                             })}
