@@ -8,7 +8,7 @@ import ConvertDate from "util/ConvertDate";
 
 const SubmmittionItem = (props) => {
 
-    const {id, user, problem, createdAt, score, totalScore, language} = props.submissionInfor;
+    const {contestId, user, problem, createdAt, score, totalScore, language} = props.submissionInfor;
     const [isShowModal, setIsShowModal] = useState(false);
 
 
@@ -16,6 +16,7 @@ const SubmmittionItem = (props) => {
         setIsShowModal(true)
     }
     const hideModal = () => {
+        console.log("Hide")
         setIsShowModal(false);
     }
 
@@ -24,7 +25,7 @@ const SubmmittionItem = (props) => {
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        <Link to = {`/profile/${id}`} >{user.username}</Link>
+                        <Link to = {`/profile/${user.id}`} >{user.username}</Link>
                     </div>
                 </td>
                 <td className = "w-40">
@@ -42,11 +43,15 @@ const SubmmittionItem = (props) => {
                         <p className = "whitespace-nowrap text-center">{language.name}</p>
                     </div>
                 </td>
-                <td className = "w-40">
-                    <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                        <p className = "whitespace-nowrap text-center">{`${score}/${totalScore}`}</p>
-                    </div>
-                </td>
+                { score !== undefined &&
+                
+                    <td className = "w-40">
+                        <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
+                            <p className = "whitespace-nowrap text-center">{`${score}/${totalScore}`}</p>
+                        </div>
+                    </td>
+
+                }
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap mt-0.5">
                         <p className = "whitespace-nowrap text-center" onClick = {showModal}>
@@ -60,6 +65,9 @@ const SubmmittionItem = (props) => {
                     <Card classes = "relative">
                         <HeaderPage mt = "0" classes = "flex fixed top-0" >
                             <span className = "mr-auto">Chi Tiết Bài Làm</span>
+                            <div onClick={hideModal}>
+                                <Link to = {`/submittion/${contestId}`} className = "ml-auto w-40 cursor-pointer">Toàn Màn Hình <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-maximize inline"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" /></svg></Link>
+                            </div>
                             <span className = "btn btn-rounded-dark  w-8 h-8" onClick = {hideModal}>
                                 x
                             </span>
