@@ -23,6 +23,7 @@ import { Link, useHistory } from "react-router-dom";
 import ConvertDate from "util/ConvertDate";
 import Wrap from "components/UI/Wrap";
 import AllProblemContest from "./AllProblemContest";
+import { Loading } from "assets/icons/Loading";
 
 const DetailsContest = (props) => {
 
@@ -34,6 +35,7 @@ const DetailsContest = (props) => {
     const [contestDetail, setContestDetail] = useState(null);
     const [listProblem, setListProblem] = useState([]);
     const [idProblem, setIdProblem ] = useState(null);
+    const [isLoading, setIsLoading ] = useState(false);
 
     console.log("contest Detail",contestDetail);
 
@@ -58,6 +60,7 @@ const DetailsContest = (props) => {
 
     const handleJoinContest = () => {
         if(!contestDetail.isJoined) {
+            setIsLoading(true);
             contestApi.join({contestId : params.id})
             .then(res => {
                 console.log(res)
@@ -69,6 +72,9 @@ const DetailsContest = (props) => {
             .catch( error => {
                 console.log("error",error);
                 Toastify('error',"Bạn Phải Đăng Nhập Để Tham Gia Kỳ Thi")
+            })
+            .finally( _ => {
+                setIsLoading(false);
             })
         } else {
 
@@ -138,13 +144,17 @@ const DetailsContest = (props) => {
                                     <Button
                                         onClick = {handleJoinContest}
                                         classes = {`${contestDetail.isJoined ? "btn-dark":"btn-primary"} mt-5 w-40`}
-                                        disabled = {contestDetail.isJoined}
+                                        disabled = {contestDetail.isJoined || isLoading}
                                     >
-                                    {contestDetail.isJoined ? "Đã Tham Gia ":"Tham Gia"}
+                                        {
+                                            isLoading ? <Loading/> :
+                                            contestDetail.isJoined ? "Đã Tham Gia ":"Tham Gia"
+                                        }
                                     </Button>
                                 </div>
 
-                                <Tabs>
+                                { contestDetail.isJoined &&
+                                    <Tabs>
                                     <TabsNav>
                                         <TabItem name = "listProblem" {...tab}>
                                             Đề Bài
@@ -180,6 +190,7 @@ const DetailsContest = (props) => {
                                         </TabPane>
                                     </TabContent>
                                 </Tabs>
+                                }
                             </Fragment>
                         :
                             <div className="flex justify-center w-full">
