@@ -91,7 +91,7 @@ const DetailsContest = (props) => {
         .then(res => {
             Toastify("success", "Nộp Bài Thành Công");
             resetForm(true);
-            fetchContest();
+            history.push(`/submittion/${res.id}`);
         })
         .catch( error => {
             console.log("error",error)

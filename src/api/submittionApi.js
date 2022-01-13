@@ -14,8 +14,9 @@ const submitionApi = {
         return axiosClient.get(url)
     },
     getPathDownLoadFileExcel : (id) => {
-        const url = `/admin/constest/${id}/exportExcel`;
-        return url
+        const baseURL = `http://103.161.171.48:5000`;
+        const url = `${baseURL}/admin/constest/${id}/exportExcel`;
+        return url;
     }
 }
 export default submitionApi;

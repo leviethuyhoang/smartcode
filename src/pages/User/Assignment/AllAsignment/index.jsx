@@ -71,7 +71,7 @@ const AllAssignment = (props) => {
                                 </Cell>
                             }
                             {
-                                listProblems.length <= 0 &&
+                                listProblems && listProblems.length <= 0 &&
                                 <Cell>
                                     <div className="flex justify-center">
                                         <h2>Không Có Bài Tập</h2>
