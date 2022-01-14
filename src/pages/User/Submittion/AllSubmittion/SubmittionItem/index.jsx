@@ -26,7 +26,7 @@ const SubmmittionItem = (props) => {
             <tr className = "zoom-in intro-y">
                 <td className = "w-40">
                     <div className="text-gray-600 text-xs whitespace-nowrap text-center mt-0.5" >
-                        {user ? <Link to = {`/profile/${user.id}`} >{user.username}</Link> : "Người Dùng Đã Bị Xóa"}
+                        {user ? <Link to = {`/profile/${user.id}`} >{user.username}</Link> : "Người Dùng SmartCode"}
                     </div>
                 </td>
                 <td className = "w-40">
