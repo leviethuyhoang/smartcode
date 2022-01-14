@@ -17,7 +17,7 @@ import SubmmittionItem from "./SubmittionItem";
 const AllSubmissionContest = (props) => {
 
 
-    const {id} = props;
+    const {id,} = props;
     const [data, seData] = useState([]);
     const [listSubmission, setListSubmission] = useState(null)
     const auth = useSelector(state => state.auth)

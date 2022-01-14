@@ -28,7 +28,7 @@ const AddContest = (props) => {
             password : values.password,
             problemIds : values.problemIds,
         }
-        console.log(dataSend)
+        console.log("submit",dataSend)
         contestApi.createOne(dataSend)
         .then( res => {
             Toastify('success','Thêm Bài Tập Thành Công');

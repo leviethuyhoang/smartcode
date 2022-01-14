@@ -1,32 +1,15 @@
-import Button from "components/UI/Button/Button";
 import Card from "components/UI/Card";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
-import SplitView from "components/UI/SplitView";
-import { Fragment, useState } from "react";
-import SubmitForm from "./SubmitForm";
+import { Fragment } from "react";
 
 
 const ShowProblem = (props) => {
 
-    const { listProblems, handleSubmit, idProblem } = props;
-    
-    const [problem, setProblem] = useState(null);
-    const [isShowHint, setIsShowHint] = useState(false);
-    
-    const handleChangeProblem = (id) => {
-        setProblem(listProblems.find(item => item.id === +id))
-        setIsShowHint(false);
-    }
-    const onShowHint = () => {
-        console.log("show")
-        setIsShowHint(true);
-    }
+    const { problem } = props;
 
     return (
         <Fragment>
-           
-            <SplitView>
                 <Card classes = "mr-1 min-width">
                     {problem ? 
                     <Grid >
@@ -68,28 +51,11 @@ const ShowProblem = (props) => {
                                     </table>
                             </div>
                         </Cell>
-                        {isShowHint ? 
-                            <Cell>
-                                <b>Hướng Dẫn</b>
-                                <p style = {{whiteSpace : "pre"}}>{problem.hint}</p>
-                            </Cell>
-                        :
-                        <Cell>
-                            <Button onClick = {onShowHint}> Xem Hướng Dẫn</Button>
-                        </Cell>
-                        }
                     </Grid>
                     :
                     <p>Hãy Chọn Bài Tập</p>
                     }
                 </Card>
-                <SubmitForm
-                    listProblems = {listProblems}
-                    handleChangeProblem = {handleChangeProblem}
-                    handleSubmit = {handleSubmit}
-                    idProblem = {idProblem}
-                />
-            </SplitView>
         </Fragment>
     )
 }

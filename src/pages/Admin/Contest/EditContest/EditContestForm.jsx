@@ -32,7 +32,7 @@ const EditContestForm = (props) => {
     endTime : "",
     problemIds : [],
   });
-
+console.log(detailContest)
   const fetchContest = useCallback(() => {
     contestApi.getOne(parmas.id)
     .then( res => {
