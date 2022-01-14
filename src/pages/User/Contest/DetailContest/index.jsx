@@ -18,7 +18,6 @@ import Grid from "components/UI/Grid";
 import Cell from "components/UI/Cell";
 import Loading1 from "components/UI/Loading/Loading1";
 import submitionApi from "api/submittionApi";
-import AllSubmissionContest from "./AllSubmissionContest";
 import { Link, useHistory } from "react-router-dom";
 import ConvertDate from "util/ConvertDate";
 import Wrap from "components/UI/Wrap";
@@ -37,6 +36,8 @@ const DetailsContest = (props) => {
     const [idProblem, setIdProblem ] = useState(null);
     const [isLoading, setIsLoading ] = useState(false);
 
+    const [enableContest, setEnableContest ] = useState(false);
+    console.log("enable", enableContest)
     console.log("contest Detail",contestDetail);
 
     const fetchContest = useCallback(() => {
@@ -97,7 +98,7 @@ const DetailsContest = (props) => {
         .then(res => {
             Toastify("success", "Nộp Bài Thành Công");
             resetForm(true);
-            history.push(`/submittion/${res.id}`);
+            history.push(`/submittion/${res.id}?idContest=${contestDetail.id}`);
         })
         .catch( error => {
             console.log("error",error)
@@ -107,6 +108,41 @@ const DetailsContest = (props) => {
             setSubmitting(false);
         })
     }
+
+    useEffect(() => {
+        if(contestDetail){
+            const now = new Date().getTime();
+            const startTime = new Date(`${contestDetail.startTime}`).getTime();
+            console.log("now, startTime", now, startTime);
+            const timeLine = now - startTime;
+            console.log("timeLine",timeLine)
+
+            if( timeLine < 0 ){
+
+                console.log("Creating")
+                var timer = setTimeout(() => {
+
+                    console.log("Running")
+                    setEnableContest(true);
+
+                },Math.abs(timeLine));
+
+                console.log("END")
+
+            } else {
+
+                console.log("ELSE")
+                setEnableContest(true);
+
+            }
+        }
+
+        return (() =>{
+            
+            console.log("clear")
+            clearTimeout(timer)
+        })
+    },[contestDetail])
 
     return (
         <Fragment>
@@ -162,32 +198,40 @@ const DetailsContest = (props) => {
                                         <TabItem name = "submit" {...tab}>
                                             Nộp Bài
                                         </TabItem>
-                                        <TabItem name = "allSubmission" {...tab}>
+                                        {/* <TabItem name = "allSubmission" {...tab}>
                                             Tất Cả Bài Làm
-                                        </TabItem>
+                                        </TabItem> */}
                                     </TabsNav>
                                     <TabContent>
                                         <TabPane name = "listProblem" {...tab}>
                                             <Grid>
-                                                <AllProblemContest
+                                                {enableContest ? <AllProblemContest
                                                     listProblem = {listProblem}
                                                     onShowDetaiProblem = {onShowDetaiProblem}
                                                     resolveProblem = {resolveProblem}
                                                 />
+                                            :
+                                                    <p>Chưa Đến Giờ Làm Bài</p>
+                                            }
                                             </Grid>
                                         </TabPane>
                                         <TabPane name = "submit" {...tab}>
-                                            <SubmitProblemContest
-                                                listProblems = {listProblem}
-                                                onSubmit = {handleSubmitProblem}
-                                                idProblem = {idProblem}
-                                            />
+                                        {enableContest ?
+                                                <SubmitProblemContest
+                                                    listProblems = {listProblem}
+                                                    onSubmit = {handleSubmitProblem}
+                                                    idProblem = {idProblem}
+                                                    idContest = {contestDetail.id}
+                                                />
+                                            :
+                                                <p>Chưa Đến Giờ Làm Bài</p>
+                                            }
                                         </TabPane>
-                                        <TabPane name = "allSubmission" {...tab}>
+                                        {/* <TabPane name = "allSubmission" {...tab}>
                                             <AllSubmissionContest
                                                 id = {params.id}
                                             />
-                                        </TabPane>
+                                        </TabPane> */}
                                     </TabContent>
                                 </Tabs>
                                 }

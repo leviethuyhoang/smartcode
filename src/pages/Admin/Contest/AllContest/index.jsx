@@ -18,7 +18,8 @@ const AllContest = (props) => {
   const [data, setData] = useState(null);
   const [listContest, setListContest] = useState(null);
   
- 
+  console.log(data)
+
   const fetchData = useCallback(() => {
       contestApi.getMany()
       .then((res) => {

@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const ConvertDate = {
     getDateNomal : (dateUTC) => {
         if(dateUTC){
@@ -14,7 +16,9 @@ const ConvertDate = {
         }
     },
     getDateTimeLocalInput : (dateUTC) => {
-        return dateUTC.split(':').slice(0,2).join(':');
+        const timeParse = moment(dateUTC).utc().add(7, 'hours').toISOString();
+        const time = timeParse.split(':').slice(0,2).join(':');
+        return time;
     }
 
 }
