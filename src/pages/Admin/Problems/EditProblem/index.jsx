@@ -3,7 +3,7 @@ import HeaderPage from "components/Page/Admin/Page/HeaderPage";
 import Cell from "components/UI/Cell";
 import Grid from "components/UI/Grid";
 import Wrap from "components/UI/Wrap";
-import EditAssignmentForm from "./EditAssignmentForm";
+import EditProblemForm from "./EditProblemForm";
 
 import { Fragment } from "react";
 import { useRouteMatch } from "react-router";
@@ -13,7 +13,7 @@ import Toastify from "components/UI/Notification/Toastify";
 import { useHistory } from "react-router-dom";
 
 
-const EditAssignment = (props) => {
+const EditProblem = (props) => {
 
     const match = useRouteMatch();
     const history = useHistory();
@@ -58,7 +58,7 @@ const EditAssignment = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <EditAssignmentForm
+                    <EditProblemForm
                         handleSubmit =  {handleSubmit}
                     />
                 </Cell>
@@ -66,4 +66,4 @@ const EditAssignment = (props) => {
         </Fragment>
     )
 }
-export default EditAssignment;
+export default EditProblem;

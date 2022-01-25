@@ -7,7 +7,7 @@ import Wrap from "components/UI/Wrap";
 import { Fragment } from "react";
 import { useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
-import AddAssignmentForm from "./AddAssignForm";
+import AddProblemForm from "./AddProblem";
 
 
 const AddAssignment = (props) => {
@@ -45,7 +45,7 @@ const AddAssignment = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <AddAssignmentForm
+                    <AddProblemForm
                         handleSubmit = {handleSubmit}
                     />
                 </Cell>

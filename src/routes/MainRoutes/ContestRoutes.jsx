@@ -14,7 +14,6 @@ const ContestRoutes = (props) => {
                 <Route exact path = {`${match.url}/:id`}>
                     <DetailsContest/>
                 </Route>
-
                 <Route exact path = {`${match.url}`}>
                     <AllContest/>
                 </Route>

@@ -12,7 +12,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { CreateMenu } from "util/Funtion/CreateMenu";
+import { CreateMenu } from "util/CreateMenu";
 import * as Yup from "yup"
 
 

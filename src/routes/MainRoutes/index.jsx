@@ -1,8 +1,8 @@
 import MainLayout from "components/Layout/MainLayout";
 import { Fragment } from "react";
 import { Route, Switch } from "react-router";
-import SubmittionRoutes from "./SubmitionRoutes";
-import AssignmentRoutes from "./AssignmentRoutes";
+import SubmissionRoutes from "./SubmissionRoutes";
+import ProblemRoutes from "./ProblemRoutes";
 import ProfiletRoutes from "./ProfileRoutes";
 import ContestRoutes from "./ContestRoutes";
 import Submit from "pages/User/Submit";
@@ -14,11 +14,11 @@ const MainRoutes = (props) => {
         <Fragment>
             <Switch>
                 <MainLayout>
-                    <Route path = {`/assignment`}>
-                        <AssignmentRoutes/>
+                    <Route path = {`/problem`}>
+                        <ProblemRoutes/>
                     </Route>
-                    <Route path = {`/submittion`}>
-                        <SubmittionRoutes/>
+                    <Route path = {`/submission`}>
+                        <SubmissionRoutes/>
                     </Route>
                     <Route exact path = {`/submit`}>
                         <Submit/>

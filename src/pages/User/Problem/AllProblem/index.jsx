@@ -51,7 +51,7 @@ const AllAssignment = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card>
+                    <Card classes = "min-h-90">
                         <Grid>
                             {listProblems ?
                                 listProblems.map((item, key) => {

@@ -5,6 +5,7 @@ import AuthenticationRoutes from "./AuthenticateRoutes";
 import MainRoutes from "./MainRoutes";
 
 const Routes = () => {
+
     return (
             <Switch>
                 <Route path = "/admin" >

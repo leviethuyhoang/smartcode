@@ -8,7 +8,7 @@ import Wrap from 'components/UI/Wrap';
 import Cell from 'components/UI/Cell';
 import Search from 'components/UI/Feild/Search';
 import Table from 'components/UI/Table/Table';
-import AssignmentItem from './AssignmentItem';
+import ProblemItem from './ProblemItem';
 import Card from 'components/UI/Card';
 import Loading1 from 'components/UI/Loading/Loading1';
 import problemApi from 'api/problemApi';
@@ -92,7 +92,7 @@ const AllAssignments = (props) => {
                             ]}
                         >
                             { listProblem.map((item,key) => {
-                            return <AssignmentItem
+                            return <ProblemItem
                                     key = {key}
                                     handleDelete = {handleDelete}
                                     {...item}

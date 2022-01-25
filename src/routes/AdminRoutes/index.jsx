@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
 
 import AdminLayout from "components/Layout/AdminLayout";
-import AssignmentRoutes from "./AssignmentRoutes";
+import AssignmentRoutes from "./ProblemRoutes";
 import UserRoutes from "./UserRoutes";
 import ContestRoutes from "./ContestRoutes";
 import PostRoutes from "./PostRoutes";
