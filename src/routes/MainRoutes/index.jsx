@@ -7,13 +7,14 @@ import ProfiletRoutes from "./ProfileRoutes";
 import ContestRoutes from "./ContestRoutes";
 import Submit from "pages/User/Submit";
 import Testing from "pages/Testing";
+import Page404 from "pages/Page404";
 
 const MainRoutes = (props) => {
 
     return (
         <Fragment>
-            <Switch>
-                <MainLayout>
+            <MainLayout>
+                <Switch>
                     <Route path = {`/problem`}>
                         <ProblemRoutes/>
                     </Route>
@@ -32,8 +33,11 @@ const MainRoutes = (props) => {
                     <Route path = {`/test`}>
                         <Testing/>
                     </Route>
-                </MainLayout>
-            </Switch>
+                    <Route path = {`*`}>
+                        <Page404/>
+                    </Route>
+                </Switch>
+            </MainLayout>
         </Fragment>
     )
 }

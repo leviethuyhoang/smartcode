@@ -8,6 +8,7 @@ import UserRoutes from "./UserRoutes";
 import ContestRoutes from "./ContestRoutes";
 import PostRoutes from "./PostRoutes";
 import LessonRoutes from "./LessonRoutes";
+import Page404 from "pages/Page404";
 
 
 
@@ -40,6 +41,9 @@ const AdminRoutes = (props) => {
                         </Route>
                         <Route path = {`${match.url}/lesson`}>
                             <LessonRoutes/>
+                        </Route>
+                        <Route path = {`*`}>
+                            <Page404/>
                         </Route>
                     </Switch>
                 </AdminLayout>

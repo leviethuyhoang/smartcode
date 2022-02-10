@@ -8,13 +8,13 @@ const Routes = () => {
 
     return (
             <Switch>
-                <Route path = "/admin" >
-                        <AdminRoutes/>
-                </Route>
                 <Route path = {["/login","/register"]}>
                         <AuthenticationRoutes/>
                 </Route>
-                <Route to = "/">
+                <Route path = "/admin" >
+                        <AdminRoutes/>
+                </Route>
+                <Route path= "/">
                         <MainRoutes/>
                 </Route>
             </Switch>
