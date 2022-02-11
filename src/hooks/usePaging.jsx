@@ -8,17 +8,19 @@ const usePaging = (total) => {
     const {offset, limit} = queryString.parse(location.search);
     
     const offsetDefault = 1;
-    const limitDefault = 9;
+    const limitDefault = 10;
 
     if(total){
         return {
-            offset : offset || offsetDefault,
+            page : offset || offsetDefault,
+            offset : ((offset || offsetDefault) - 1) * 10,
             limit : limit || limitDefault,
             total
         }
     }
     return {
-        offset : offset || offsetDefault,
+        page : offset || offsetDefault,
+        offset : ((offset || offsetDefault) - 1) * 10,
         limit : limit || limitDefault,
     };
     

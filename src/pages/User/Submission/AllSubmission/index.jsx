@@ -11,6 +11,8 @@ import Wrap from "components/UI/Wrap";
 import Search from "components/UI/Feild/Search";
 import Loading1 from "components/UI/Loading/Loading1";
 import Button from "components/UI/Button/Button";
+import usePaging from "hooks/usePaging";
+import Paging from "components/UI/Paging";
 
 
 const AllSubmittion = (props) => {
@@ -18,16 +20,24 @@ const AllSubmittion = (props) => {
     const [data, setData] = useState(null);
     const [listSubmittion, setListSubmittion] = useState(null)
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const {offset, limit, page, total} = usePaging(data?.total);
+
     const fetchSubmittion = useCallback(() => {
-        submitionApi.getMany()
+        setIsLoading(true);
+        submitionApi.getMany({offset, limit})
         .then(res => {
             console.log("res",res)
-            setData(res.results)
+            setData(res)
         })
         .catch(error => {
             console.log("error",error)
         })
-    },[])
+        .finally( _ => {
+            setIsLoading(false);
+        })
+    },[limit, offset])
 
     useEffect(()=> {
         fetchSubmittion();
@@ -35,10 +45,10 @@ const AllSubmittion = (props) => {
 
     const filterSearch = useCallback((keySearch) => {
         if(data != null){
-            setListSubmittion(data.filter(item => item.problemId.match(keySearch)))
+            setListSubmittion(data.results.filter(item => item.problemId.match(keySearch)))
         }
     },[data])
-console.log("all",listSubmittion)
+    
     return (
         <Fragment>
             <HeaderPage>
@@ -60,9 +70,8 @@ console.log("all",listSubmittion)
                     </Wrap>
                 </Cell>
                 <Cell >
-                    <Card >
+                    <Card classes = 'min-h-screen' >
                     
-                    {listSubmittion ?
                     <Table
                         listHead = {[
                             {
@@ -85,20 +94,36 @@ console.log("all",listSubmittion)
                             },
                         ]}
                     >
-                         {listSubmittion.map((item,key) => {
-                            return  <SubmmittionItem
-                                key = {key}
-                                infor = {item}
-                            />
-                        })}
+                        { listSubmittion && <Fragment>
+                                {listSubmittion.map((item,key) => {
+                                    return  <SubmmittionItem
+                                        key = {key}
+                                        infor = {item}
+                                    />
+                                })}
+                            </Fragment>
+                        }
                     </Table>
-                    :
-                    <div className = "flex justify-center">
-                        <Loading1/>
-                    </div>
+
+                    {  !isLoading && listSubmittion && listSubmittion.length <= 0 &&
+                        <div className="w-full text-center font-medium mt-5">
+                            <h2>Không Có Bài Nộp Nào</h2>
+                        </div>
+                    }
+                    { isLoading &&
+                        <div className = "flex justify-center mt-5">
+                            <Loading1/>
+                        </div>
                     }
                     
                     </Card>
+                    { listSubmittion && listSubmittion.length > 0 &&
+                        <Paging
+                            page = {page}
+                            limit = {limit}
+                            total = {total}
+                        />
+                    }
                 </Cell>
             </Grid>
         </Fragment>

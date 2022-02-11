@@ -5,25 +5,29 @@ import Cell from "components/UI/Cell";
 import Search from "components/UI/Feild/Search";
 import Grid from "components/UI/Grid";
 import Loading1 from "components/UI/Loading/Loading1";
+import Paging from "components/UI/Paging";
 import Wrap from "components/UI/Wrap";
+import usePaging from "hooks/usePaging";
 import { useEffect, useState } from "react";
 import { Fragment, useCallback } from "react";
 import AsignmentItem from "./AsignmentItem";
 
 const AllAssignment = (props) => {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [listProblems, setListProblem] = useState(null);
 
+    const {page, offset, limit, total} = usePaging(data?.total,);
+
     const fetchProblem = useCallback(() => {
-        problemApi.getMany()
+        problemApi.getMany({offset, limit})
         .then( res => {
-            setData(res.results);
+            setData(res);
         })
         .catch( error => {
             console.log(error)
         })
-    },[]);
+    },[limit, offset]);
 
     useEffect(()=>{
         fetchProblem();
@@ -31,10 +35,9 @@ const AllAssignment = (props) => {
 
     const filterSearch = useCallback((keySearch) => {
         if(data){
-            setListProblem(data.filter( problem => problem.title.match(keySearch)))
+            setListProblem(data.results.filter( problem => problem.title.match(keySearch)))
         }
     },[data])
-    console.log("allProblem", listProblems)
 
     return (
         <Fragment>
@@ -80,6 +83,13 @@ const AllAssignment = (props) => {
                             }
                         </Grid>
                     </Card>
+                    { listProblems && listProblems.length > 0 &&
+                        <Paging
+                            page = {page}
+                            limit = {limit}
+                            total = {total}
+                        />
+                    }
                 </Cell>
             </Grid>
         </Fragment>

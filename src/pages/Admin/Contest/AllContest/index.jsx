@@ -11,25 +11,27 @@ import Card from "components/UI/Card";
 import contestApi from "api/contestApi";
 import Loading1 from "components/UI/Loading/Loading1"
 import Search from "components/UI/Feild/Search";
+import usePaging from "hooks/usePaging";
+import Paging from "components/UI/Paging";
 
 const AllContest = (props) => {
 
   const match = useRouteMatch();
   const [data, setData] = useState(null);
   const [listContest, setListContest] = useState(null);
-  
-  console.log(data)
+
+  const {page, offset, limit, total} = usePaging(data?.total);
 
   const fetchData = useCallback(() => {
-      contestApi.getMany()
+      contestApi.getMany({offset, limit})
       .then((res) => {
-        setData(res.results);
+        setData(res);
       })
       .catch(error => {
         console.log("error",error)
       })
 
-  },[])
+  },[limit, offset])
 
   useEffect(() => {
       fetchData();
@@ -41,7 +43,7 @@ const AllContest = (props) => {
 
   const filterSearch = useCallback((keySearch) => {
     if(data){
-      setListContest(data.filter(item => item.title.match(keySearch)))
+      setListContest(data.results.filter(item => item.title.match(keySearch)))
     }
 },[data])
 
@@ -60,7 +62,7 @@ const AllContest = (props) => {
             </Wrap>
         </Cell>
         <Cell>
-          <Card>
+          <Card classes = 'min-h-screen'>
             <Table
               listHead={[
                 {
@@ -95,7 +97,16 @@ const AllContest = (props) => {
                 <div className="flex flex-row justify-center w-full">
                     <Loading1/>
                 </div>}
-          </Card>
+            </Card>
+
+            { listContest && listContest.length > 0 &&
+              <Paging
+                page = {page}
+                total = {total}
+                limit = {limit}
+              />
+            }
+
         </Cell>
       </Grid>
     </Fragment>

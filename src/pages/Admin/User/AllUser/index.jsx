@@ -22,7 +22,7 @@ const AllUsers = (props) => {
     const match = useRouteMatch();
     const [data, setData] = useState(null);
     const [listUser, setListUser] = useState([]);
-    const {offset, limit, total} = usePaging(data?.total)
+    const {page, offset, limit, total} = usePaging(data?.total)
 
     const fetchData = useCallback(() => {
         userApi.getMany({offset , limit})
@@ -64,14 +64,7 @@ const AllUsers = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell >
-                { data && <Fragment>
-                    <Paging
-                        total = {total}
-                        limit = {limit}
-                        offset = {offset}
-                    />
-                </Fragment>}
-                    <Card classes = "min-h-screen mt-5">
+                    <Card classes = "min-h-90">
                     
                         {listUser.length > 0 ?
                             <Table
@@ -110,12 +103,13 @@ const AllUsers = (props) => {
                             }
                         </Card>
                     { data && <Fragment>
-                        <Paging
-                            total = {total}
-                            limit = {limit}
-                            offset = {offset}
-                        />
-                    </Fragment>}
+                            <Paging
+                                total = {total}
+                                limit = {limit}
+                                page = {page}
+                            />
+                        </Fragment>
+                    }
                 </Cell>
             </Grid>
             

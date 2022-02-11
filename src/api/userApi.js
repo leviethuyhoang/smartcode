@@ -20,7 +20,7 @@ const usertApi =  {
     },
     deleteOne : (id) => {
         const url = `/user/${id}`;
-        return axiosClient.get(url);
+        return axiosClient.delete(url);
     },
 };
 

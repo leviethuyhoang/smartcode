@@ -3,9 +3,9 @@ import axiosClient from "./axiosClient";
 const adminUrl = "/admin";
 
 const problemApi = {
-    getMany : () => {
-        const url = '/problem'
-        return axiosClient.get(url)
+    getMany : (params) => {
+        const url = '/problem';
+        return axiosClient.get(url,{params : params});
     },
     getOne : (id) => {
         const url = `/problem/${id}`
@@ -21,12 +21,12 @@ const problemApi = {
     },
     deleteOne : (id) => {
         const url = `/problem/${id}`;
-        return axiosClient.delete(url)
+        return axiosClient.delete(url);
     },
     admin : {
-        getMany : () => {
+        getMany : (params) => {
             const url = `${adminUrl}/problem`;
-            return axiosClient.get(url);
+            return axiosClient.get(url,{params : params});
         }
     }
     

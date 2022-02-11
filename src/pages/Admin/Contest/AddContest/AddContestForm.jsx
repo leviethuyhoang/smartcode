@@ -12,7 +12,7 @@ import Card from "components/UI/Card";
 import { Loading } from "assets/icons/Loading";
 import ReactSelect from "components/UI/Feild/ReactSelect";
 import Switch from "components/UI/Switch";
-import problemApi from "api/problemApi";
+import contestApi from "api/contestApi";
 
 const AddContestForm = (props) => {
 
@@ -21,9 +21,10 @@ const AddContestForm = (props) => {
   const [ problemOptions, setProblemOption] = useState([]);
    
   const fetchProblem = useCallback(() => {
-    problemApi.admin.getMany()
+    contestApi.getAllProblem()
     .then( res => {
-      const configProblemOptions = res.results.map( item => { return {value : item.id, label : item.title}})
+      console.log(res)
+      const configProblemOptions = res.map( item => { return {value : item.id, label : item.title}})
       setProblemOption(configProblemOptions);
     })
     .catch( error => {

@@ -23,6 +23,7 @@ import ConvertDate from "util/ConvertDate";
 import Wrap from "components/UI/Wrap";
 import AllProblemContest from "./AllProblemContest";
 import { Loading } from "assets/icons/Loading";
+import moment from "moment";
 
 const DetailsContest = (props) => {
 
@@ -109,7 +110,7 @@ const DetailsContest = (props) => {
     useEffect(() => {
         if(contestDetail){
             const now = new Date().getTime();
-            const startTime = new Date(`${contestDetail.startTime}`).getTime();
+            const startTime = moment(contestDetail.startTime).subtract(7,'hours').toDate().getTime();
             const timeLine = now - startTime;
 
             if( timeLine < 0 ){
