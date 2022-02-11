@@ -3,6 +3,7 @@ import ShowProblem from "./ShowProblem";
 import SplitView from "components/UI/SplitView";
 import SubmitForm from "./SubmitForm";
 import { useCallback } from "react";
+import { useEffect } from "react";
 
 const SubmitProblemForm = (props) => {
 
@@ -12,6 +13,12 @@ const SubmitProblemForm = (props) => {
     const handleChangeProblem = useCallback((id) => {
         setProblem(listProblems.find(item => item.id === +id))
     },[listProblems])
+
+    useEffect(() => {
+        if(!!idProblem){
+            handleChangeProblem(idProblem);
+        }
+    },[handleChangeProblem, idProblem])
 
     return (
         <Fragment>

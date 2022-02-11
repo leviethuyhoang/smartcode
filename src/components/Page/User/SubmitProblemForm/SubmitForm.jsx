@@ -63,7 +63,7 @@ const SubmitForm = (props) => {
     })
 
     const initialValues = {
-        problemId : idProblem || null ,
+        problemId : +idProblem || null,
         languageId : null,
         sourceCode : "// code here\n",
     }

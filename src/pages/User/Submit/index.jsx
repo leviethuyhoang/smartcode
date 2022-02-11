@@ -9,13 +9,20 @@ import { useCallback, useEffect } from "react";
 import { useState } from "react";
 
 import { Fragment,  } from "react";
+import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import queryString from "query-string";
 
 
 const Submit = (props) => {
 
     const history = useHistory();
     const [listProblems, setListProblems ] = useState(null);
+
+    const location = useLocation();
+    const { id } = queryString.parse(location.search)
+
+    console.log("ids",id)
 
     const fetchProblem = useCallback(() => {
         problemApi.getMany()
@@ -52,6 +59,7 @@ const Submit = (props) => {
                 { listProblems ? 
                     <Cell>
                         <SubmitProblemForm
+                            idProblem = {id}
                             listProblems = {listProblems}
                             handleSubmit = {handleSubmit}
                         />
