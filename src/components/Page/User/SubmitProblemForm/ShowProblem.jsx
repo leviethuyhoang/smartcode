@@ -10,7 +10,7 @@ const ShowProblem = (props) => {
 
     return (
         <Fragment>
-                <Card classes = "mr-1 min-width">
+                <Card classes = "mr-1 min-width h-full">
                     {problem ? 
                     <Grid >
                         <Cell>
@@ -53,7 +53,9 @@ const ShowProblem = (props) => {
                         </Cell>
                     </Grid>
                     :
-                    <p>Hãy Chọn Bài Tập</p>
+                        <div className="w-full text-center h-full">
+                            <h2>Hãy Chọn Bài Tập </h2>
+                        </div>
                     }
                 </Card>
         </Fragment>

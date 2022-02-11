@@ -13,6 +13,8 @@ import Card from 'components/UI/Card';
 import Loading1 from 'components/UI/Loading/Loading1';
 import problemApi from 'api/problemApi';
 import Toastify from 'components/UI/Notification/Toastify';
+import usePaging from 'hooks/usePaging';
+import Paging from 'components/UI/Paging';
 
 
 const AllAssignments = (props) => {
@@ -22,17 +24,18 @@ const AllAssignments = (props) => {
     const [data, setData] = useState(null);
     const [listProblem, setListProblem] = useState(null);
 
+    const {page, offset, limit, total} = usePaging(data?.total);
 
     const fetchProblem = useCallback(() => {
-        problemApi.admin.getMany()
+        problemApi.admin.getMany({offset, limit})
         .then( res => {
-            setData(res.results);
+            setData(res);
         })
         .catch( error => {
             console.log(error);
             Toastify("error","Đã Xảy Ra Lỗi ! Vui Lòng Thử Lại")
         })
-    },[]);
+    },[limit, offset]);
 
     useEffect(()=>{
 
@@ -50,9 +53,10 @@ const AllAssignments = (props) => {
     // UI
     const filterSearch = useCallback((keySearch) => {
         if(data){
-            setListProblem(data.filter(items => items.title.match(keySearch)))
+            setListProblem(data.results.filter(items => items.title.match(keySearch)))
         }
     },[data])
+
     return (
         <Fragment>
             <HeaderPage>
@@ -70,7 +74,7 @@ const AllAssignments = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card classes = "min-h-screen">
+                    <Card classes = "min-h-90">
                     {listProblem ?
                         <Table
                             listHead = {[
@@ -105,6 +109,13 @@ const AllAssignments = (props) => {
                         </div>
                         }
                     </Card>
+                    { listProblem && listProblem.length > 0 && 
+                        <Paging
+                            total = {total}
+                            limit = {limit}
+                            page = {page}
+                        />
+                    }
                 </Cell>
             </Grid>
         </Fragment>

@@ -4,14 +4,14 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Paging = (props) => {
 
-    const { total, limit, offset } = props;
+    const { total, limit, page } = props;
 
     const history = useHistory();
 
     const totalPageRenderDefault = 10;
     const arr = new Array(totalPageRenderDefault);
 
-    const [offsetPage, setOffsetPage] = useState(Math.ceil(offset/10) - 1);
+    const [offsetPage, setOffsetPage] = useState(Math.ceil(page/10) - 1);
 
 
     const getTotalOffsetPage = () => {
@@ -43,9 +43,9 @@ const Paging = (props) => {
         +offsetPage > 0 && setOffsetPage(prev => prev - 1);
     }
 
-    const changePage = (offset) => {
+    const changePage = (page) => {
         history.push({
-            search: `?offset=${offset}&limit=${limit}`
+            search: `?offset=${page}&limit=${limit}`
         })
     }
 
@@ -54,7 +54,7 @@ const Paging = (props) => {
         const limit = e.target.value;
 
         history.push({
-            search : `?offset=${offset}&limit=${limit}`
+            search : `?offset=${1}&limit=${limit}`
         })
     }
 
@@ -65,7 +65,7 @@ const Paging = (props) => {
 
             const pageNumber = index + 1 + offsetPage * totalPageRenderDefault;
             if(totalPageNumber >= pageNumber){
-                return <li key={pageNumber} onClick={changePage.bind(null,pageNumber)}> <div className={`pagination__link ${+pageNumber === +offset && 'pagination__link--active'}`}>{pageNumber}</div> </li>
+                return <li key={pageNumber} onClick={changePage.bind(null,pageNumber)}> <div className={`pagination__link ${+pageNumber === +page && 'pagination__link--active'}`}>{pageNumber}</div> </li>
             } 
             return null;
         })
@@ -116,7 +116,7 @@ const Paging = (props) => {
                     </li>
                 </ul>
                 <select onChange={handleChangeLimit} className="w-20 form-select box mt-3 sm:mt-0">
-                    <option value={9} >9</option>
+                    <option value={10} >10</option>
                     <option value={20} >20</option>
                     <option value={30} >30</option>
                 </select>

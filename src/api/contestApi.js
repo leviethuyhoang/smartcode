@@ -29,6 +29,10 @@ const contestApi =  {
     join : (params) => {
         const url = "/contest/registerUser";
         return axiosClient.post(url,params);
+    },
+    getAllProblem : () => {
+        const url = "/admin/contest/problems";
+        return axiosClient.get(url);
     }
 };
 

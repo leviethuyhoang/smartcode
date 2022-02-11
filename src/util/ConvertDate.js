@@ -3,7 +3,7 @@ import moment from "moment";
 const ConvertDate = {
     getDateNomal : (dateUTC) => {
         if(dateUTC){
-            const date = new Date(dateUTC.toString());
+            const date = moment(dateUTC).subtract(7,'hours').toDate();
 
             const day = date.getDate();
             const month = date.getMonth()+1;
@@ -16,7 +16,7 @@ const ConvertDate = {
         }
     },
     getDateTimeLocalInput : (dateUTC) => {
-        const timeParse = moment(dateUTC).utc().add(7, 'hours').toISOString();
+        const timeParse = moment(dateUTC).utc().add(0, 'hours').toISOString();
         const time = timeParse.split(':').slice(0,2).join(':');
         return time;
     }

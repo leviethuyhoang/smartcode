@@ -1,5 +1,6 @@
 import ShowProblem from "components/Page/User/SubmitProblemForm/ShowProblem";
 import SubmitForm from "components/Page/User/SubmitProblemForm/SubmitForm";
+import Card from "components/UI/Card";
 import SplitView from "components/UI/SplitView";
 import { Fragment, useCallback, useState} from "react";
 import AllSubmissionContest from "../AllSubmissionContest";
@@ -21,11 +22,13 @@ const SubmitProblemContest = (props) => {
                 <Fragment>
                     <ShowProblem
                         problem = {problem}
-                    />
-                    <AllSubmissionContest
-                        id = {idContest}
-                        idProblem = {problem?.id}
-                    />
+                        />
+                    <Card>
+                        <AllSubmissionContest
+                            id = {idContest}
+                            idProblem = {problem?.id}
+                        />
+                    </Card>
                 </Fragment>
                 <SubmitForm
                     listProblems = {listProblems}
