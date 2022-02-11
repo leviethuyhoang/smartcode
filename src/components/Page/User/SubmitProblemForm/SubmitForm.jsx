@@ -12,17 +12,13 @@ import { useSelector } from "react-redux";
 import ReactSelect from "components/UI/Feild/ReactSelect";
 import configApi from "api/configApi";
 import { configActions } from "app/slice/configSlice";
-import { useLocation } from "react-router";
-import queryString from "query-string";
+import * as Yup from 'yup';
 
 const SubmitForm = (props) => {
 
     const { listProblems, idProblem } = props;
 
     const dispatch = useDispatch();
-
-    const location = useLocation();
-    const { id } = queryString.parse(location.search);
 
     const config = useSelector(state => state.config)
 
@@ -61,12 +57,13 @@ const SubmitForm = (props) => {
         
     },[config, fetchConfig])
 
-    if(id || idProblem){
-        props.handleChangeProblem(id || idProblem);
-    }
+    const validationSchema = Yup.object().shape({
+        problemId : Yup.string().required("Bắt buộc").nullable(),
+        languageId : Yup.string().required("Bắt Buộc").nullable(),
+    })
 
     const initialValues = {
-        problemId : +id || idProblem || null ,
+        problemId : idProblem || null ,
         languageId : null,
         sourceCode : "// code here\n",
     }
@@ -79,6 +76,7 @@ const SubmitForm = (props) => {
                     <Formik
                         initialValues = {initialValues}
                         onSubmit = {props.handleSubmit}
+                        validationSchema = {validationSchema}
                         enableReinitialize
                     >
                     {propsFormik => {
