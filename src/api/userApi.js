@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const usertApi =  {
-    getMany : () => {
-        const url = "/user";
+    getMany : (params) => {
+        const url = `/user?offset=${params.offset}&limit=${params.limit}`;
         return axiosClient.get(url);
     },
     getOne : (id) => {

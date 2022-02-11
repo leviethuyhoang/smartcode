@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import Search from './Search/Search.js';
 import Authenticate from './Authenticate';
 import AccountMenu from './AccountMenu';
 import { useSelector } from 'react-redux';
@@ -16,10 +15,7 @@ const Header = (props) => {
           {!auth.isLoggedIn && <Authenticate/>}
           
           {auth.isLoggedIn && 
-          <Fragment>
-            <Search />
             <AccountMenu/>
-          </Fragment>
           }
         </div>
       </div>

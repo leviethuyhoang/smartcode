@@ -8,7 +8,7 @@ import ConvertDate from "util/ConvertDate";
 import Toastify from "components/UI/Notification/Toastify";
 
 
-const AssignmentItem = (props) => {
+const ProblemItem = (props) => {
 
     const {id, title, testCases, createdAt} = props;
     const match = useRouteMatch();
@@ -72,4 +72,4 @@ const AssignmentItem = (props) => {
         </Fragment>
     )
 }
-export default AssignmentItem;
+export default ProblemItem;

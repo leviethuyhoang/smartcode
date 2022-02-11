@@ -5,15 +5,16 @@ import AuthenticationRoutes from "./AuthenticateRoutes";
 import MainRoutes from "./MainRoutes";
 
 const Routes = () => {
+
     return (
             <Switch>
-                <Route path = "/admin" >
-                        <AdminRoutes/>
-                </Route>
                 <Route path = {["/login","/register"]}>
                         <AuthenticationRoutes/>
                 </Route>
-                <Route to = "/">
+                <Route path = "/admin" >
+                        <AdminRoutes/>
+                </Route>
+                <Route path= "/">
                         <MainRoutes/>
                 </Route>
             </Switch>

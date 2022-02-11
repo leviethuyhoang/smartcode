@@ -37,8 +37,6 @@ const DetailsContest = (props) => {
     const [isLoading, setIsLoading ] = useState(false);
 
     const [enableContest, setEnableContest ] = useState(false);
-    console.log("enable", enableContest)
-    console.log("contest Detail",contestDetail);
 
     const fetchContest = useCallback(() => {
         contestApi.getOne(params.id)
@@ -92,7 +90,6 @@ const DetailsContest = (props) => {
     }
     
     const handleSubmitProblem = (values,{setSubmitting,resetForm}) => {
-        console.log("submit contest problems", values);
         
         submitionApi.submit({...values , contestId : params.id})
         .then(res => {
@@ -113,33 +110,17 @@ const DetailsContest = (props) => {
         if(contestDetail){
             const now = new Date().getTime();
             const startTime = new Date(`${contestDetail.startTime}`).getTime();
-            console.log("now, startTime", now, startTime);
             const timeLine = now - startTime;
-            console.log("timeLine",timeLine)
 
             if( timeLine < 0 ){
-
-                console.log("Creating")
                 var timer = setTimeout(() => {
-
-                    console.log("Running")
                     setEnableContest(true);
-
                 },Math.abs(timeLine));
-
-                console.log("END")
-
             } else {
-
-                console.log("ELSE")
                 setEnableContest(true);
-
             }
         }
-
         return (() =>{
-            
-            console.log("clear")
             clearTimeout(timer)
         })
     },[contestDetail])
@@ -161,7 +142,7 @@ const DetailsContest = (props) => {
                     </Wrap>
                 </Cell>
                 <Cell>
-                    <Card classes = "mt-5" >
+                    <Card classes = "mt-5 min-h-90" >
                         {/* Thong Tin Co Ban */}
 
                         {contestDetail ?
@@ -204,16 +185,19 @@ const DetailsContest = (props) => {
                                     </TabsNav>
                                     <TabContent>
                                         <TabPane name = "listProblem" {...tab}>
+                                        {enableContest ?
                                             <Grid>
-                                                {enableContest ? <AllProblemContest
+                                                 <AllProblemContest
                                                     listProblem = {listProblem}
                                                     onShowDetaiProblem = {onShowDetaiProblem}
                                                     resolveProblem = {resolveProblem}
                                                 />
-                                            :
-                                                    <p>Chưa Đến Giờ Làm Bài</p>
-                                            }
                                             </Grid>
+                                            :
+                                            <div className="flex w-full justify-center text-lg font-medium">
+                                                <p>Chưa Đến Giờ Làm Bài</p>
+                                            </div>
+                                        }
                                         </TabPane>
                                         <TabPane name = "submit" {...tab}>
                                         {enableContest ?
@@ -224,7 +208,9 @@ const DetailsContest = (props) => {
                                                     idContest = {contestDetail.id}
                                                 />
                                             :
-                                                <p>Chưa Đến Giờ Làm Bài</p>
+                                                <div className="flex w-full justify-center">
+                                                    <p>Chưa Đến Giờ Làm Bài</p>
+                                                </div>
                                             }
                                         </TabPane>
                                         {/* <TabPane name = "allSubmission" {...tab}>

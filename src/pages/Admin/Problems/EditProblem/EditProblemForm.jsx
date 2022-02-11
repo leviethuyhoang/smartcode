@@ -13,7 +13,7 @@ import { Fragment,  useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import * as Yup from "yup";
 
-const EditAssignmentForm = (props) => {
+const EditProblemForm = (props) => {
 
     const params = useParams();
     const history = useHistory();
@@ -230,4 +230,4 @@ const EditAssignmentForm = (props) => {
         </Fragment>
     )
 }
-export default EditAssignmentForm;
+export default EditProblemForm;

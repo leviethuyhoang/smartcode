@@ -12,7 +12,7 @@ import { Fragment } from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
-const AddAssignmentForm = (props) => {
+const AddProblemForm = (props) => {
 
     const history = useHistory();
 
@@ -217,4 +217,4 @@ const AddAssignmentForm = (props) => {
         </Fragment>
     )
 }
-export default AddAssignmentForm;
+export default AddProblemForm;

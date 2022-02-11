@@ -1,23 +1,24 @@
 import { Fragment } from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import AllSubmittion from "pages/User/Submittion/AllSubmittion";
-import DetailSubmittion from "pages/User/Submittion/DetailSubmittion";
+import AllSubmission from "pages/User/Submission/AllSubmission";
+import DetailSubmission from "pages/User/Submission/DetailSubmission";
 
 
-const SubmittionRoutes = (props) => {
+const SubmissionRoutes = (props) => {
+
     const match = useRouteMatch();
+
     return (
         <Fragment>
             <Switch>
                 <Route exact path = {`${match.url}`}>
-                    <AllSubmittion/>
+                    <AllSubmission/>
                 </Route>
-
                 <Route exact path = {`${match.url}/:id`}>
-                    <DetailSubmittion/>
+                    <DetailSubmission/>
                 </Route>
             </Switch>
         </Fragment>
     )
 }
-export default SubmittionRoutes;
+export default SubmissionRoutes;

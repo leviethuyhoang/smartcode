@@ -7,10 +7,10 @@ const HeaderNav = (props) => {
         <Fragment>
             <nav className="top-nav mx-auto">
                 <ul>
-                    <Item title = "Bài Tập" url = "/assignment"/>
+                    <Item title = "Bài Tập" url = "/problem"/>
                     <Item title = "Kỳ Thi" url = "/contest"/>
                     <Item title = "Làm Bài" url = "/submit"/>
-                    <Item title = "Bảng Kết Quả" url = "/submittion"/>
+                    <Item title = "Bảng Kết Quả" url = "/submission"/>
                 </ul>
             </nav>
         </Fragment>
