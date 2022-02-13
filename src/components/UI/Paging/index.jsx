@@ -15,6 +15,7 @@ const Paging = (props) => {
 
 
     const getTotalOffsetPage = () => {
+        
         const totalPage = getTotalPage();
         const totalOffsetPage = totalPage/totalPageRenderDefault;
         const totalOffsetPageClear = Math.floor(totalOffsetPage);
