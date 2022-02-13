@@ -2,6 +2,10 @@
   "name": "smart-code-icewall",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.14.1",
@@ -28,7 +32,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "set PORT=80 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
